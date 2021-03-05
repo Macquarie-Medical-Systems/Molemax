@@ -26,13 +26,6 @@ namespace Molemax.App.ViewModels
             get { return _repository.DEFAllSkins.Get(); }
         }
 
-        public ObservableCollection<DiseaseItem> _selectedDisease;
-        public ObservableCollection<DiseaseItem> SelectedDiseases
-        {
-            get { return _selectedDisease; }
-            set { SetProperty(ref _selectedDisease, value); }
-        }
-
         public ObservableCollection<DiseaseItemViewModel> _items;
         public ObservableCollection<DiseaseItemViewModel> Items
         {
@@ -61,14 +54,23 @@ namespace Molemax.App.ViewModels
 
         public void UpdateImagePathFromSelected(object sender, DiseaseItemEventArgs e)
         {
+            NavigationParameters nav = new NavigationParameters();
             var type = e.DiseaseType;
-            SelectedDiseases = e.DiseaseList;
-            foreach (var i in SelectedDiseases)
+            foreach (var i in e.DiseaseList)
             {
                 i.DiseaseImage = new BitmapImage(new Uri($"pack://application:,,,/Images/AllSkin/{i.ImageId}"));
             }
 
-            _regionManager.RequestNavigate(RegionNames.AllSkinContentRegion, UserControlNames.AllSikinImageList);
+            nav.Add(Constants.ParaObject, e);
+
+            if (type == DataType.Disease)
+            {
+                _regionManager.RequestNavigate(RegionNames.AllSkinContentRegion, UserControlNames.AllSkinDiseaseDetail, nav);
+            }
+            else
+            {
+                _regionManager.RequestNavigate(RegionNames.AllSkinContentRegion, UserControlNames.AllSkinImageList, nav);
+            }
         }
     }
 

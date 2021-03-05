@@ -27,6 +27,7 @@ namespace Molemax.App.Core
         public const string ImageSource = "ImageSource";
         public const string DefaultPatient = "There is no selected patient";
         public const string ParaFile = "ParaFile";
+        public const string ParaObject = "ParaObject";
 
         public class Views
         {

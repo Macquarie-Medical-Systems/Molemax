@@ -18,9 +18,9 @@ namespace Molemax.App.Views
     /// <summary>
     /// Interaction logic for ucAdminLiveImage.xaml
     /// </summary>
-    public partial class ucAllSikinImageList : UserControl
+    public partial class ucAllSkinImageList : UserControl
     {
-        public ucAllSikinImageList()
+        public ucAllSkinImageList()
         {
             InitializeComponent();
         }

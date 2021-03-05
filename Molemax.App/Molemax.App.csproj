@@ -4967,7 +4967,8 @@
     <Compile Include="ViewModels\ucAdminLiveImageViewModel.cs" />
     <Compile Include="ViewModels\ucAdminLiveVideoViewModel.cs" />
     <Compile Include="ViewModels\ucAdminMainMenuViewModel.cs" />
-    <Compile Include="ViewModels\ucAllSikinImageListViewModel.cs" />
+    <Compile Include="ViewModels\ucAllSkinImageListViewModel.cs" />
+    <Compile Include="ViewModels\ucAllSkinDiseaseDetailViewModel.cs" />
     <Compile Include="ViewModels\ucImagePreviewViewModel.cs" />
     <Compile Include="ViewModels\ucPatientExpressViewModel.cs" />
     <Compile Include="ViewModels\ucPrintViewModel.cs" />
@@ -4993,8 +4994,11 @@
     <Compile Include="ViewModels\ucAllSkinViewModel.cs" />
     <Compile Include="ViewModels\ucTitleViewModel.cs" />
     <Compile Include="Views\frmMainWindow.xaml.cs" />
-    <Compile Include="Views\ucAllSikinImageList.xaml.cs">
-      <DependentUpon>ucAllSikinImageList.xaml</DependentUpon>
+    <Compile Include="Views\ucAllSkinDiseaseDetail.xaml.cs">
+      <DependentUpon>ucAllSkinDiseaseDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ucAllSkinImageList.xaml.cs">
+      <DependentUpon>ucAllSkinImageList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ucAdminUser.xaml.cs">
       <DependentUpon>ucAdminUser.xaml</DependentUpon>
@@ -5110,7 +5114,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ucAllSikinImageList.xaml">
+    <Page Include="Views\ucAllSkinDiseaseDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ucAllSkinImageList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -33,6 +33,7 @@ namespace Molemax.App.Core
         public const string ImagePreview = "ucImagePreview";
         public const string Print = "ucPrint";
         public const string AllSkin = "ucAllSkin";
-        public const string AllSikinImageList = "ucAllSikinImageList";
+        public const string AllSkinImageList = "ucAllSkinImageList";
+        public const string AllSkinDiseaseDetail = "ucAllSkinDiseaseDetail";
     }
 }
