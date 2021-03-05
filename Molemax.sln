@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Molemax.App", "Molemax.App\Molemax.App.csproj", "{E963CE0B-4C25-4B8A-B428-C3BDB00816D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Camera", "Camera\Camera.csproj", "{C68454E0-9D19-4BF7-AA3F-7A5757D56517}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectShowLib", "Library\DirectShowLib\DirectShowLib.csproj", "{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Molemax.Models", "Molemax.Models\Molemax.Models.csproj", "{8658B29C-E45C-4DDD-92C2-01244C123A7F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Molemax.Repository", "Molemax.Repository\Molemax.Repository.csproj", "{E6B81426-95E3-4BB0-B89F-487FD816E342}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Molemax.DBGenerator", "Molemax.DBGenerator\Molemax.DBGenerator.csproj", "{D5F648A9-49C4-4E3C-90DF-9FA4550C57FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E963CE0B-4C25-4B8A-B428-C3BDB00816D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E963CE0B-4C25-4B8A-B428-C3BDB00816D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E963CE0B-4C25-4B8A-B428-C3BDB00816D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E963CE0B-4C25-4B8A-B428-C3BDB00816D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C68454E0-9D19-4BF7-AA3F-7A5757D56517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C68454E0-9D19-4BF7-AA3F-7A5757D56517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C68454E0-9D19-4BF7-AA3F-7A5757D56517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C68454E0-9D19-4BF7-AA3F-7A5757D56517}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE009BFA-5EF6-4153-B2A1-2FA79698A9AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8658B29C-E45C-4DDD-92C2-01244C123A7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8658B29C-E45C-4DDD-92C2-01244C123A7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8658B29C-E45C-4DDD-92C2-01244C123A7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8658B29C-E45C-4DDD-92C2-01244C123A7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6B81426-95E3-4BB0-B89F-487FD816E342}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B81426-95E3-4BB0-B89F-487FD816E342}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B81426-95E3-4BB0-B89F-487FD816E342}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B81426-95E3-4BB0-B89F-487FD816E342}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F648A9-49C4-4E3C-90DF-9FA4550C57FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F648A9-49C4-4E3C-90DF-9FA4550C57FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F648A9-49C4-4E3C-90DF-9FA4550C57FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F648A9-49C4-4E3C-90DF-9FA4550C57FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12D256CE-063E-4034-AE45-EA194068B2E3}
+	EndGlobalSection
+EndGlobal

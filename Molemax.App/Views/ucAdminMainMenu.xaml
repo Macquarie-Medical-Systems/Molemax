@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucAdminMainMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Molemax.App.Views"
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="5*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Column="0" Margin="1">
+            <Expander Header="Display and Presentation" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="LiveVideo" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="LiveImage" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveImageCommand}" ></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Image Selection Preview" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoImageSelectionPreviewCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Image Sources" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoImageSourcesCommand}"></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Printing" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Printer Settings" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Dummy Sheet" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveImageCommand}" ></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Regional Settings" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Language and Insurance Nr." FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Multi User Environment" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="User Rights and Profiles" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoUserCommand}"></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Dummy and Diagnoses" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Diagnosis Configuration" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Location Nomenclature" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveImageCommand}" ></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Customize BodyMAP Session" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoImageSelectionPreviewCommand}"></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="DermaNET" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Address Book" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="SMTP Server Setup" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveImageCommand}" ></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Backup" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Internal and External Backup" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Authorization" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Change Key" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                </StackPanel>
+            </Expander>
+            <Expander Header="Infobox" FontSize="20">
+                <StackPanel Orientation="Vertical">
+                    <Button HorizontalContentAlignment="Left" Content="Derma Medical Systems on the WEB" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Derma Medical Systems' WEB Shop" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                    <Button HorizontalContentAlignment="Left" Content="Derma Medical Systems Support" FontSize="20" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoLiveVideoCommand}"></Button>
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+        <ContentControl Grid.Column="1" prism:RegionManager.RegionName="AdminContentRegion" />
+
+    </Grid>
+</UserControl>

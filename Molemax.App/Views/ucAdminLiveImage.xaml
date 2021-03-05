@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucAdminLiveImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Molemax.App.Views"
+             xmlns:con="clr-namespace:Molemax.App.Core.Converter"
+             xmlns:e="clr-namespace:Molemax.App.Core"
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <con:ModeConverter x:Key="ModeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <TextBlock FontSize="20" Text="FollowUp LiveImage mode"/>
+                <RadioButton x:Name="rbFullScreen" IsThreeState="False" FontSize="20" Content="Full screen" IsChecked="{Binding FollowUpLiveImageMode, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:OVERLAY_MODE.OVL_LIVE_VIDEO}}"/>
+                <RadioButton x:Name="rbCompare" IsThreeState="False" FontSize="20" Content="Compare" IsChecked="{Binding FollowUpLiveImageMode, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:OVERLAY_MODE.OVL_COMPARE}}"/>
+                <RadioButton x:Name="rbOverlay" IsThreeState="False" FontSize="20" IsEnabled="False" Content="Like in LiveVideo mode"/>
+            </StackPanel>
+            <Button Grid.Row="1" HorizontalAlignment="Right" Margin="100,10" Width="100" Content="Close" FontSize="30" Command="{Binding GoBackCommand}" Background="{x:Null}" BorderBrush="{x:Null}" />
+        </Grid>
+    </Grid>
+</UserControl>

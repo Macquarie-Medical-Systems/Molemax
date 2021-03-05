@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucMainMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Molemax.App.Views"
+        mc:Ignorable="d"
+        xmlns:prism="http://prismlibrary.com/"             
+        prism:ViewModelLocator.AutoWireViewModel="True">
+
+
+    <Grid ShowGridLines="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+        <Button x:Name="btExpressSession" Grid.Row="1" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding ExpressSessionCommand}">
+                <TextBlock Text="Express Session"></TextBlock>
+            </Button>
+
+        <Button x:Name="btNewPatient" Grid.Row="2" Grid.Column="0"  FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding NewPatientCommand}" >
+                <TextBlock Text="New Patient"></TextBlock>
+            </Button>
+            
+            <Button x:Name="btSearch" Grid.Row="3" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoPatientSearchCommand}">
+                <TextBlock Text="Search for Existing Patient"></TextBlock>
+            </Button>
+            
+            <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" FontSize="25">Last Name</TextBlock>
+                <TextBox Grid.Row="0" Grid.Column="1" FontSize="25" Width="300" Margin="10"></TextBox>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" FontSize="25">First Name</TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1" FontSize="25" Width="300" Margin="10"></TextBox>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" FontSize="25">Social Insurance Number</TextBlock>
+                <TextBox Grid.Row="2" Grid.Column="1" FontSize="25" Width="300" Margin="10"></TextBox>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" FontSize="25">Birthdate(MM/DD/YYYY)</TextBlock>
+                <TextBox Grid.Row="3" Grid.Column="1" FontSize="25" Width="300" Margin="10"></TextBox>
+            </Grid>
+
+        <Button x:Name="btServices" Grid.Row="5" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}"  Command="{Binding GoServicesCommand}">
+                <TextBlock Text="Services"></TextBlock>
+            </Button>
+
+        <Button x:Name="btAdministration" Grid.Row="6" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding AdministrationCommand}">
+                <TextBlock Text="Administration"></TextBlock>
+            </Button>
+
+            <Button x:Name="btLogin" Content="Login" Grid.Row="8" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10"/>
+
+            <Button x:Name="btExit" Content="Exit" Grid.Row="8" Grid.Column="1" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Margin="0,10" Click="btExit_Click"/>
+
+        <Image Grid.Row="1" Grid.Column="1" Grid.RowSpan="7" Name="wb" Margin="5" Source="../Images/molemex_hd.jpg"></Image>
+        </Grid>
+</UserControl>

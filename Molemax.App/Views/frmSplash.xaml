@@ -1,0 +1,19 @@
+﻿<Window x:Class="Molemax.App.Views.frmSplash"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Molemax.App.Views"
+        mc:Ignorable="d"
+        Title="SplashScreenWindow" Height="450" Width="700">
+    <StackPanel>
+        <Image Width="200" Height="70" Source="/Images/Splash/Derma.png" HorizontalAlignment="Left" Margin="10,10"></Image>
+        <Image Width="500" Height="70"  HorizontalAlignment="Center" Margin="10,10" Source="/Images/Splash/MoleMaxHD.png"></Image>
+        <TextBlock Name="tbVersion" FontSize="20" HorizontalAlignment="Right" Margin="10,10">version</TextBlock>
+        <Image Width="700" Height="20"  HorizontalAlignment="Left" Source="/Images/Splash/Bar.png"></Image>
+        <TextBlock Name="tbStatus" FontSize="20" HorizontalAlignment="Left" Margin="10,5">Status</TextBlock>
+        <TextBlock FontSize="20" HorizontalAlignment="Left" Margin="10,5">Copyright (C) Derma Medical Systems 2020. All rights reserved.</TextBlock>
+        <TextBlock FontSize="15" HorizontalAlignment="Left" Margin="10,5" TextWrapping="Wrap" Height="72">Warning: This computer program is protected by copyright law and international treaties. Unauthorized reproduction or distribution ot this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under law.</TextBlock>
+        <Image Width="700" Height="20"  HorizontalAlignment="Left" Source="/Images/Splash/Bar.png"></Image>
+    </StackPanel>
+</Window>

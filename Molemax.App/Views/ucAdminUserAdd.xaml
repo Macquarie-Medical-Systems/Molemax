@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucAdminUserAdd"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Molemax.App.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:core="clr-namespace:Molemax.App.Core"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             Height="250" Width="500">
+    <Grid x:Name="LayoutRoot" Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=" 1*"/>
+                <ColumnDefinition Width=" 1*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="User Name" />
+            <TextBox Grid.Column="1" Width="200" Text="{Binding UserName}"/>
+            <TextBlock Grid.Row="1" Text="Password"/>
+            <core:BindablePasswordBox Grid.Row="1" Grid.Column="1" Width="200" Password="{Binding Password, Mode=TwoWay}"/>
+            <TextBlock Grid.Row="2" Text="Confirm Password" />
+            <core:BindablePasswordBox Grid.Row="2" Grid.Column="1" Width="200" Password="{Binding ConfirmPassword, Mode=TwoWay}"/>
+        </Grid>
+        <Button Command="{Binding GoOKCommand}" CommandParameter="true" Content="OK" Width="75" Height="25" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="2" IsDefault="True" />
+        <Button Command="{Binding GoCanceCommand}" CommandParameter="true" Content="Cancel" Width="75" Height="25" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="2" IsDefault="True" />
+    </Grid>
+</UserControl>

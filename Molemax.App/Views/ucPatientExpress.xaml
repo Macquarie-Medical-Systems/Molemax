@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucPatientExpress"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Molemax.App.Views"
+      xmlns:e="clr-namespace:Molemax.App.Core"
+      xmlns:con="clr-namespace:Molemax.App.Core.Converter"
+      mc:Ignorable="d"
+      xmlns:prism="http://prismlibrary.com/"             
+      prism:ViewModelLocator.AutoWireViewModel="True" Width="1500" Height="900">
+    <UserControl.Resources>
+        <con:ModeConverter x:Key="ModeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="4*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Search Patients" FontSize="30" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Lastname" FontSize="30"/>
+                <TextBlock Grid.Row="1" Text="Firstname"  FontSize="30"/>
+                <TextBlock Grid.Row="2" Text="Birthdate"  FontSize="30"/>
+                <TextBox Grid.Column="1" Text="{Binding LastName}"/>
+                <TextBox Grid.Column="2" Text="{Binding FirstName}" Grid.Row="1"/>
+                <TextBox Grid.Column="2" Text="{Binding Birthdate}" Grid.Row="2"/>
+            </Grid>
+            <TextBlock Grid.Row="2" Text="Matching patients" FontSize="30"/>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid ItemsSource="{Binding PatientList}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding SelectedPatient, Mode=TwoWay}">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="FontSize" Value="20"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Last Name" FontSize="20" Binding="{Binding lastname}" Width="350"/>
+                        <DataGridTextColumn Header="First Name" Binding="{Binding firstname}" Width="350"/>
+                        <DataGridTextColumn Header="Birthday" Binding="{Binding birthdate}" Width="200"/>
+                        <DataGridTextColumn Header="Insurance Number" Binding="{Binding insnr}" Width="250"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Orientation="Vertical" Grid.Column="1">
+                    <Button Content="Search" FontSize="30" Command="{Binding GoSearchPatientCommand}"/>
+                    <Button Content="Assign" FontSize="30" Command="{Binding GoAssignToSelectedPatientCommand}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Create New Patient" FontSize="30" HorizontalAlignment="Center"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontSize="30" Text="Last Name"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" FontSize="30" Text="{Binding NewPatientLastName}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="30" Text="First Name"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" FontSize="30" Text="{Binding NewPatientFirstName}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0"  FontSize="30" Text="Birthdate(MM/DD/YYYY)"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" FontSize="30" Text="{Binding NewPatientBirthdate}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0"  FontSize="30" Text="Insurance Number"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" FontSize="30" Text="{Binding NewPatientInsuranceNumber}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Sex"  FontSize="30"/>
+                    <RadioButton GroupName="SexGroup" Grid.Row="4" Grid.Column="1" Content="Male" HorizontalAlignment="Left" FontSize="30" IsChecked="{Binding NewPatientGender, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:GENDER.M}}"/>
+                    <RadioButton GroupName="SexGroup" Grid.Row="4" Grid.Column="1" Content="Female" HorizontalAlignment="Right" FontSize="30" IsChecked="{Binding NewPatientGender, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:GENDER.F}}"/>
+                </Grid>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Button Content="Save And Assign" FontSize="30" Command="{Binding GoAssignToNewPatientCommand}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

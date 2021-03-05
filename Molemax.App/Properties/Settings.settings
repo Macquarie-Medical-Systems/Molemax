@@ -1,0 +1,36 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Molemax.App.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FollowUpLiveVideoMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FollowUpLiveImageMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SheetDisplayMode" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectImageSource_LiveVideo" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectImageSource_LiveImage" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectImageSource_FileImport" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="SelectImageSource_Extern" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ImagePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Projects\Molemax\Images</Value>
+    </Setting>
+    <Setting Name="Temp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Projects\Molemax\Temp</Value>
+    </Setting>
+    <Setting Name="UnlocalizedImages" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Projects\Molemax\UnlocalizedImages</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta type="description" content="single_full_image">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<title>%%PAGE_TITLE%%</title>
+
+<style type="text/css">
+
+#header_footer {
+	width:700px;
+	height:30px;
+	z-index:1;
+	border: 1px solid #000000;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	visibility: visible;
+}
+
+#inhalt {
+	width:700px;
+	height:940px;
+	z-index:1;
+	border: 1px solid #000000;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	visibility: visible;
+}
+
+a { 
+ 	color: #005B47;
+}
+  
+a:hover {
+ 	color:#999999; 
+}
+ 
+h1 {   
+ 	font-size:18px;
+	color:#000000;
+	padding-bottom:10px;
+	font-weight:normal;
+	margin-bottom: -10px;
+	margin-left: 15px;
+	margin-top: 10px;
+	text-align:center;
+}
+
+body {
+	font-family: sans-serif, Arial, Helvetica;
+	font-size: 11px;
+	color: #000000;
+	text-align:center;
+}
+
+.text { 
+	margin-left: 30px;
+	margin-right: 150px;
+	text-align:left;
+	color: #000000;
+	line-height:20px;
+	font-size=12pt;
+}
+
+      @media print {
+        h6 {page-break-after:always;}
+      }
+
+</style>
+
+</head>
+
+<body onload="window.print()">
+
+<div id="header_footer">
+<table width=100%>
+<tr>
+<td style="padding-left:10px; text-align:left; font-size:12pt">%%DATE%%</td>
+<td style="padding-left:10px; text-align:left; font-size:12pt">%%NAME%%</td>
+<td style="padding-right:10px; text-align:right; font-size:16pt">%%APP_TITLE%%</td>
+</tr>
+</table>
+</div>
+
+
+<div id="inhalt">
+<h1>%%HEADER_1%%</h1>
+
+<p class="text">
+%%TEXT_BODY%%
+</p>
+
+<!-- <p class="text"> -->
+</div>
+
+<div id="header_footer">
+<table width=100%>
+<tr>
+<td style="padding-left:10px; text-align:left; font-size:12pt">%%ADDRESS%%</td>
+<td style="padding-right:10px; text-align:right; font-size:12pt">Page %%PAGE_NO%% of %%TOTAL_PAGES%%</td>
+</tr>
+</table>
+</div>
+
+<h6></h6>
+
+</body></html>

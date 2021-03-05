@@ -1,0 +1,111 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucFupImageImport"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Molemax.App.Views"
+             xmlns:z="clr-namespace:Molemax.App.Core"
+             xmlns:tv="clr-namespace:Molemax.App.Core.TreeViewFileExplorer"
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="28*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin ="0,0,5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <ComboBox/>
+                <TreeView Grid.Row="2" Name="treeView" Margin="0,5,0,0" ItemsSource="{Binding Items}">
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Width="32" Margin="3" Source="{Binding Type, Converter={x:Static tv:HeaderToImageConverter.Instance}}" />
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" />
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+            </Grid>
+            <ListBox Grid.Column="1" x:Name="lbImageView" ItemsSource="{Binding ImagesInSelectedFolder}" SelectedItem="{Binding SelectedImage, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="6"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <!--<TextBlock Text="{Binding}"/>-->
+                        <Image Width="200" Stretch="Fill" Source="{Binding}" HorizontalAlignment="Center"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="1" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="5,0,5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="17*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Original Image" FontSize="20"/>
+                <z:ZoomBorder x:Name="OriginalImageZoomBorder" Grid.Row="1" ClipToBounds="True">
+                    <Image Source="{Binding ParaImage.Image}" Stretch="Uniform"/>
+                </z:ZoomBorder>
+            </Grid>
+            <Grid Grid.Column="1" Margin="5,0,5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="17*"/>
+                </Grid.RowDefinitions>
+                <CheckBox Content="Delete image after import"  FontSize="20"/>
+                <z:ZoomBorder x:Name="SelectedImageZoomBorder" Grid.Row="1" ClipToBounds="True">
+                    <Image Source="{Binding ElementName=lbImageView, Path=SelectedItem}" Stretch="Uniform"/>
+                </z:ZoomBorder>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="17*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="2" Orientation="Vertical">
+                    <Button x:Name="btZoomIn" Content="Zoom in" Width="60" Height="60" Margin="0,0,0,5" Click="btZoomIn_Click"/>
+                    <Button x:Name="btZoomOut" Content="Zoom out" Width="60" Height="60" Margin="0,5" Click="btZoomOut_Click"/>
+                    <Button x:Name="btReset" Content="Reset" Width="60" Height="60" Margin="0,5" Click="btReset_Click"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+            <Button Content="Import Macro Image" Width="200" Command="{Binding GoImportMacroCommand}" Margin="5,0,5,20"/>
+            <Button Content="Import CloseUp Image" Width="200" Command="{Binding GoImportCloseUpCommand}" Margin="5,0,5,20"/>
+            <Button Content="Import Micro Image" Width="200" Command="{Binding GoImportMicroCommand}" Margin="5,0,5,20"/>
+            <Button Content="Back" Width="200" Command="{Binding GoBackCommand}"  Margin="5,0,5,20"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

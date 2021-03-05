@@ -1,0 +1,330 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucLocalization"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Molemax.App.Views"
+             xmlns:behaviors="clr-namespace:Molemax.App.Core.MouseCapture"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:con="clr-namespace:Molemax.App.Core.Converter"
+             xmlns:core="clr-namespace:Molemax.App.Core"
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="800" d:DesignWidth="1800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding GoWindowLoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ResizeDecoratorTemplate" TargetType="{x:Type Control}">
+            <Grid>
+                <behaviors:ResizeThumb Height="1" Cursor="SizeNS" Margin="0 -1 0 0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <behaviors:ResizeThumb Width="1" Cursor="SizeWE" Margin="-1 0 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <behaviors:ResizeThumb Width="1" Cursor="SizeWE" Margin="0 0 -1 0" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                <behaviors:ResizeThumb Height="1" Cursor="SizeNS" Margin="0 0 0 -1" VerticalAlignment="Bottom"  HorizontalAlignment="Stretch"/>
+                <behaviors:ResizeThumb Width="2" Height="2" Cursor="SizeNWSE" Margin="-2 -2 0 0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <behaviors:ResizeThumb Width="2" Height="2" Cursor="SizeNESW" Margin="0 -2 -2 0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                <behaviors:ResizeThumb Width="2" Height="2" Cursor="SizeNESW" Margin="-2 0 0 -2" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                <behaviors:ResizeThumb Width="2" Height="2" Cursor="SizeNWSE" Margin="0 0 -2 -2" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type behaviors:MoveThumb}">
+            <Rectangle Fill="Transparent"/>
+        </ControlTemplate>
+        <ControlTemplate x:Key="DesignerItemTemplate" TargetType="ContentControl">
+            <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                <behaviors:MoveThumb Template="{StaticResource MoveThumbTemplate}" Cursor="SizeAll"/>
+                <Control Template="{StaticResource ResizeDecoratorTemplate}"/>
+                <ContentPresenter Content="{TemplateBinding ContentControl.Content}"/>
+            </Grid>
+        </ControlTemplate>
+        <con:MultiValueConverter x:Key="MultiValueConverter" />
+    </UserControl.Resources>
+    <Grid Margin="50">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="16*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Stretch="Fill" Source="{Binding LocImage}"></Image>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="5*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Date (dd/MM/yyyy)" FontSize="20"></TextBlock>
+                <TextBlock Text="Location" FontSize="20" Grid.Column="1"></TextBlock>
+                <TextBox Grid.Row="1" Text="{Binding ImageDate}"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding DummyLocation}"></TextBox>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Diagnosis" Grid.Column="0" Command="{Binding GoDiagnosisCommand}"/>
+                <Button Content="Favorite" Grid.Column="1" Command="{Binding GoFavoriteCommand}"/>
+                <Button Content="Recent" Grid.Column="2" Command="{Binding GoRecentCommand}"/>
+                <Button Content="All" Grid.Column="3" Command="{Binding GoAllCommand}"/>
+                <Button Content="AllSkin" Grid.Column="4" Command="{Binding GoAllSkinCommand}"/>
+            </Grid>
+            <Grid Grid.Row="4" Grid.RowSpan="7" Visibility="{Binding GridVisibility}" Panel.ZIndex="{Binding ZIndex}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <ListBox ItemsSource="{Binding ProvisionalDiagnosisList, Mode=TwoWay}">
+                    <!--SelectedItem="{Binding SelectedImage, Mode=TwoWay}">-->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsChecked}"/>
+                                <TextBlock Text="{Binding OriginId}" Margin="5,0,0,0"/>
+                                <TextBlock Text="{Binding DiagsourceFullName}" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <Button Content="Select Diagnosis" Command="{Binding GoSaveDiagsourceListCommand}"/>
+                    <Button Content="Cancel" Command="{Binding GoDiagnosisCommand}"/>
+                </StackPanel>
+            </Grid>
+            <TextBlock Text="My Diagnosis" Grid.Row="4"/>
+            <Grid Grid.Row="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding MyDiagnosis, Mode=TwoWay}" />
+                <Button Grid.Column="1" Content="Add" Command="{Binding GoAddCommand}"/>
+            </Grid>
+            <TextBlock Text="Provisional Diagnosis" Grid.Row="6"/>
+
+            <ListBox Grid.Row="7" ItemsSource="{Binding SelectedProvisionalDiagnosisList, Mode=TwoWay}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox IsChecked="{Binding IsChecked}"/>
+                            <TextBlock Text="{Binding OriginId}" Margin="5,0,0,0"/>
+                            <TextBlock Text="{Binding DiagsourceFullName}" Margin="5,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="Comment" Grid.Row="8"/>
+            <TextBox Grid.Row="9" TextWrapping="Wrap" Text="{Binding Comment}"/>
+            <Grid Grid.Row="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Follow Up date:"/>
+                <ComboBox Grid.Column="1" IsEditable="False" ItemsSource="{Binding FollowUpDataList}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="16*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Dummy" Width="150" Command="{Binding GoDummyCommand}" IsEnabled="{Binding ShowDummyButton}"/>
+                        <Button Content="Macro" Width="150" Command="{Binding GoMacroCommand}" IsEnabled="{Binding ShowMacroButton}"/>
+                    </StackPanel>
+                    <Grid Grid.Row="2" Grid.RowSpan="3" Visibility="{Binding MacroAndCloseupListVisibility}" Panel.ZIndex="{Binding MacroAndCloseupListZIndex}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="17*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Macro images" Margin="0,0,0,0" TextAlignment="Center" Background="Azure"/>
+                        <ListBox Grid.Row="1"  Grid.Column="0" ItemsSource="{Binding PatientMakroImageList, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="7*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding CreateDate}"/>
+                                            <TextBlock Text="{Binding ImageId}" Margin="5,0,0,0"/>
+                                        </StackPanel>
+                                        <Image Grid.Row="1" Grid.Column="0" Source="{Binding Image}" Stretch="Fill">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.GoMakroImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}}">
+                                                        <i:InvokeCommandAction.CommandParameter>
+                                                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type Image}}"/>
+                                                                <Binding Path="ActualHeight" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type Image}}"/>
+                                                                <Binding/>
+                                                            </MultiBinding>
+                                                        </i:InvokeCommandAction.CommandParameter>
+                                                    </i:InvokeCommandAction>
+                                                    <!--CommandParameter="{Binding}"/>-->
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Image>
+                                        <Canvas Grid.Row="1" Grid.Column="0">
+                                            <Rectangle Fill="Transparent" Stroke="White" StrokeThickness="2" Canvas.Left="{Binding FullPicRectangleX, Mode=TwoWay}" Canvas.Top="{Binding FullPicRectangleY, Mode=TwoWay}" Width="{Binding FullPicRectangleWidth, Mode=TwoWay}" Height="{Binding FullPicRectangleHeight, Mode=TwoWay}"/>
+                                            <ContentControl Width="12" Height="12" Canvas.Top="{Binding FullPicPointY, Mode=TwoWay}" Canvas.Left="{Binding FullPicPointX, Mode=TwoWay}"  Visibility="{Binding FullPicPointVisible, Mode=TwoWay}">
+                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding FullPicPointVisible, Mode=TwoWay}"/>
+                                            </ContentControl>
+                                        </Canvas>
+                                        <Image Grid.Row="1" Grid.Column="1" Source="{Binding SmallKen}" Stretch="Fill" Width="80" Height="50" VerticalAlignment="Top"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding Loctext}" HorizontalAlignment="Center"/>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                        </ListBox>
+
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Close Up images" Margin="0,0,0,0" TextAlignment="Center" Background="Azure"/>
+                        <ListBox Grid.Row="1"  Grid.Column="1" ItemsSource="{Binding PatientCloseUpImageList, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Left">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1*"/>
+                                            <RowDefinition Height="7*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2.5*"/>
+                                            <ColumnDefinition Width="1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Text="{Binding CreateDate}"/>
+                                            <TextBlock Text="{Binding ImageId}" Margin="5,0,0,0"/>
+                                        </StackPanel>
+
+                                        <Image x:Name="CloseUpImage" Grid.Row="1" Grid.Column="0" Source="{Binding Image}">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.GoCloseUpImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}}">
+                                                        <i:InvokeCommandAction.CommandParameter>
+                                                            <MultiBinding Converter="{StaticResource MultiValueConverter}">
+                                                                <Binding Path="ActualWidth" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type Image}}"/>
+                                                                <Binding Path="ActualHeight" RelativeSource="{RelativeSource Mode=FindAncestor,AncestorType={x:Type Image}}"/>
+                                                                <Binding/>
+                                                            </MultiBinding>
+                                                        </i:InvokeCommandAction.CommandParameter>
+                                                    </i:InvokeCommandAction>
+                                                    <!--<i:InvokeCommandAction Command="{Binding DataContext.GoCloseUpImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}"/>-->
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Image>
+                                        <Canvas Grid.Row="1" Grid.Column="0">
+                                            <ContentControl Width="12" Height="12" Canvas.Top="{Binding FullPicPointY, Mode=TwoWay}" Canvas.Left="{Binding FullPicPointX, Mode=TwoWay}" Visibility="{Binding FullPicPointVisible, Mode=TwoWay}">
+                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding FullPicPointVisible, Mode=TwoWay}"/>
+                                            </ContentControl>
+                                        </Canvas>
+                                        <Image Grid.Row="1" Grid.Column="1" Source="{Binding SmallKen}" Stretch="Fill" Width="80" Height="50" VerticalAlignment="Top"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding Loctext}" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </Grid>
+                    <TextBox Grid.Row="2" Text="{Binding DummyLocation}"/>
+                    <Grid Grid.Row="3">
+                        <Image Stretch="Fill" Source="{Binding DummyImage}"/>
+                        <Image Stretch="Fill" Source="{Binding DummyColorImage}" Opacity="0" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding DummyImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding DummyImageHeight, Mode=OneWayToSource}">
+                            <i:Interaction.Behaviors>
+                                <behaviors:MouseCaptureBehavior Proxy="{Binding}"/>
+                            </i:Interaction.Behaviors>
+                        </Image>
+                        <Canvas>
+                            <ContentControl Width="{Binding RectangleWidth, Mode=TwoWay}" Height="{Binding RectangleHeight, Mode=TwoWay}" Canvas.Top="{Binding RectangleY, Mode=TwoWay}" Canvas.Left="{Binding RectangleX, Mode=TwoWay}" Template="{StaticResource DesignerItemTemplate}" Visibility="{Binding RectangleVisible, Mode=TwoWay}">
+                                <Rectangle Fill="Transparent" Stroke="White" IsHitTestVisible="False" StrokeThickness="2"/>
+                            </ContentControl>
+                            <ContentControl Width="12" Height="12" Canvas.Top="{Binding PointY, Mode=TwoWay}" Canvas.Left="{Binding PointX, Mode=TwoWay}" Visibility="{Binding PointVisible, Mode=TwoWay}">
+                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </ContentControl>
+                        </Canvas>
+                    </Grid>
+                    <Grid Grid.Row="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="&lt;&lt;" Grid.Column="0" Command="{Binding GoPreviousDummyImageCommand}"/>
+                        <Button Content="&gt;&gt;" Grid.Column="1" Command="{Binding GoNextDummyImageCommand}"/>
+                    </Grid>
+                    <Grid Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <CheckBox Content="DermaNET" />
+                        <CheckBox Content="High risk" Grid.Column="1"/>
+                        <CheckBox Content="Medium risk" Grid.Row="1" Grid.Column="1"/>
+                        <CheckBox Content="Low risk" Grid.Row="2" Grid.Column="1"/>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Save" Width="150" Command="{Binding GoSaveCommand}" Margin="10"/>
+            <Button Content="Attach Documents" Width="150" Margin="10"/>
+        </StackPanel>
+
+        <Button Content="Cancel" Grid.Row="1" Grid.Column="1" Width="150" Command="{Binding GoCancelCommand}" Margin="10"/>
+    </Grid>
+</UserControl>

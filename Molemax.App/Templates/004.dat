@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta type="description" content="single_full_image">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+<title>%%PAGE_TITLE%%</title>
+
+<style type="text/css">
+
+#inhalt {
+	width:700px;
+	height:940px;
+	z-index:1;
+	border: 0px solid #000000;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	visibility: visible;
+}
+
+h1 {   
+ 	font-size:22px;
+	color:#000000;
+	padding-bottom:25px;
+	font-weight:normal;
+	margin-bottom: -20px;
+	margin-left: 30px;
+	margin-top: 40px;
+	text-align:center;
+}
+
+body {
+	font-family: sans-serif, Arial, Helvetica;
+	font-size: 12px;
+	color: #000000;
+	text-align:center;
+	margin-left: 30px;
+}
+
+.text { 
+	margin-left: 0px;
+	margin-right: 150px;
+/*	text-align:left; */
+	color: #000000;
+	line-height:20px;
+	font-size=12pt;
+}
+
+.subheading { 
+	margin-left: 30px;
+	margin-right: 150px;
+	text-align:center;
+	color: #000000;
+	line-height:20px;
+	font-size=12pt;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="inhalt" style="width: 700px; height: 838px">
+
+<table border="0" width="100%" id="header">
+	<tr>
+		<td align=center width="33%" class="text"><b>Derma Medical Systems</b><br>www.dermamedicalsystems.com</td>
+		<td align=right>%%LOGO%%</td>
+	</tr>
+</table>
+
+<h1>%%HEADER_1%%</h1>
+
+<p class="text" align=left>
+%%INSTRUCTION%%
+</p>
+<p class="subheading ">
+<b>Customer</b>
+</p>
+<table border="0" width="100%" align=center>
+	<tr>
+		<td width="40%" valign=top class=text>Name/Company Name:</td>
+		<td valign=top class=text>%%COMPANY%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Contact Name:</td>
+		<td valign=top class=text>%%CONTACT%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Address:</td>
+		<td valign=top class=text>%%ADDRESS%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>ZIP Code:</td>
+		<td valign=top class=text>%%ZIP%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Country:</td>
+		<td valign=top class=text>%%COUNTRY%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Contact Phone/Fax:</td>
+		<td valign=top class=text>%%PHONE%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>E-mail:</td>
+		<td valign=top class=text>%%EMAIL%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>VAT Number (EU only!):</td>
+		<td valign=top class=text>%%VAT%%</td>
+	</tr>
+</table>
+<br>
+<p class="subheading ">
+<b>CreditCard</b>
+</p>
+<table border="0" width="100%" align=center>
+	<tr>
+		<td width="40%" valign=top class=text>CreditCard Type:</td>
+		<td valign=top class=text>%%CCTYPE%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>CreditCard Number:</td>
+		<td valign=top class=text>%%CCNUM%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Card Holder Name:</td>
+		<td valign=top class=text>%%CCHOLDER%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>ZIP Code:</td>
+		<td valign=top class=text>%%ZIP%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Expiration Date:</td>
+		<td valign=top class=text>%%CCEXPIR%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>Security Code:</td>
+		<td valign=top class=text>%%CCSEC%%</td>
+	</tr>
+</table>
+<br><br>
+<table border="0" width="100%">
+	<tr>
+		<td align=right>&nbsp;</td>
+		<td width="60%" align=center><p class=text>____________________________________<br>Signature</p></td>
+	</tr>
+</table>
+<br>
+<p class="subheading">
+<b>Software</b>
+</p>
+<table border="0" width="100%" align=center>
+	<tr>
+		<td width="40%" valign=top class=text>Version:</td>
+		<td valign=top class=text>%%VERSION%%</td>
+	</tr>
+	<tr>
+		<td width="40%" valign=top class=text>Site Code:</td>
+		<td valign=top class=text>%%SITE%%</td>
+	</tr>
+	<tr>
+		<td valign=top class=text>CD Registration Code:</td>
+		<td valign=top class=text>%%CDREG%%</td>
+	</tr>
+	<tr>
+		<td width="40%" valign=top class=text>Price (EUR):</td>
+		<td valign=top class=text>%%PRICE%%</td>
+	</tr>
+	<tr>
+		<td width="40%" valign=top class=text>Multi user license:</td>
+		<td valign=top class=text>%%MULTI%%</td>
+	</tr>
+</table>
+<br><br>
+<p class="text" align=left>
+%%DATE%%
+</p>
+</div>
+</body></html>

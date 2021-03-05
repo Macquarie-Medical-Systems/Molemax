@@ -1,0 +1,347 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucPatient"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Molemax.App.Views"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      xmlns:con="clr-namespace:Molemax.App.Core.Converter"
+      xmlns:e="clr-namespace:Molemax.App.Core"
+      mc:Ignorable="d"
+      xmlns:prism="http://prismlibrary.com/"             
+      prism:ViewModelLocator.AutoWireViewModel="True"
+             Width="1500" Height="800">
+    <UserControl.Resources>
+        <con:ModeConverter x:Key="ModeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl Grid.Row="0" Grid.Column="1" BorderBrush="Gainsboro" Background="{x:Null}" Margin="5">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="General" >
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontSize="30" Text="Last Name"/>
+                    <TextBox Grid.Row="0" Grid.Column="1" FontSize="30" Text="{Binding CurrentPatient.lastname}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="30" Text="First Name"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" FontSize="30" Text="{Binding CurrentPatient.firstname}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0"  FontSize="30" Text="Birthdate(MM/DD/YYYY)"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" FontSize="30" Text="{Binding CurrentPatient.birthdate}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0"  FontSize="30" Text="Insurance Number"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"  FontSize="30" Width="100" Text="{Binding InsNumber}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Title"  FontSize="30"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"  FontSize="30"  Text="{Binding CurrentPatient.title}"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Insurance Identification"  FontSize="30"/>
+                    <TextBox Grid.Row="5" Grid.Column="1"  FontSize="30" Text="{Binding CurrentPatient.insident}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Sex"  FontSize="30"/>
+                    <RadioButton GroupName="SexGroup" Grid.Row="6" Grid.Column="1" Content="Male" HorizontalAlignment="Left" FontSize="30" IsChecked="{Binding Gender, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:GENDER.M}}"/>
+                    <RadioButton GroupName="SexGroup" Grid.Row="6" Grid.Column="1" Content="Female" HorizontalAlignment="Right" FontSize="30" IsChecked="{Binding Gender, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:GENDER.F}}"/>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Risk Group(1 to 4)"  FontSize="30"/>
+                    <TextBox Grid.Row="7" Grid.Column="1"  FontSize="30"/>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" HorizontalAlignment="Center">
+                        <Image Source="{Binding PatientFaceImage}" Width="200" Height="100" Stretch="Fill"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Delete"></Button>
+                            <ComboBox Name="cbFaceImageSource" Width="150" Text="Acquire face image" IsEditable="True" IsReadOnly="True">
+                                <!--<i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <i:InvokeCommandAction Command="{Binding GoSelectionCommand}" CommandParameter="{Binding ElementName=cbFaceImageSource, Path=SelectedItem}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>-->
+                                <!--<ComboBoxItem x:Name="FaceImageLiveVideo">
+                                    <Button Content="LiveVideo" Command="{Binding GoSelectionCommand}" CommandParameter="{Binding ElementName=FaceImageLiveVideo}"/>
+                                </ComboBoxItem>-->
+                                <!--<ComboBoxItem Content="LiveImage"/>-->
+                                <ComboBoxItem x:Name="FaceImageFileImport">
+                                    <Button Content="Image file import" Command="{Binding GoSelectionCommand}" CommandParameter="{Binding ElementName=FaceImageFileImport}"/>
+                                </ComboBoxItem>
+                                <!--<ComboBoxItem Content="Direct image import from digital camera"/>-->
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Contact">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="2*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontSize="30" Text="Country"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1" FontSize="30" IsEditable="True" IsReadOnly="True"
+                              ItemsSource="{Binding Countries, Mode=TwoWay}"
+                              SelectedItem="{Binding CurrentPatient.country}">
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" FontSize="30" Text="Address"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" FontSize="30" Text="{Binding CurrentPatient.address}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0"  FontSize="30" Text="City"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" FontSize="30" Text="{Binding CurrentPatient.city}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0"  FontSize="30" Text="State"/>
+                    <TextBox Grid.Row="3" Grid.Column="1" FontSize="30" Text="{Binding CurrentPatient.state}"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" FontSize="30" Text="Zip"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"  FontSize="30" Text="{Binding CurrentPatient.zip}"/>
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" FontSize="30" Text="Phone # Home"/>
+                    <TextBox Grid.Row="5" Grid.Column="1"  FontSize="30" Text="{Binding CurrentPatient.phone_h}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" FontSize="30" Text="Phone # Mobile"/>
+                    <TextBox Grid.Row="6" Grid.Column="1"  FontSize="30" Text="{Binding CurrentPatient.phone_c}"/>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" FontSize="30" Text="Phone # Work"/>
+                    <TextBox Grid.Row="7" Grid.Column="1"  FontSize="30" Text="{Binding CurrentPatient.phone_w}"/>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" FontSize="30" Text="e-mail"/>
+                    <TextBox Grid.Row="8" Grid.Column="1"  FontSize="30" Text="{Binding CurrentPatient.e_mail}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Additional">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <!--<RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />-->
+                        <!--<RowDefinition Height="1*" />-->
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontSize="30" Text="Patient Description"/>
+
+                    <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" FontSize="30" Text="Ethnic Group"/>
+                        <ComboBox Grid.Row="0" Grid.Column="1" FontSize="30" Width="200" 
+                              ItemsSource="{Binding EthnicGroups}"
+                              SelectedItem="{Binding CurrentPatient.ethnicgroup}"/>
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" FontSize="30" Text="Eye color"/>
+                        <ComboBox Grid.Row="0" Grid.Column="3" FontSize="30" Width="200" 
+                              ItemsSource="{Binding EyeColors}"
+                              SelectedItem="{Binding CurrentPatient.eyecolor}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" FontSize="30" Text="Complexion"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" FontSize="30" Width="200" 
+                              ItemsSource="{Binding Complexions}"
+                              SelectedItem="{Binding CurrentPatient.complexion}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="2" FontSize="30" Text="Hair color"/>
+                        <ComboBox Grid.Row="1" Grid.Column="3" FontSize="30" Width="200" 
+                              ItemsSource="{Binding HairColors}"
+                              SelectedItem="{Binding CurrentPatient.haircolor}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" FontSize="30" Text="Patient height"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" FontSize="30" Width="200" 
+                              ItemsSource="{Binding PatientHeight}"
+                              SelectedItem="{Binding CurrentPatient.barcode}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="2" FontSize="30" Text="Skin color"/>
+                        <ComboBox Grid.Row="2" Grid.Column="3" FontSize="30" Width="200" 
+                              ItemsSource="{Binding SkinColors}"
+                              SelectedItem="{Binding CurrentPatient.skincolor}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" FontSize="30" Text="Patient height(cm)"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1" FontSize="30" Width="200" 
+                              ItemsSource="{Binding PatientHeightCM}"
+                              SelectedItem="{Binding CurrentPatient.patheight}"/>
+
+                        <TextBlock  Grid.Row="4" Grid.Column="0" FontSize="30" Text="Follow UP Date"/>
+                        <TextBox Grid.Row="4" Grid.Column="1" FontSize="30" Width="200" Text="{Binding CurrentPatient.fup_date}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0"  FontSize="30" Text="Family Relation"/>
+                        <TextBox Grid.Row="5" Grid.Column="1"  FontSize="30" Width="200" Text="{Binding CurrentPatient.family}"/>
+                    </Grid>
+
+                    <!--<StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="0" >
+                        <TextBlock FontSize="30" Text="Follow UP Date"/>
+                        <TextBox FontSize="30" Width="100" Text="{Binding CurrentPatient.fup_date}"/>
+                    </StackPanel>-->
+
+                    <!--<StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="0" >
+                        <TextBlock FontSize="30" Text="Family Relation"/>
+                        <TextBox FontSize="30" Width="100" Text="{Binding CurrentPatient.family}"/>
+                    </StackPanel>-->
+
+                    <TextBlock Grid.Row="5" Grid.Column="0"  FontSize="30" Text="Comment"/>
+                    <TextBox Grid.Row="6" Grid.Column="0" FontSize="30" Width="1000" Text="{Binding CurrentPatient.remarks}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Melanoma Risk">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" FontSize="30" Text="Total nevi count"/>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="&lt; 20" FontSize="30"  IsChecked="{Binding Total, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:TOTAL_NEVI_COUNT.LESSTHAN_20}}"/>
+                        <RadioButton Grid.Column="1" Content="&gt;= 20" FontSize="30" IsChecked="{Binding Total, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:TOTAL_NEVI_COUNT.GREATERTHAN_EQUALTO_20}}"/>
+                    </Grid>
+
+                    <TextBlock Grid.Row="2" FontSize="30" Text="Freckle index"/>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="None" FontSize="30" IsChecked="{Binding Freckle, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:FRECKLE_INDEX.NONE}}"/>
+                        <RadioButton Grid.Column="1" Content="Some" FontSize="30" IsChecked="{Binding Freckle, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:FRECKLE_INDEX.SOME}}"/>
+                    </Grid>
+
+                    <TextBlock Grid.Row="4" FontSize="30" Text="Atypical nevi count"/>
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="0" FontSize="30" IsChecked="{Binding Atypical, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:ATYPICAL_NEVI_COUNT.ATYPICAL_0}}"/>
+                        <RadioButton Grid.Column="1" Content="1 to 2" FontSize="30" IsChecked="{Binding Atypical, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:ATYPICAL_NEVI_COUNT.ATYPICAL_1_TO_2}}"/>
+                        <RadioButton Grid.Column="2" Content="&gt;=3" FontSize="30" IsChecked="{Binding Atypical, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:ATYPICAL_NEVI_COUNT.ATYPICAL_GREATERTHAN_3}}"/>
+                    </Grid>
+
+                    <TextBlock Grid.Row="6" FontSize="30" Text="Episodes of sunburn"/>
+                    <Grid Grid.Row="7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="0" FontSize="30" IsChecked="{Binding Sunburn, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:EPISODES_OF_SUNBURN.EPISODES_0}}"/>
+                        <RadioButton Grid.Column="1" Content="1 to 2" FontSize="30" IsChecked="{Binding Sunburn, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:EPISODES_OF_SUNBURN.EPISODES_1_TO_2}}"/>
+                        <RadioButton Grid.Column="2" Content="&gt;=3" FontSize="30" IsChecked="{Binding Sunburn, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:EPISODES_OF_SUNBURN.EPISODES_GREATERTHAN_3}}"/>
+                    </Grid>
+
+                    <TextBlock Grid.Row="8" FontSize="20" Text="According to Mackie RM, Freudenberger T, Aitchinson TC."/>
+                    <TextBlock Grid.Row="9" FontSize="20" Text="Persoinal risk factor chart for cutaneous malignant melanoma.Lancet 1989;ii:487-90"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="10">
+                        <TextBlock  FontSize="30" Text="Risk Group(1 to 4)"/>
+                        <TextBox FontSize="30" Width="100"></TextBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <ComboBox x:Name="cbImportSource" SelectedIndex="0" IsReadOnly="True" FontSize="30" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" >
+                <!--<i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding GoSelectionCommand}" CommandParameter="{Binding ElementName=cbImportSource, Path=SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>-->
+                <ComboBoxItem Name="ImportSourceLiveVideo">
+                    <Button Content="LiveVideo" Command="{Binding GoSelectionCommand}" CommandParameter="{Binding ElementName=ImportSourceLiveVideo}"/>
+                </ComboBoxItem>
+                <!--<ComboBoxItem Content="LiveImage" />-->
+                <ComboBoxItem Name="ImportSourceFileImport">
+                    <Button Content="Image file import" Command="{Binding GoSelectionCommand}" CommandParameter="{Binding ElementName=ImportSourceFileImport}"/>
+                </ComboBoxItem>
+                <!--<ComboBoxItem Content="Direct image import from digital camera"/>-->
+            </ComboBox>
+            <Button Name="btSave" Content="Save Patient Menu" FontSize="30" Margin="10,10,10,10" Command="{Binding GoSaveCommand}" Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <Button Name="btBack" Content="Back" FontSize="30" Margin="10,10,10,10" Command="{Binding GoBackCommand}" Background="{x:Null}" BorderBrush="{x:Null}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
