@@ -89,7 +89,7 @@ namespace Molemax.App.Core.TreeViewDiseaseExplorer
 
         private void Select()
         {
-            if (Type == DataType.CategoryClosed || Type == DataType.CategoryOpened)
+            if (Type == DataType.CategoryClosed || Type == DataType.CategoryOpened || Type == DataType.Pending)
             {
                 var children = DiseaseStructure.GetSubCategoriesAndDiseases(CategoryOrImageId);
                 var diseaseChildren = children.Where(content => content.Type == DataType.Disease);
@@ -120,20 +120,6 @@ namespace Molemax.App.Core.TreeViewDiseaseExplorer
             //test
             //PropertyChanged += new PropertyChangedEventHandler(DataItemViewModel_PropertyChanged);
         }
-
-        //private void DataItemViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (string.Equals(e.PropertyName, "IsSelected", StringComparison.CurrentCultureIgnoreCase))
-        //    {
-        //        if (((DataItemViewModel)sender).IsSelected)
-        //        {
-        //            if (((DataItemViewModel)sender).FullPath.EndsWith(".jpg"))
-        //            {
-        //                RaiseUpdateImage(((DataItemViewModel)sender).FullPath);
-        //            }
-        //        }
-        //    }
-        //}
 
         private void ClearChildren()
         {

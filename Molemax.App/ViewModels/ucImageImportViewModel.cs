@@ -209,16 +209,17 @@ namespace Molemax.App.ViewModels
             var makroList = _dbImages.Join(_dbMakros, im => im.id, ma => ma.imageId, (image, makro) => new { image, makro }).Join(_dbTimestamps, i => i.image.tsId, ts => ts.id, (imageAndMakro, ts) => new { imageAndMakro, ts })
                                       .Where(item => item.imageAndMakro.makro.fupId == 0 && item.imageAndMakro.image.kind == 1 && item.imageAndMakro.image.patientId == GlobalValue.Instance.CurrentPatient.id)
                                       .OrderByDescending(item => item.imageAndMakro.image.tsId)
-                                      .Select(m => new ImageHandler
-                                      {
-                                          ImageId = m.imageAndMakro.image.id,
-                                          ContainerImageId = m.imageAndMakro.image.id,
-                                          Kenpos = m.imageAndMakro.image.kenpos,
-                                          Loctext = m.imageAndMakro.image.loctext,
-                                          CreateDate = m.ts.date_created.ToString("d"),
-                                          Image = new BitmapImage(new Uri(m.imageAndMakro.image.defpath + "\\" + m.imageAndMakro.image.imgname)),
-                                          SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.imageAndMakro.image.kenpos}.bmp"))
-                                      }).ToList();
+                                      .ToList();
+                                      //.Select(m => new ImageHandler
+                                      //{
+                                      //    ImageId = m.imageAndMakro.image.id,
+                                      //    ContainerImageId = m.imageAndMakro.image.id,
+                                      //    Kenpos = m.imageAndMakro.image.kenpos,
+                                      //    Loctext = m.imageAndMakro.image.loctext,
+                                      //    CreateDate = m.ts.date_created.ToString("d"),
+                                      //    Image = new BitmapImage(new Uri(m.imageAndMakro.image.defpath + "\\" + m.imageAndMakro.image.imgname)),
+                                      //    SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.imageAndMakro.image.kenpos}.bmp"))
+                                      //}).ToList();
             return makroList.Count > 0;
         }
 

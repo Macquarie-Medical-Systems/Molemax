@@ -142,6 +142,9 @@ namespace Molemax.App.ViewModels
                         string imageName = CreateNameForImage();
                         string imageFullPathAndName = CreateFullPathForImage(imageName);
 
+                        if (!Directory.Exists(_applicationSetting.ImagePath))
+                            Directory.CreateDirectory(_applicationSetting.ImagePath);
+
                         if (File.Exists(imageFullPathAndName))
                             File.Delete(imageFullPathAndName);
 
@@ -260,6 +263,9 @@ namespace Molemax.App.ViewModels
                 {
                     string imageName = CreateNameForImage();
                     string imageFullPathAndName = CreateFullPathForImage(imageName);
+
+                    if (!Directory.Exists(_applicationSetting.ImagePath))
+                        Directory.CreateDirectory(_applicationSetting.ImagePath);
 
                     if (File.Exists(imageFullPathAndName))
                         File.Delete(imageFullPathAndName);

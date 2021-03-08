@@ -4967,6 +4967,7 @@
     <Compile Include="ViewModels\ucAdminLiveImageViewModel.cs" />
     <Compile Include="ViewModels\ucAdminLiveVideoViewModel.cs" />
     <Compile Include="ViewModels\ucAdminMainMenuViewModel.cs" />
+    <Compile Include="ViewModels\ucAllSkinMessageViewModel.cs" />
     <Compile Include="ViewModels\ucAllSkinImageListViewModel.cs" />
     <Compile Include="ViewModels\ucAllSkinDiseaseDetailViewModel.cs" />
     <Compile Include="ViewModels\ucImagePreviewViewModel.cs" />
@@ -4996,6 +4997,9 @@
     <Compile Include="Views\frmMainWindow.xaml.cs" />
     <Compile Include="Views\ucAllSkinDiseaseDetail.xaml.cs">
       <DependentUpon>ucAllSkinDiseaseDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ucAllSkinMessage.xaml.cs">
+      <DependentUpon>ucAllSkinMessage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ucAllSkinImageList.xaml.cs">
       <DependentUpon>ucAllSkinImageList.xaml</DependentUpon>
@@ -5115,6 +5119,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ucAllSkinDiseaseDetail.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ucAllSkinMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

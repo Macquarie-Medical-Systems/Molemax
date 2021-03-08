@@ -838,6 +838,9 @@ namespace Molemax.App.ViewModels
             string imageName = CreateNameForImage();
             string imageFullPathAndName = CreateFullPathForImage(imageName);
 
+            if (!Directory.Exists(_applicationSetting.ImagePath))
+                Directory.CreateDirectory(_applicationSetting.ImagePath);
+
             if (File.Exists(imageFullPathAndName))
                 File.Delete(imageFullPathAndName);
 
@@ -982,7 +985,11 @@ namespace Molemax.App.ViewModels
 
         private void GoAllSkin()
         {
-            throw new NotImplementedException();
+            _keepLive = true;
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.AllSkin, navigationParameters);
+
         }
 
 
@@ -1248,7 +1255,28 @@ namespace Molemax.App.ViewModels
 
 
             if (navigationContext.Parameters[Constants.FromForm] != null)
+            {
                 fromForm = (string)navigationContext.Parameters[Constants.FromForm];
+            }
+
+            if (navigationContext.Parameters[Constants.ParaDiseaseName] != null)
+            {
+                string sDiseaseName = (string)navigationContext.Parameters[Constants.ParaDiseaseName];
+
+                if (fromForm == UserControlNames.AllSkin)
+                {
+                    Diagsource newDiagsource = _dbDiagsources.FirstOrDefault(di => di.fullname == sDiseaseName);
+                    //if not found, then create new item
+                    if (newDiagsource == null)
+                    {
+                        int newID = CreateDiagID();
+                        newDiagsource = _repository.Diagsources.Upsert(new Diagsource { origin_id = newID, fullname = MyDiagnosis.Trim(), risk = GetRiskFromDiagText(MyDiagnosis.Trim()) });
+                    }
+                    ProvisionalDiagnosisList.Clear();
+                    ProvisionalDiagnosisList.Add(new ProvisionalDiagnosis { IsChecked = true, DiagsourceFullName = newDiagsource.fullname, Id = newDiagsource.id, OriginId = newDiagsource.origin_id, diagsource = newDiagsource });
+                    GoSaveDiagsourceList();
+                }
+            }
 
         }
 

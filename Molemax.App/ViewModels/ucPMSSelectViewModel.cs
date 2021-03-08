@@ -422,6 +422,9 @@ namespace Molemax.App.ViewModels
             var shtmlFileFullPath = Path.Combine(_applicationSetting.Temp, shtmlFile);
             //var spdfFilsFullPath = Path.Combine(_applicationSetting.Temp, spdfFils);
 
+            if (!Directory.Exists(_applicationSetting.Temp))
+                Directory.CreateDirectory(_applicationSetting.Temp);
+
             if (File.Exists(shtmlFileFullPath))
                 File.Delete(shtmlFileFullPath);
             File.Copy(@"C:\Projects\Molemax\Molemax.App\Templates\008.dat", shtmlFileFullPath);
