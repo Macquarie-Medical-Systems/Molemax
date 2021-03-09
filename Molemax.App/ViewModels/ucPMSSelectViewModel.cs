@@ -992,7 +992,7 @@ namespace Molemax.App.ViewModels
                 si.Makro.FullPicRectangleWidth = item.makro.X2 / 1000;
                 si.Makro.FullPicRectangleHeight = item.makro.Y2 / 1000;
 
-                si.Treatment = item.makro.image.treatment.Value;
+                si.Treatment = item.image.treatment.Value;
 
                 returnList.Add(si);
             }
@@ -1016,11 +1016,11 @@ namespace Molemax.App.ViewModels
                 si.Mikro.ImageAndRectangleXRatio = (double)item.mikro.X_Pic / (double)1000;
                 si.Mikro.ImageAndRectangleYRatio = (double)item.mikro.Y_Pic / (double)1000;
 
-                si.Treatment = item.mikro.image.treatment.Value;
+                si.Treatment = item.image.treatment.Value;
                 returnList.Add(si);
             }
 
-            return returnList.OrderByDescending(i => i.Makro.Id).ThenByDescending(i => i.CloseUp).ThenByDescending(i => i.Mikro).ToList<SelectionImage>();
+            return returnList.OrderByDescending(i => i.Makro).ThenByDescending(i => i.CloseUp).ThenByDescending(i => i.Mikro).ToList<SelectionImage>();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

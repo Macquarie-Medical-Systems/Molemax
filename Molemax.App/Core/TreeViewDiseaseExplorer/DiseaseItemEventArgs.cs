@@ -12,10 +12,12 @@ namespace Molemax.App.Core.TreeViewDiseaseExplorer
     {
         public ObservableCollection<DiseaseItem> DiseaseList { get; set; }
         public DataType DiseaseType { get; set; }
-        public DiseaseItemEventArgs(ObservableCollection<DiseaseItem> list, DataType diseaseType)
+        public string DiseaseName { get; set; }
+        public DiseaseItemEventArgs(ObservableCollection<DiseaseItem> list, DataType diseaseType, string diseaseName)
         {
             DiseaseList = list;
             DiseaseType = diseaseType;
+            DiseaseName = diseaseName;
         }
     }
 }

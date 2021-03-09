@@ -23,6 +23,7 @@ namespace Molemax.App.ViewModels
         private IMolemaxRepository _repository;
         private IAppSettings _applicationSetting;
         private string fromForm;
+        private string selectedDiseaseName;
         private IEnumerable<DEFAllSkin> _dbAllSkins
         {
             get { return _repository.DEFAllSkins.Get(); }
@@ -71,12 +72,12 @@ namespace Molemax.App.ViewModels
 
         private void GoSelectAndExit()
         {
-            //var navigationParameters = new NavigationParameters();
-            //navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
-            //navigationParameters.Add(Constants.ParaDiseaseName, DiseaseName);
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
+            navigationParameters.Add(Constants.ParaDiseaseName, selectedDiseaseName);
 
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, fromForm, navigationParameters);
-            
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, fromForm, navigationParameters);
+
         }
 
         private void GoExit()
@@ -91,6 +92,7 @@ namespace Molemax.App.ViewModels
         {
             NavigationParameters nav = new NavigationParameters();
             var type = e.DiseaseType;
+            selectedDiseaseName = e.DiseaseName;
             foreach (var i in e.DiseaseList)
             {
                 i.DiseaseImage = new BitmapImage(new Uri($"pack://application:,,,/Images/AllSkin/{i.ImageId}"));

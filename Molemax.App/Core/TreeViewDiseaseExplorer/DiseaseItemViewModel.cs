@@ -93,13 +93,13 @@ namespace Molemax.App.Core.TreeViewDiseaseExplorer
             {
                 var children = DiseaseStructure.GetSubCategoriesAndDiseases(CategoryOrImageId);
                 var diseaseChildren = children.Where(content => content.Type == DataType.Disease);
-                RaiseUpdateImage(new DiseaseItemEventArgs(new ObservableCollection<DiseaseItem>(diseaseChildren), Type));
+                RaiseUpdateImage(new DiseaseItemEventArgs(new ObservableCollection<DiseaseItem>(diseaseChildren), Type, DiseaseName));
             }
             
             if (Type == DataType.Disease)
             {
                 var current = DiseaseStructure.GetDisease(CategoryOrImageId);
-                RaiseUpdateImage(new DiseaseItemEventArgs(new ObservableCollection<DiseaseItem>(current), Type));
+                RaiseUpdateImage(new DiseaseItemEventArgs(new ObservableCollection<DiseaseItem>(current), Type, DiseaseName));
             }
         }
 

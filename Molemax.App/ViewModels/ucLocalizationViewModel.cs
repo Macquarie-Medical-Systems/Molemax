@@ -1263,8 +1263,6 @@ namespace Molemax.App.ViewModels
             {
                 string sDiseaseName = (string)navigationContext.Parameters[Constants.ParaDiseaseName];
 
-                if (fromForm == UserControlNames.AllSkin)
-                {
                     Diagsource newDiagsource = _dbDiagsources.FirstOrDefault(di => di.fullname == sDiseaseName);
                     //if not found, then create new item
                     if (newDiagsource == null)
@@ -1275,7 +1273,7 @@ namespace Molemax.App.ViewModels
                     ProvisionalDiagnosisList.Clear();
                     ProvisionalDiagnosisList.Add(new ProvisionalDiagnosis { IsChecked = true, DiagsourceFullName = newDiagsource.fullname, Id = newDiagsource.id, OriginId = newDiagsource.origin_id, diagsource = newDiagsource });
                     GoSaveDiagsourceList();
-                }
+
             }
 
         }
