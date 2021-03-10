@@ -133,6 +133,7 @@
     <Compile Include="Sql\SqlMikroRepository.cs" />
     <Compile Include="Sql\SqlMakroRepository.cs" />
     <Compile Include="Sql\SqlImageRepository.cs" />
+    <Compile Include="Sql\SqlUserRepository.cs" />
     <Compile Include="Sql\SqlTimestampRepository.cs" />
     <Compile Include="Sql\SqlSkinColorRepository.cs" />
     <Compile Include="Sql\SqlHairColorRepository.cs" />

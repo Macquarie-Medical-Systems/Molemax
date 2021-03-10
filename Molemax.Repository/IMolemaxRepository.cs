@@ -31,5 +31,6 @@ namespace Molemax.Repository
         IRepository<Mikro> Mikros { get; }
         IRepository<Fup> Fups { get; }
         IRepository<ExpressImage> ExpressImages { get; }
+        IRepository<User> Users { get; }
     }
 }

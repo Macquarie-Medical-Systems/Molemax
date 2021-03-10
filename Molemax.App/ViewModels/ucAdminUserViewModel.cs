@@ -1,10 +1,13 @@
 ﻿using Molemax.App.Core;
+using Molemax.Models;
+using Molemax.Repository;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,31 +18,42 @@ namespace Molemax.App.ViewModels
     public class ucAdminUserViewModel : BindableBase, IConfirmNavigationRequest, IRegionMemberLifetime
     {
         private IAppSettings _applicationSetting;
+        private IMolemaxRepository _repository;
         private IDialogService _dialogService;
-        private string oldFollowUpLiveImageMode;
-        public IRegionManager _regionManager { get; }
+        private IRegionManager _regionManager;
+        private User userModel;
+        private IEnumerable<User> _dbUsers
+        {
+            get { return _repository.Users.Get(); }
+        }
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand GoAddUserCommand { get; set; }
-        public OVERLAY_MODE FollowUpLiveImageMode { get; set; }
 
-        public string _title;
-        public string Title
+        private ObservableCollection<User> _userList;
+        public ObservableCollection<User> UserList
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get { return _userList; }
+            set { SetProperty(ref _userList, value); }
+        }
+
+        private bool _right_ReadOnly;
+        public bool Right_ReadOnly
+        {
+            get { return _right_ReadOnly; }
+            set { SetProperty(ref _right_ReadOnly, value); }
         }
 
         public bool KeepAlive => false;
 
-        public ucAdminUserViewModel(IRegionManager regionManager, IAppSettings applicationSetting, IDialogService dialogService)
+        public ucAdminUserViewModel(IRegionManager regionManager, IMolemaxRepository molemaxRepository, IAppSettings applicationSetting, IDialogService dialogService)
         {
             _regionManager = regionManager;
+            _repository = molemaxRepository;
             _applicationSetting = applicationSetting;
             _dialogService = dialogService;
-            oldFollowUpLiveImageMode = applicationSetting.FollowUpLiveImageMode;
-            if (!string.IsNullOrEmpty(applicationSetting.FollowUpLiveImageMode))
-                FollowUpLiveImageMode = (OVERLAY_MODE)Enum.Parse(typeof(OVERLAY_MODE), applicationSetting.FollowUpLiveImageMode);
-            
+            userModel = new User();
+            UserList = new ObservableCollection<User>();
+
             GoBackCommand = new DelegateCommand(GoBack);
             GoAddUserCommand = new DelegateCommand(GoUser);
         }
@@ -54,11 +68,14 @@ namespace Molemax.App.ViewModels
             {
                 if (r.Result == ButtonResult.OK)
                 {
-                    string userName = r.Parameters.GetValue<string>("UserName");
-                    string Password = r.Parameters.GetValue<string>("Password");
+                    userModel.username = r.Parameters.GetValue<string>("UserName");
+                    userModel.pwd = r.Parameters.GetValue<string>("Password");
+                    userModel.myrights = (short)USER_RIGHTS.RIGHT_WRITE;
+                    UserList.Add(userModel);
+                    Right_ReadOnly = true;
                 }
-                else if (r.Result == ButtonResult.Cancel)
-                    Title = "Result is Cancel";
+                //else if (r.Result == ButtonResult.Cancel)
+                //    Title = "Result is Cancel";
             });
         }
 
@@ -66,10 +83,6 @@ namespace Molemax.App.ViewModels
         {
             CompareAndSaveSetting();
 
-            foreach (var view in _regionManager.Regions[RegionNames.AdminContentRegion].Views)
-            {
-                _regionManager.Regions[RegionNames.AdminContentRegion].Remove(view);
-            }
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.MainMenu);
         }
 
@@ -84,14 +97,7 @@ namespace Molemax.App.ViewModels
 
         private void CompareAndSaveSetting()
         {
-            if (oldFollowUpLiveImageMode != FollowUpLiveImageMode.ToString())
-            {
-                if (MessageBox.Show("Save settings for 'LiveImage'?", "Navigate?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    _applicationSetting.FollowUpLiveImageMode = FollowUpLiveImageMode.ToString();
-                    _applicationSetting.SaveSettings();
-                }
-            }
+
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

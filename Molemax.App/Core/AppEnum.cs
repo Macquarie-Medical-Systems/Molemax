@@ -82,4 +82,13 @@ namespace Molemax.App.Core
         SELECT_VISITS,
         SELECT_INDIVIDUAL
     }
+
+
+    public enum USER_RIGHTS :short
+    {
+        RIGHT_NONE =0,
+        RIGHT_READ =1,
+        RIGHT_WRITE =2,
+        RIGHT_DELETE =3,
+    }
 }

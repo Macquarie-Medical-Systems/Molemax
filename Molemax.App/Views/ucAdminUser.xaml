@@ -29,25 +29,38 @@
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
                     <TextBlock FontSize="20" Text="Select a user"/>
-                    <Grid>
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <ListBox></ListBox>
+                        <ListBox ItemsSource="{Binding UserList}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding username}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                         <StackPanel Grid.Column="1">
                             <Button Content="Add" Command="{Binding GoAddUserCommand}" ></Button>
                             <Button Content="Edit"></Button>
                             <Button Content="Delete"></Button>
                         </StackPanel>
                     </Grid>
-                </StackPanel>
-                <StackPanel Grid.Row="1" Orientation="Vertical">
+                </Grid>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="4*" />
+                    </Grid.RowDefinitions>
                     <TextBlock Text="Specify global user right"/>
-                    <TextBlock Text="{Binding Title}"/>
-                    <Grid>
+                    <Grid Grid.Row="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
                             <RowDefinition Height="1*"/>
@@ -57,18 +70,22 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Row="0" FontSize="20" Content="Read Only" IsChecked="{Binding FollowUpLiveImageMode, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:OVERLAY_MODE.OVL_LIVE_VIDEO}}"/>
-                        <CheckBox Grid.Row="1" FontSize="20" Content="Read/Write" IsChecked="{Binding FollowUpLiveImageMode, Converter={StaticResource ResourceKey=ModeConverter}, ConverterParameter={x:Static e:OVERLAY_MODE.OVL_COMPARE}}"/>
-                        <CheckBox Grid.Row="2" FontSize="20" Content="Delete"/>
+                        <CheckBox Grid.Row="0" FontSize="20" Content="Read Only" IsChecked="{Binding Right_ReadOnly}"/>
+                        <CheckBox Grid.Row="1" FontSize="20" Content="Read/Write" IsChecked="{Binding Right_ReadWrite}"/>
+                        <CheckBox Grid.Row="2" FontSize="20" Content="Delete" IsChecked="{Binding Right_Delete}"/>
                         <CheckBox Grid.Row="1" Grid.Column="1" FontSize="20" Content="Show Login Dialog"/>
                     </Grid>
-                </StackPanel>
-                <StackPanel Grid.Row="2" Orientation="Vertical">
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="6*" />
+                    </Grid.RowDefinitions>
                     <TextBlock Text="Specify rights for other user content"/>
-                    <ListView>
+                    <ListView Grid.Row="1">
                         
                     </ListView>
-                </StackPanel>
+                </Grid>
             </Grid>
             <Button Grid.Row="1" HorizontalAlignment="Right" Margin="100,10" Width="100" Content="Close" FontSize="30" Command="{Binding GoBackCommand}" Background="{x:Null}" BorderBrush="{x:Null}" />
         </Grid>
