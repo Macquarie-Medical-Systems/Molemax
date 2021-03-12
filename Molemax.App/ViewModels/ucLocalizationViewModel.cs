@@ -105,6 +105,8 @@ namespace Molemax.App.ViewModels
         public event EventHandler Release;
 
         #region Property
+
+
         private double _rectangleX;
         public double RectangleX
         {
@@ -338,6 +340,14 @@ namespace Molemax.App.ViewModels
             get { return _dummyImageHeight; }
             set { SetProperty(ref _dummyImageHeight, value); }
         }
+
+
+        private ObservableCollection<PointItem> _pointList;
+        public ObservableCollection<PointItem> PointList
+        {
+            get { return _pointList; }
+            set { SetProperty(ref _pointList, value); }
+        }
         #endregion
 
         #region Command
@@ -413,6 +423,10 @@ namespace Molemax.App.ViewModels
 
             ShowMacroButton = false;
             ShowDummyButton = true;
+
+            PointList = new ObservableCollection<PointItem>();
+            PointList.Add(new PointItem { X = 10, Y = 10 });
+            PointList.Add(new PointItem { X = 200, Y = 200 });
         }
 
         private void GoWindowLoaded()
@@ -1344,5 +1358,12 @@ namespace Molemax.App.ViewModels
         {
             //MessageBox.Show("mouseup");
         }
+    }
+
+    public class PointItem
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+
     }
 }
