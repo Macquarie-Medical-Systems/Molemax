@@ -28,6 +28,7 @@ namespace Molemax.App.Core
         public const string DefaultPatient = "There is no selected patient";
         public const string ParaFile = "ParaFile";
         public const string ParaObject = "ParaObject";
+        public const string ParaObject2 = "ParaObject2";
         public const string ParaDiseaseName = "ParaDiseaseName";
         public class Views
         {

@@ -51,6 +51,26 @@
                 <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </ContentControl>
         </Canvas>
+        <ItemsControl ItemsSource="{Binding HistoryPointList}" Visibility="{Binding HistoryPointVisible, Mode=TwoWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Width="12" Height="12" >
+                        <Path Data="M0 0  12 12M0 12 12 0" Stroke="Green" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </ContentControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Content="OK" Name="btOK" Command="{Binding GoOKCommand}"  Width ="150" Height="40" Margin="10,5"/>
             <Button Content="Back" Name="btBack" Command="{Binding GoBackCommand}"  Width ="150" Height="40" Margin="10,5"/>

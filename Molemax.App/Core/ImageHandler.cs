@@ -43,6 +43,9 @@ namespace Molemax.App.Core
         public double ImageAndRectangleWidthRatio { get; set; }
         public double ImageAndRectangleHeightRatio { get; set; }
         public Visibility FullPicPointVisible { get; set; }
+        //Point positon in dummy image
+        public double DummyPointX { get; set; }
+        public double DummyPointY { get; set; }
         public string Title { get; set; }
         public Brush ImageHistoryTextBackground { get; set; }
         public List<ImageHandler> SelectedHistoryImageList { get; set; }

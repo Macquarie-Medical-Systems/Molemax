@@ -287,13 +287,13 @@
                         </Image>
                         <Canvas>
                             <ContentControl Width="{Binding RectangleWidth, Mode=TwoWay}" Height="{Binding RectangleHeight, Mode=TwoWay}" Canvas.Top="{Binding RectangleY, Mode=TwoWay}" Canvas.Left="{Binding RectangleX, Mode=TwoWay}" Template="{StaticResource DesignerItemTemplate}" Visibility="{Binding RectangleVisible, Mode=TwoWay}">
-                                <Rectangle Fill="Transparent" Stroke="White" IsHitTestVisible="False" StrokeThickness="2"/>
+                                <Rectangle Fill="Transparent" Stroke="Red" IsHitTestVisible="False" StrokeThickness="2"/>
                             </ContentControl>
                             <ContentControl Width="12" Height="12" Canvas.Top="{Binding PointY, Mode=TwoWay}" Canvas.Left="{Binding PointX, Mode=TwoWay}" Visibility="{Binding PointVisible, Mode=TwoWay}">
-                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="Red" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </ContentControl>
                         </Canvas>
-                        <ItemsControl ItemsSource="{Binding PointList}">
+                        <ItemsControl ItemsSource="{Binding HistoryPointList}" Visibility="{Binding HistoryPointVisible, Mode=TwoWay}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <Canvas/>

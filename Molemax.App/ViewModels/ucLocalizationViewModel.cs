@@ -61,6 +61,11 @@ namespace Molemax.App.ViewModels
             get { return _repository.Closeups.Get(); }
         }
 
+        private IEnumerable<Mikro> _dbMikros
+        {
+            get { return _repository.Mikros.Get(); }
+        }
+
         private IEnumerable<Fup> _dbFups
         {
             get { return _repository.Fups.Get(); }
@@ -307,6 +312,13 @@ namespace Molemax.App.ViewModels
             set { SetProperty(ref _patientCloseUpImageList, value); }
         }
 
+        private ObservableCollection<ImageHandler> _patientMikroImageList;
+        public ObservableCollection<ImageHandler> PatientMikroImageList
+        {
+            get { return _patientMikroImageList; }
+            set { SetProperty(ref _patientMikroImageList, value); }
+        }
+
         public bool _showMacroButton;
         public bool ShowMacroButton
         {
@@ -331,23 +343,38 @@ namespace Molemax.App.ViewModels
         public double DummyImageWidth
         {
             get { return _dummyImageWidth; }
-            set { SetProperty(ref _dummyImageWidth, value); }
+            set
+            {
+                SetProperty(ref _dummyImageWidth, value);
+            }
         }
 
         private double _dummyImageHeight;
         public double DummyImageHeight
         {
             get { return _dummyImageHeight; }
-            set { SetProperty(ref _dummyImageHeight, value); }
+            set
+            {
+                SetProperty(ref _dummyImageHeight, value);
+                DrawHistoryPointOnDummyImage();
+            }
         }
 
 
-        private ObservableCollection<PointItem> _pointList;
-        public ObservableCollection<PointItem> PointList
+        private ObservableCollection<PointItem> _historyPointList;
+        public ObservableCollection<PointItem> HistoryPointList
         {
-            get { return _pointList; }
-            set { SetProperty(ref _pointList, value); }
+            get { return _historyPointList; }
+            set { SetProperty(ref _historyPointList, value); }
         }
+
+        private Visibility _historyPointVisible;
+        public Visibility HistoryPointVisible
+        {
+            get { return _historyPointVisible; }
+            set { SetProperty(ref _historyPointVisible, value); }
+        }
+
         #endregion
 
         #region Command
@@ -423,10 +450,6 @@ namespace Molemax.App.ViewModels
 
             ShowMacroButton = false;
             ShowDummyButton = true;
-
-            PointList = new ObservableCollection<PointItem>();
-            PointList.Add(new PointItem { X = 10, Y = 10 });
-            PointList.Add(new PointItem { X = 200, Y = 200 });
         }
 
         private void GoWindowLoaded()
@@ -505,6 +528,28 @@ namespace Molemax.App.ViewModels
 
         }
 
+        private void DrawHistoryPointOnDummyImage()
+        {
+            if (imageKind == KIND_ENUM.KIND_MIKRO)
+            {
+                //draw history points on dummy image
+                if (GetPatientMikroImages())
+                {
+                    HistoryPointList = new ObservableCollection<PointItem>();
+                    foreach (var i in PatientMikroImageList)
+                    {
+                        if (i.Kenpos == dummyImageIndex)
+                            HistoryPointList.Add(new PointItem() { X = i.DummyPointX * DummyImageWidth / 1000, Y = i.DummyPointY * DummyImageHeight / 1000 });
+                    }
+                }
+
+                if (HistoryPointList.Count > 0)
+                    HistoryPointVisible = Visibility.Visible;
+                else
+                    HistoryPointVisible = Visibility.Collapsed;
+            }
+        }
+
         private void GoCloseUpImageMouseLeftButtonDown(object obj)
         {
             var values = (object[])obj;
@@ -538,6 +583,8 @@ namespace Molemax.App.ViewModels
             navigationParameters.Add(Constants.ContainerImage, pmi);
             navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
             navigationParameters.Add(Constants.FromControl, Constants.ContainerMakroImage);
+            //navigationParameters.Add(Constants.ParaObject, PatientCloseUpImageList);
+            //navigationParameters.Add(Constants.ParaObject2, PatientMikroImageList);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic, navigationParameters);
 
         }
@@ -661,7 +708,54 @@ namespace Molemax.App.ViewModels
             //}
             return PatientCloseUpImageList.Count() > 0;
         }
-        
+
+        private bool GetPatientMikroImages()
+        {
+            var maxfupList = _dbFups.Join(_dbImages, fup => fup.imageId, image => image.id, (fup, image) => new { fup, image })
+                        .Where(item => item.image.patientId == GlobalValue.Instance.CurrentPatient.id)
+                        .GroupBy(item => item.fup.imageId)
+                        .Select(item => new
+                        {
+                            MaxFup = item.Max(i => i.fup.id),
+                            ImageId = item.Key
+                        }).ToList();
+
+            //get closeup records that does not have fupid
+            var mikroWithNoFupList = _dbMikros.Join(_dbImages, cu => cu.imageId, image => image.id, (mikro, image) => new { mikro, image })
+                .Where(item => item.image.patientId == GlobalValue.Instance.CurrentPatient.id)
+                .Where(item => item.mikro.fupId == 0)
+                .Where(item => !maxfupList.Any(b => b.ImageId == item.mikro.imageId)).ToList();
+
+            //get closeup records that is in max fup list
+            var mikroWithFupList = _dbMikros.Join(_dbImages, cu => cu.imageId, image => image.id, (mikro, image) => new { mikro, image })
+                .Where(item => item.image.patientId == GlobalValue.Instance.CurrentPatient.id)
+                .Where(item => maxfupList.Any(b => b.MaxFup == item.mikro.fupId)).ToList();
+
+            //final closeup list
+            var mikroList = mikroWithNoFupList.Concat(mikroWithFupList).OrderByDescending(item => item.image.tsId).ToList();
+
+            var tempList = _dbImages.Join(mikroList, im => im.id, mi => mi.mikro.imageId, (im, mi) => new { im, mi }).Join(_dbTimestamps, i => i.im.tsId, ts => ts.id, (i, ts) => new { i, ts })
+                                                  .Where(item => item.i.im.kind == 2 && item.i.im.patientId == GlobalValue.Instance.CurrentPatient.id)
+                                                  .OrderByDescending(item => item.i.im.tsId)
+                                                  .Select(m => new ImageHandler
+                                                  {
+                                                      Id = m.i.mi.mikro.id,
+                                                      ImageId = m.i.im.id,
+                                                      ContainerImageId = m.i.mi.mikro.id,
+                                                      Kenpos = m.i.im.kenpos,
+                                                      Loctext = m.i.im.loctext,
+                                                      CreateDate = m.ts.date_created.ToString("d"),
+                                                      Image = new BitmapImage(new Uri(m.i.im.defpath + "\\" + m.i.im.imgname)),
+                                                      SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.i.im.kenpos}.bmp")),
+                                                      DummyPointX = m.i.mi.mikro.X,
+                                                      DummyPointY = m.i.mi.mikro.Y,
+                                                  }) ;
+
+            PatientMikroImageList = new ObservableCollection<ImageHandler>(tempList);
+
+            return PatientMikroImageList.Count() > 0;
+        }
+
         private void GetLastCreateImage()
         {
             lastImageModel = _dbImages.Where(im => im.patientId == GlobalValue.Instance.CurrentPatient.id).OrderByDescending(im => im.tsId).FirstOrDefault();
@@ -1032,6 +1126,8 @@ namespace Molemax.App.ViewModels
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MakroKen/{dummyImageIndex}.bmp"));
             if (imageKind == KIND_ENUM.KIND_MIKRO)
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MikroKen/{dummyImageIndex}.bmp"));
+
+            DrawHistoryPointOnDummyImage();
         }
 
         private void GoPreviousDummyImage()
@@ -1048,6 +1144,8 @@ namespace Molemax.App.ViewModels
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MakroKen/{dummyImageIndex}.bmp"));
             if (imageKind == KIND_ENUM.KIND_MIKRO)
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MikroKen/{dummyImageIndex}.bmp"));
+
+            DrawHistoryPointOnDummyImage();
         }
 
         private void GoAdd()
@@ -1360,10 +1458,4 @@ namespace Molemax.App.ViewModels
         }
     }
 
-    public class PointItem
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
-
-    }
 }
