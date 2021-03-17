@@ -583,8 +583,8 @@ namespace Molemax.App.ViewModels
             navigationParameters.Add(Constants.ContainerImage, pmi);
             navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
             navigationParameters.Add(Constants.FromControl, Constants.ContainerMakroImage);
-            //navigationParameters.Add(Constants.ParaObject, PatientCloseUpImageList);
-            //navigationParameters.Add(Constants.ParaObject2, PatientMikroImageList);
+            navigationParameters.Add(Constants.ParaObject, PatientCloseUpImageList.Where(i=>i.LinkToMakroId == pmi.ContainerImageId).ToList());
+            navigationParameters.Add(Constants.ParaObject2, PatientMikroImageList.Where(i => i.LinkToMakroId == pmi.ContainerImageId).ToList());
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic, navigationParameters);
 
         }
@@ -696,7 +696,8 @@ namespace Molemax.App.ViewModels
                                                       CreateDate = m.ts.date_created.ToString("d"),
                                                       Image = new BitmapImage(new Uri(m.i.im.defpath + "\\" + m.i.im.imgname)),
                                                       SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.i.im.kenpos}.bmp")),
-                                                      FullPicPointVisible = Visibility.Collapsed
+                                                      FullPicPointVisible = Visibility.Collapsed,
+                                                      LinkToMakroId = m.i.cl.closeup.makroId
                                                   }); ;
 
             PatientCloseUpImageList = new ObservableCollection<ImageHandler>(tempList);
@@ -749,6 +750,8 @@ namespace Molemax.App.ViewModels
                                                       SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.i.im.kenpos}.bmp")),
                                                       DummyPointX = m.i.mi.mikro.X,
                                                       DummyPointY = m.i.mi.mikro.Y,
+                                                      LinkToMakroId = m.i.mi.mikro.makroId.HasValue? m.i.mi.mikro.makroId.Value:0,
+                                                      LinkToCloseUpId = m.i.mi.mikro.closeupId.HasValue? m.i.mi.mikro.closeupId.Value:0
                                                   }) ;
 
             PatientMikroImageList = new ObservableCollection<ImageHandler>(tempList);

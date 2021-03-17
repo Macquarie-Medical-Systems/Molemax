@@ -49,5 +49,7 @@ namespace Molemax.App.Core
         public string Title { get; set; }
         public Brush ImageHistoryTextBackground { get; set; }
         public List<ImageHandler> SelectedHistoryImageList { get; set; }
+        public int LinkToMakroId { get; set; }
+        public int LinkToCloseUpId { get; set; }
     }
 }

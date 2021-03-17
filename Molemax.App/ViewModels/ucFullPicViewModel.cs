@@ -35,8 +35,8 @@ namespace Molemax.App.ViewModels
         private System.Windows.Controls.Image image;
         private BitmapSource paraImage;
         private string fromControl;
-        private ObservableCollection<ImageHandler> _patientCloseUpImageList;
-        private ObservableCollection<ImageHandler> _patientMikroImageList;
+        private List<ImageHandler> _patientCloseUpImageList;
+        private List<ImageHandler> _patientMikroImageList;
 
         public event EventHandler Capture;
         public event EventHandler Release;
@@ -121,6 +121,27 @@ namespace Molemax.App.ViewModels
             get { return _historyPointVisible; }
             set { SetProperty(ref _historyPointVisible, value); }
         }
+
+        private double _ImageWidth;
+        public double ImageWidth
+        {
+            get { return _ImageWidth; }
+            set
+            {
+                SetProperty(ref _ImageWidth, value);
+            }
+        }
+
+        private double _ImageHeight;
+        public double ImageHeight
+        {
+            get { return _ImageHeight; }
+            set
+            {
+                SetProperty(ref _ImageHeight, value);
+                DrawHistoryPointOnImage();
+            }
+        }
         #endregion
 
         #region Command
@@ -139,21 +160,6 @@ namespace Molemax.App.ViewModels
             GoBackCommand = new DelegateCommand(GoBack);
             RectangleVisible = Visibility.Collapsed;
             PointVisible = Visibility.Collapsed;
-
-            //if (_patientMikroImageList != null && _patientMikroImageList.Count > 0)
-            //{
-            //    HistoryPointList = new ObservableCollection<PointItem>();
-            //    foreach (var i in _patientMikroImageList)
-            //    {
-            //        if (i.Kenpos == containerImage.Kenpos)
-            //            HistoryPointList.Add(new PointItem() { X = i.DummyPointX * image.ActualWidth / 1000, Y = i.DummyPointY * image.ActualHeight / 1000 });
-            //    }
-
-            //    if (HistoryPointList.Count > 0)
-            //        HistoryPointVisible = Visibility.Visible;
-            //    else
-            //        HistoryPointVisible = Visibility.Collapsed;
-            //}
         }
 
         private void GoBack()
@@ -229,10 +235,14 @@ namespace Molemax.App.ViewModels
             }
 
             if (navigationContext.Parameters[Constants.ParaObject] != null)
-                _patientCloseUpImageList = (ObservableCollection<ImageHandler>)navigationContext.Parameters[Constants.ParaObject];
+            {
+                _patientCloseUpImageList = (List<ImageHandler>)navigationContext.Parameters[Constants.ParaObject];
+            }
 
             if (navigationContext.Parameters[Constants.ParaObject2] != null)
-                _patientMikroImageList = (ObservableCollection<ImageHandler>)navigationContext.Parameters[Constants.ParaObject2];
+            {
+                _patientMikroImageList = (List<ImageHandler>)navigationContext.Parameters[Constants.ParaObject2];
+            }
         }
 
         public void OnMouseDown(object sender, MouseCaptureArgs e)
@@ -281,6 +291,23 @@ namespace Molemax.App.ViewModels
         public void OnMouseUp(object sender, MouseCaptureArgs e)
         {
             //MessageBox.Show("mouseup");
+        }
+
+        private void DrawHistoryPointOnImage()
+        {
+            if (_patientMikroImageList != null && _patientMikroImageList.Count > 0)
+            {
+                HistoryPointList = new ObservableCollection<PointItem>();
+                foreach (var i in _patientMikroImageList)
+                {
+                    HistoryPointList.Add(new PointItem() { X = i.FullPicPointX * ImageWidth / 1000, Y = i.FullPicPointY * ImageHeight / 1000 });
+                }
+
+                if (HistoryPointList.Count > 0)
+                    HistoryPointVisible = Visibility.Visible;
+                else
+                    HistoryPointVisible = Visibility.Collapsed;
+            }
         }
     }
 
