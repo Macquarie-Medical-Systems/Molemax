@@ -56,7 +56,7 @@ namespace Molemax.App.ViewModels
 
         private void GoServices()
         {
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.AllSkin);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection_Dummy);
         }
 
         private void CopyDiagList()

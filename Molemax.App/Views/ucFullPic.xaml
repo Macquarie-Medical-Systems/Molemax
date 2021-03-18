@@ -72,6 +72,26 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <ItemsControl ItemsSource="{Binding HistoryRectangleList}" Visibility="{Binding HistoryRectangleVisible, Mode=TwoWay}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X1}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y1}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Width="{Binding X2, Mode=TwoWay}" Height="{Binding Y2, Mode=TwoWay}">
+                        <Rectangle Fill="Transparent" Stroke="Green" IsHitTestVisible="False" StrokeThickness="1"/>
+                    </ContentControl>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Content="OK" Name="btOK" Command="{Binding GoOKCommand}"  Width ="150" Height="40" Margin="10,5"/>
             <Button Content="Back" Name="btBack" Command="{Binding GoBackCommand}"  Width ="150" Height="40" Margin="10,5"/>

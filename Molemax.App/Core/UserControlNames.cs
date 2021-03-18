@@ -22,6 +22,7 @@ namespace Molemax.App.Core
         public const string ImageImport = "ucImageImport";
         public const string FullPic = "ucFullPic";
         public const string Selection = "ucSelection";
+        public const string Selection_Dummy = "ucSelection_Dummy";
         public const string FupImageImport = "ucFupImageImport";
         public const string PatientSearch = "ucPatientSearch";
         public const string FupLiveVideo = "ucFupLiveVideo";

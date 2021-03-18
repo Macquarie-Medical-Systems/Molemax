@@ -85,6 +85,7 @@ namespace Molemax.App
             containerRegistry.RegisterForNavigation<ucAllSkinImageList>();
             containerRegistry.RegisterForNavigation<ucAllSkinDiseaseDetail>();
             containerRegistry.RegisterForNavigation<ucAllSkinMessage>();
+            containerRegistry.RegisterForNavigation<ucSelection_Dummy>();
 
             containerRegistry.RegisterSingleton<IAppSettings, AppSettingsFromConfig>();
             containerRegistry.RegisterSingleton<IMolemaxRepository, SqlMolemaxRepository>();

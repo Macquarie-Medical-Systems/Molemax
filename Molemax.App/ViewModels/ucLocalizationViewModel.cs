@@ -565,6 +565,7 @@ namespace Molemax.App.ViewModels
             navigationParameters.Add(Constants.ContainerImage, pmi);
             navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
             navigationParameters.Add(Constants.FromControl, Constants.ContainerCloseUpImage);
+            navigationParameters.Add(Constants.ParaObject2, PatientMikroImageList != null ? PatientMikroImageList.Where(i => i.LinkToCloseUpId == pmi.ContainerImageId).ToList() : null);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic, navigationParameters);
         }
 
@@ -583,8 +584,8 @@ namespace Molemax.App.ViewModels
             navigationParameters.Add(Constants.ContainerImage, pmi);
             navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
             navigationParameters.Add(Constants.FromControl, Constants.ContainerMakroImage);
-            navigationParameters.Add(Constants.ParaObject, PatientCloseUpImageList.Where(i=>i.LinkToMakroId == pmi.ContainerImageId).ToList());
-            navigationParameters.Add(Constants.ParaObject2, PatientMikroImageList.Where(i => i.LinkToMakroId == pmi.ContainerImageId).ToList());
+            navigationParameters.Add(Constants.ParaObject, PatientCloseUpImageList!=null? PatientCloseUpImageList.Where(i=>i.LinkToMakroId == pmi.ContainerImageId).ToList(): null);
+            navigationParameters.Add(Constants.ParaObject2, PatientMikroImageList!=null? PatientMikroImageList.Where(i => i.LinkToMakroId == pmi.ContainerImageId).ToList():null);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic, navigationParameters);
 
         }
@@ -697,8 +698,13 @@ namespace Molemax.App.ViewModels
                                                       Image = new BitmapImage(new Uri(m.i.im.defpath + "\\" + m.i.im.imgname)),
                                                       SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.i.im.kenpos}.bmp")),
                                                       FullPicPointVisible = Visibility.Collapsed,
-                                                      LinkToMakroId = m.i.cl.closeup.makroId
-                                                  }); ;
+                                                      LinkToMakroId = m.i.cl.closeup.makroId,
+                                                      ImageAndRectangleXRatio = m.i.cl.closeup.X1,
+                                                      ImageAndRectangleYRatio = m.i.cl.closeup.Y1,
+                                                      ImageAndRectangleWidthRatio = m.i.cl.closeup.X2,
+                                                      ImageAndRectangleHeightRatio = m.i.cl.closeup.Y2
+                                                  });
+            
 
             PatientCloseUpImageList = new ObservableCollection<ImageHandler>(tempList);
 
@@ -750,6 +756,8 @@ namespace Molemax.App.ViewModels
                                                       SmallKen = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/SmallKen/{m.i.im.kenpos}.bmp")),
                                                       DummyPointX = m.i.mi.mikro.X,
                                                       DummyPointY = m.i.mi.mikro.Y,
+                                                      FullPicPointX = m.i.mi.mikro.X_Pic,
+                                                      FullPicPointY = m.i.mi.mikro.Y_Pic,
                                                       LinkToMakroId = m.i.mi.mikro.makroId.HasValue? m.i.mi.mikro.makroId.Value:0,
                                                       LinkToCloseUpId = m.i.mi.mikro.closeupId.HasValue? m.i.mi.mikro.closeupId.Value:0
                                                   }) ;

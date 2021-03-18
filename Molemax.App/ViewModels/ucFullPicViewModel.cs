@@ -122,6 +122,20 @@ namespace Molemax.App.ViewModels
             set { SetProperty(ref _historyPointVisible, value); }
         }
 
+        private ObservableCollection<RectangleItem> _historyRectangleList;
+        public ObservableCollection<RectangleItem> HistoryRectangleList
+        {
+            get { return _historyRectangleList; }
+            set { SetProperty(ref _historyRectangleList, value); }
+        }
+
+        private Visibility _historyRectangleVisible;
+        public Visibility HistoryRectangleVisible
+        {
+            get { return _historyRectangleVisible; }
+            set { SetProperty(ref _historyRectangleVisible, value); }
+        }
+
         private double _ImageWidth;
         public double ImageWidth
         {
@@ -307,6 +321,25 @@ namespace Molemax.App.ViewModels
                     HistoryPointVisible = Visibility.Visible;
                 else
                     HistoryPointVisible = Visibility.Collapsed;
+            }
+
+            if (_patientCloseUpImageList != null && _patientCloseUpImageList.Count > 0)
+            {
+                HistoryRectangleList = new ObservableCollection<RectangleItem>();
+                foreach (var i in _patientCloseUpImageList)
+                {
+                    HistoryRectangleList.Add(new RectangleItem() { 
+                        X1 = i.ImageAndRectangleXRatio * ImageWidth / 1000,
+                        Y1 = i.ImageAndRectangleYRatio * ImageHeight / 1000,
+                        X2 = i.ImageAndRectangleWidthRatio * ImageWidth / 1000,
+                        Y2 = i.ImageAndRectangleHeightRatio * ImageHeight / 1000,
+                    });
+                }
+
+                if (HistoryRectangleList.Count > 0)
+                    HistoryRectangleVisible = Visibility.Visible;
+                else
+                    HistoryRectangleVisible = Visibility.Collapsed;
             }
         }
     }
