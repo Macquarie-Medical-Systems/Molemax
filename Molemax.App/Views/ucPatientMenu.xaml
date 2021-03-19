@@ -39,7 +39,7 @@
             <TextBlock Text="Follow Up"></TextBlock>
         </Button>
 
-        <Button Grid.Row="3" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}">
+        <Button Grid.Row="3" Grid.Column="0" FontSize="40" Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding GoScoringCommand}">
             <TextBlock Text="Scoring"></TextBlock>
         </Button>
 

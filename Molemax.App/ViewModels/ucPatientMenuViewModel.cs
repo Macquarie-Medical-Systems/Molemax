@@ -34,6 +34,7 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoFollowUpCommand { get; set; }
         public DelegateCommand GoReportCommand { get; set; }
         public DelegateCommand GoExpressSessionImagesCommand { get; set; }
+        public DelegateCommand GoScoringCommand { get; set; }
         public bool KeepAlive => false;
 
         #region property
@@ -58,11 +59,17 @@ namespace Molemax.App.ViewModels
             GoFollowUpCommand = new DelegateCommand(GoFollowUp);
             GoReportCommand = new DelegateCommand(GoReport);
             GoExpressSessionImagesCommand = new DelegateCommand(GoExpressSessionImages);
+            GoScoringCommand = new DelegateCommand(GoScoring);
 
             if (CheckIfExpressSessionImagesExist())
                 ExpressSessionButtonVisibility = Visibility.Visible;
             else
                 ExpressSessionButtonVisibility = Visibility.Collapsed;
+        }
+
+        private void GoScoring()
+        {
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection_Dummy);
         }
 
         private bool CheckIfExpressSessionImagesExist()
