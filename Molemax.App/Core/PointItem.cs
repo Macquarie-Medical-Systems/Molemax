@@ -8,6 +8,8 @@ namespace Molemax.App.Core
 {
     public class PointItem
     {
+        public int MikroId { get; set; }
+        public int IndexInList { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
 

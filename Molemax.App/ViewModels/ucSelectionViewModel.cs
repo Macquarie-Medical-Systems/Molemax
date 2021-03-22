@@ -919,7 +919,7 @@ namespace Molemax.App.ViewModels
                 }
             }
 
-            //mouse click on Closeup images
+            //mouse click on mikro images
             if (index == 2 || index == 5 || index == 8)
             {
                 if (si.Mikro.Id == 0)

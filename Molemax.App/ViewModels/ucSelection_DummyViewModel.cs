@@ -28,7 +28,8 @@ namespace Molemax.App.ViewModels
 
         private ImageHandler _selectedImage;
         private KIND_ENUM _selectedImageKind;
-        private KIND_ENUM _imageOrderByKind;
+
+        private int selectDummyImageIndex;
 
         private IEnumerable<Image> _dbImages
         {
@@ -410,6 +411,43 @@ namespace Molemax.App.ViewModels
         }
         #endregion
 
+        #region SelectedDummy
+        private ObservableCollection<PointItem> _selectedDummy_HistoryMikroPointList;
+        public ObservableCollection<PointItem> SelectedDummy_HistoryMikroPointList
+        {
+            get { return _selectedDummy_HistoryMikroPointList; }
+            set { SetProperty(ref _selectedDummy_HistoryMikroPointList, value); }
+        }
+
+        private Visibility _selectedDummy_HistoryMikroPointVisible;
+        public Visibility SelectedDummy_HistoryMikroPointVisible
+        {
+            get { return _selectedDummy_HistoryMikroPointVisible; }
+            set { SetProperty(ref _selectedDummy_HistoryMikroPointVisible, value); }
+        }
+
+        private double _selectedDummyImageWidth;
+        public double SelectedDummyImageWidth
+        {
+            get { return _selectedDummyImageWidth; }
+            set
+            {
+                SetProperty(ref _selectedDummyImageWidth, value);
+            }
+        }
+
+        private double _selectedDummyImageHeight;
+        public double SelectedDummyImageHeight
+        {
+            get { return _selectedDummyImageHeight; }
+            set
+            {
+                SetProperty(ref _selectedDummyImageHeight, value);
+                SelectedDummy_HistoryMikroPointList = DrawMikroHistoryPointOnDummy(_selectedDummyImageWidth, _selectedDummyImageHeight, selectDummyImageIndex, SelectedDummy_HistoryMikroPointVisible);
+            }
+        }
+        #endregion
+
         #endregion
 
         #region Command
@@ -420,6 +458,7 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand<object> GoImageHistoryMouseLeftButtonDownCommand { get; set; }
         public DelegateCommand<object> GoImageMouseLeftButtonDownCommand { get; set; }
+        public DelegateCommand<object> GoSelectedDummyClickedCommand { get; set; }
         #endregion
 
         private bool _keepLive = false;
@@ -433,6 +472,7 @@ namespace Molemax.App.ViewModels
             _regionManager = regionManager;
             _repository = molemaxRepository;
             _applicationSetting = applicationSetting;
+            selectDummyImageIndex = 1;
             GoFollowUpCommand = new DelegateCommand<object>(GoFollowUp);
             GoTrendingCommand = new DelegateCommand(GoTrending);
             GoDetailsCommand = new DelegateCommand(GoDetails);
@@ -440,7 +480,9 @@ namespace Molemax.App.ViewModels
             GoBackCommand = new DelegateCommand(GoBack);
             GoImageHistoryMouseLeftButtonDownCommand = new DelegateCommand<object>(GoImageHistoryMouseLeftButtonDown);
             GoImageMouseLeftButtonDownCommand = new DelegateCommand<object>(GoImageMouseLeftButtonDown);
+            GoSelectedDummyClickedCommand = new DelegateCommand<object>(GoSelectedDummyClicked);
 
+            SelectedDummyImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/Ken/{selectDummyImageIndex}.bmp"));
             selectionImageList = new List<SelectionImage>();
 
             Initialize();
@@ -661,19 +703,22 @@ namespace Molemax.App.ViewModels
 
             ObservableCollection<PointItem> HistoryMikroPointList = new ObservableCollection<PointItem>();
             //draw history points on dummy image
-            if (PatientMikroImageList.Count>0)
-                {
-                    foreach (var i in PatientMikroImageList)
-                    {
-                        if (i.Kenpos == dummyImageIndex)
-                        HistoryMikroPointList.Add(new PointItem() { X = i.DummyPointX * DummyImageWidth / 1000, Y = i.DummyPointY * DummyImageHeight / 1000 });
-                    }
-                }
 
-                if (HistoryMikroPointList.Count > 0)
-                    HistoryMikroPointVisible = Visibility.Visible;
-                else
-                    HistoryMikroPointVisible = Visibility.Collapsed;
+            int index = 0;
+            if (PatientMikroImageList.Count>0)
+            {
+                foreach (var i in PatientMikroImageList)
+                {
+                    if (i.Kenpos == dummyImageIndex)
+                        HistoryMikroPointList.Add(new PointItem() {MikroId=i.Id, IndexInList= index, X = i.DummyPointX * DummyImageWidth / 1000, Y = i.DummyPointY * DummyImageHeight / 1000 });
+                }
+                index++;
+            }
+
+            if (HistoryMikroPointList.Count > 0)
+                HistoryMikroPointVisible = Visibility.Visible;
+            else
+                HistoryMikroPointVisible = Visibility.Collapsed;
 
             return HistoryMikroPointList;
         }
@@ -694,6 +739,47 @@ namespace Molemax.App.ViewModels
         }
 
         #region command functions
+        private void GoSelectedDummyClicked(object obj)
+        {
+            int mikroId = ((PointItem)obj).MikroId;
+            int? t_fupId = _dbMikros.Where(mi => mi.id == mikroId).SingleOrDefault().fupId;
+            int? t_imageId = _dbMikros.Where(mi => mi.id == mikroId).SingleOrDefault().imageId;
+            int fupId = t_fupId.HasValue ? t_fupId.Value : 0;
+            int curentImageId = t_imageId.HasValue ? t_imageId.Value : 0;
+
+            _selectedImage = PatientMikroImageList[((PointItem)obj).IndexInList];
+            _selectedImageKind = KIND_ENUM.KIND_MIKRO;
+
+            if (fupId != 0)
+            {
+                //get image Id that beginning of history
+                var firstHisImageId = _dbFups.Where(f => f.id == fupId).SingleOrDefault().imageId;
+                //get all fups belong to the first image
+                var fupList = _dbFups.Where(f => f.imageId == firstHisImageId).Select(i => i.id);//.ToList().Remove(fupId);
+                                                                                                 //get all closeup image id belong to the fist image
+                var hisImageIdList = _dbMikros.Where(i => fupList.Contains(i.fupId.Value)).Select(i => i.imageId).ToList();
+                hisImageIdList.Add(firstHisImageId);
+
+                //get information from image table and convert it to ObservableCollection list
+                var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
+                    .Where(i => hisImageIdList.Contains(i.image.id))
+                    .OrderByDescending(i => i.ts.id)
+                    .Select(i => new ImageHandler
+                    {
+                        ImageId = i.image.id,
+                        Loctext = i.image.loctext,
+                        CreateDate = i.ts.date_created.ToString("d"),
+                        Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
+                        ImageHistoryTextBackground = Brushes.Transparent
+                    });
+
+                ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
+            }
+            else
+            {
+                ImageHistoryList = new ObservableCollection<ImageHandler>(); 
+            }
+        }
         private void GoImageHistoryMouseLeftButtonDown(object obj)
         {
             var imageHandler = obj as ImageHandler;
@@ -710,145 +796,12 @@ namespace Molemax.App.ViewModels
         private void GoImageMouseLeftButtonDown(object obj)
         {
             SelectionImage si = new SelectionImage();
-            int index = Convert.ToInt32(obj) + 1;
+            selectDummyImageIndex = Convert.ToInt32(obj);
 
+            SelectedDummyImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/Ken/{selectDummyImageIndex}.bmp"));
 
-            //image00 image01 image02 --> 0  1  2 -->selectionImageList[0]
-            //image10 image11 image12 --> 3  4  5 -->selectionImageList[1]
-            //image20 image21 image22 --> 6  7  8 -->selectionImageList[2]
-            SelectedDummyImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/Ken/{index}.bmp"));
+            SelectedDummy_HistoryMikroPointList = DrawMikroHistoryPointOnDummy(_selectedDummyImageWidth, _selectedDummyImageHeight, selectDummyImageIndex, SelectedDummy_HistoryMikroPointVisible);
 
-            //mouse click on Makro images
-            //if (index == 0 || index == 3 || index == 6)
-            //{
-            //    if (si.Makro.Id == 0)
-            //        return;
-
-            //    int? t_fupId = _dbMakros.Where(m => m.id == si.Makro.Id).SingleOrDefault().fupId;
-            //    int? t_imageId = _dbMakros.Where(m => m.id == si.Makro.Id).SingleOrDefault().imageId;
-            //    int fupId = t_fupId.HasValue ? t_fupId.Value : 0;
-            //    int curentImageId = t_imageId.HasValue ? t_imageId.Value : 0;
-            //    _selectedImage = si.Makro;
-            //    _selectedImageKind = KIND_ENUM.KIND_MAKRO;
-
-            //    if ( fupId != 0)
-            //    {
-            //        //get image Id that beginning of history
-            //        var firstHisImageId = _dbFups.Where(f => f.id == fupId).SingleOrDefault().imageId;
-            //        //get all fups belong to the first image
-            //        var fupList = _dbFups.Where(f => f.imageId == firstHisImageId).Select(i => i.id);//.ToList().Remove(fupId);
-            //        //get all makro image id belong to the fist image
-            //        var hisImageIdList = _dbMakros.Where(i => fupList.Contains(i.fupId.Value)).Select(i=>i.imageId).ToList();
-            //        hisImageIdList.Add(firstHisImageId);
-
-            //        //get information from image table and convert it to ObservableCollection list
-            //        var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
-            //            .Where(i => hisImageIdList.Contains(i.image.id))
-            //            .OrderByDescending(i => i.ts.id)
-            //            .Select(i => new ImageHandler
-            //            {
-            //                ImageId = i.image.id,
-            //                Loctext = i.image.loctext,
-            //                CreateDate = i.ts.date_created.ToString("d"),
-            //                Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
-            //                ImageHistoryTextBackground = Brushes.Transparent
-            //            }); ;
-
-            //        ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
-            //    }
-            //    else
-            //    {
-            //        ImageHistoryList = new ObservableCollection<ImageHandler>(); ;
-            //    }
-            //}
-
-            //mouse click on Closeup images
-            //if (index == 1 || index == 4 || index == 7)
-            //{
-            //    if (si.CloseUp.Id == 0)
-            //        return;
-
-            //    int? t_fupId = _dbCloseups.Where(c => c.id == si.CloseUp.Id).SingleOrDefault().fupId;
-            //    int? t_imageId = _dbCloseups.Where(c => c.id == si.CloseUp.Id).SingleOrDefault().imageId;
-            //    int fupId = t_fupId.HasValue ? t_fupId.Value : 0;
-            //    int curentImageId = t_imageId.HasValue ? t_imageId.Value : 0;
-            //    _selectedImage = si.CloseUp;
-            //    _selectedImageKind = KIND_ENUM.KIND_CLOSEUP;
-
-            //    if (fupId != 0)
-            //    {
-            //        //get image Id that beginning of history
-            //        var firstHisImageId = _dbFups.Where(f => f.id == fupId).SingleOrDefault().imageId;
-            //        //get all fups belong to the first image
-            //        var fupList = _dbFups.Where(f => f.imageId == firstHisImageId).Select(i => i.id);//.ToList().Remove(fupId);
-            //        //get all closeup image id belong to the fist image
-            //        var hisImageIdList = _dbCloseups.Where(i => fupList.Contains(i.fupId.Value)).Select(i => i.imageId).ToList();
-            //        hisImageIdList.Add(firstHisImageId);
-
-            //        //get information from image table and convert it to ObservableCollection list
-            //        var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
-            //            .Where(i => hisImageIdList.Contains(i.image.id))
-            //            .OrderByDescending(i => i.ts.id)
-            //            .Select(i => new ImageHandler
-            //            {
-            //                ImageId = i.image.id,
-            //                Loctext = i.image.loctext,
-            //                CreateDate = i.ts.date_created.ToString("d"),
-            //                Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
-            //                ImageHistoryTextBackground = Brushes.Transparent
-            //            });
-
-            //        ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
-            //    }
-            //    else
-            //    {
-            //        ImageHistoryList = new ObservableCollection<ImageHandler>(); ;
-            //    }
-            //}
-
-            //mouse click on Closeup images
-            //if (index == 2 || index == 5 || index == 8)
-            //{
-            //    if (si.Mikro.Id == 0)
-            //        return;
-
-            //    int? t_fupId = _dbMikros.Where(mi => mi.id == si.Mikro.Id).SingleOrDefault().fupId;
-            //    int? t_imageId = _dbMikros.Where(mi => mi.id == si.Mikro.Id).SingleOrDefault().imageId;
-            //    int fupId = t_fupId.HasValue ? t_fupId.Value : 0;
-            //    int curentImageId = t_imageId.HasValue ? t_imageId.Value : 0;
-            //    _selectedImage = si.Mikro;
-            //    _selectedImageKind = KIND_ENUM.KIND_MIKRO;
-
-            //    if (fupId != 0)
-            //    {
-            //        //get image Id that beginning of history
-            //        var firstHisImageId = _dbFups.Where(f => f.id == fupId).SingleOrDefault().imageId;
-            //        //get all fups belong to the first image
-            //        var fupList = _dbFups.Where(f => f.imageId == firstHisImageId).Select(i => i.id);//.ToList().Remove(fupId);
-            //        //get all closeup image id belong to the fist image
-            //        var hisImageIdList = _dbMikros.Where(i => fupList.Contains(i.fupId.Value)).Select(i => i.imageId).ToList();
-            //        hisImageIdList.Add(firstHisImageId);
-
-            //        //get information from image table and convert it to ObservableCollection list
-            //        var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
-            //            .Where(i => hisImageIdList.Contains(i.image.id))
-            //            .OrderByDescending(i => i.ts.id)
-            //            .Select(i => new ImageHandler
-            //            {
-            //                ImageId = i.image.id,
-            //                Loctext = i.image.loctext,
-            //                CreateDate = i.ts.date_created.ToString("d"),
-            //                Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
-            //                ImageHistoryTextBackground = Brushes.Transparent
-            //            });
-
-            //        ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
-            //    }
-            //    else
-            //    {
-            //        ImageHistoryList = new ObservableCollection<ImageHandler>(); ;
-            //    }
-            //}
         }
 
         private void GoBack()

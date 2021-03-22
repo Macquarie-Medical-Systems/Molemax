@@ -52,7 +52,7 @@
                             <Image x:Name="Image00" Source="/Molemax.App;component/Images/Dummy/Ken/1.bmp" Stretch="fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy00ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy00ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="0"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="1"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -82,7 +82,7 @@
                             <Image x:Name="Image10" Source="../Images/Dummy/Ken/4.bmp" Stretch="fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy10ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy10ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="3"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="4"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -112,7 +112,7 @@
                             <Image x:Name="Image20" Source="../Images/Dummy/Ken/7.bmp" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy20ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy20ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="6"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="7"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -142,7 +142,7 @@
                             <Image x:Name="Image01" Source="../Images/Dummy/Ken/2.bmp" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy01ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy01ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="1"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="2"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -172,7 +172,7 @@
                             <Image x:Name="Image11" Source="../Images/Dummy/Ken/5.bmp" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy11ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy11ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="4"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="5"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -202,7 +202,7 @@
                             <Image x:Name="Image21" Source="../Images/Dummy/Ken/8.bmp" Stretch="Fill"  core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy21ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy21ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="7"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="8"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -233,7 +233,7 @@
                             <Image x:Name="Image02" Source="../Images/Dummy/Ken/3.bmp" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy02ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy02ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="2"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="3"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -263,7 +263,7 @@
                             <Image x:Name="Image12" Source="../Images/Dummy/Ken/6.bmp" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy12ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy12ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="5"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="6"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -292,7 +292,7 @@
                             <Image x:Name="Image22" Source="../Images/Dummy/Ken/9.bmp" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding Dummy22ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding Dummy22ImageHeight, Mode=OneWayToSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="MouseLeftButtonDown">
-                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="8"/>
+                                        <i:InvokeCommandAction Command="{Binding DataContext.GoImageMouseLeftButtonDownCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="9"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Image>
@@ -319,9 +319,31 @@
                         </Grid>
                         
                         <!--forth column-->
-                        <Image Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Source="{Binding SelectedDummyImage}" Stretch="Uniform"  Margin="10"/>
-
-
+                        <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="3" Margin="10">
+                            <Image  Source="{Binding SelectedDummyImage}" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding SelectedDummyImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding SelectedDummyImageHeight, Mode=OneWayToSource}"/>
+                            <ItemsControl ItemsSource="{Binding SelectedDummy_HistoryMikroPointList}" Visibility="{Binding SelectedDummy_HistoryMikroPointVisible, Mode=TwoWay}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Canvas/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemContainerStyle>
+                                    <Style TargetType="ContentPresenter">
+                                        <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                        <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                    </Style>
+                                </ItemsControl.ItemContainerStyle>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Background="{x:Null}" BorderBrush="{x:Null}" Command="{Binding DataContext.GoSelectedDummyClickedCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Grid}}}" CommandParameter="{Binding}">
+                                            <ContentControl Width="12" Height="12">
+                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="Green" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            </ContentControl>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid Grid.Column="1">
