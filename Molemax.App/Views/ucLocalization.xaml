@@ -215,9 +215,9 @@
                                             </i:Interaction.Triggers>
                                         </Image>
                                         <Canvas Grid.Row="1" Grid.Column="0">
-                                            <Rectangle Fill="Transparent" Stroke="White" StrokeThickness="2" Canvas.Left="{Binding FullPicRectangleX, Mode=TwoWay}" Canvas.Top="{Binding FullPicRectangleY, Mode=TwoWay}" Width="{Binding FullPicRectangleWidth, Mode=TwoWay}" Height="{Binding FullPicRectangleHeight, Mode=TwoWay}"/>
+                                            <Rectangle Fill="Transparent" Stroke="Red" StrokeThickness="2" Canvas.Left="{Binding FullPicRectangleX, Mode=TwoWay}" Canvas.Top="{Binding FullPicRectangleY, Mode=TwoWay}" Width="{Binding FullPicRectangleWidth, Mode=TwoWay}" Height="{Binding FullPicRectangleHeight, Mode=TwoWay}"/>
                                             <ContentControl Width="12" Height="12" Canvas.Top="{Binding FullPicPointY, Mode=TwoWay}" Canvas.Left="{Binding FullPicPointX, Mode=TwoWay}"  Visibility="{Binding FullPicPointVisible, Mode=TwoWay}">
-                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding FullPicPointVisible, Mode=TwoWay}"/>
+                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="Green" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="{Binding FullPicPointVisible, Mode=TwoWay}"/>
                                             </ContentControl>
                                         </Canvas>
                                         <Image Grid.Row="1" Grid.Column="1" Source="{Binding SmallKen}" Stretch="Fill" Width="80" Height="50" VerticalAlignment="Top"/>
@@ -266,7 +266,7 @@
                                         </Image>
                                         <Canvas Grid.Row="1" Grid.Column="0">
                                             <ContentControl Width="12" Height="12" Canvas.Top="{Binding FullPicPointY, Mode=TwoWay}" Canvas.Left="{Binding FullPicPointX, Mode=TwoWay}" Visibility="{Binding FullPicPointVisible, Mode=TwoWay}">
-                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="White" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding FullPicPointVisible, Mode=TwoWay}"/>
+                                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="Green" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding FullPicPointVisible, Mode=TwoWay}"/>
                                             </ContentControl>
                                         </Canvas>
                                         <Image Grid.Row="1" Grid.Column="1" Source="{Binding SmallKen}" Stretch="Fill" Width="80" Height="50" VerticalAlignment="Top"/>
@@ -290,7 +290,7 @@
                                 <Rectangle Fill="Transparent" Stroke="Red" IsHitTestVisible="False" StrokeThickness="2"/>
                             </ContentControl>
                             <ContentControl Width="12" Height="12" Canvas.Top="{Binding PointY, Mode=TwoWay}" Canvas.Left="{Binding PointX, Mode=TwoWay}" Visibility="{Binding PointVisible, Mode=TwoWay}">
-                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="Red" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <Path Data="M0 0  12 12M0 12 12 0" Stroke="Green" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </ContentControl>
                         </Canvas>
                         <ItemsControl ItemsSource="{Binding HistoryPointList}" Visibility="{Binding HistoryPointVisible, Mode=TwoWay}">
@@ -308,7 +308,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <ContentControl Width="12" Height="12" >
-                                        <Path Data="M0 0  12 12M0 12 12 0" Stroke="Green" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        <Path Data="M0 0  12 12M0 12 12 0" Stroke="Blue" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                     </ContentControl>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

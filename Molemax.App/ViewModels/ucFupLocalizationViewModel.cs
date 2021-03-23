@@ -103,6 +103,7 @@ namespace Molemax.App.ViewModels
         private double makroOrCloseUpListImageWidth;
         private double makroOrCloseUpListImageHeight;
 
+        private int selectedDummyImageIndex;
         public event EventHandler Capture;
         public event EventHandler Release;
 
@@ -392,6 +393,7 @@ namespace Molemax.App.ViewModels
             GoCloseUpImageMouseLeftButtonDownCommand = new DelegateCommand<object>(GoCloseUpImageMouseLeftButtonDown);
             GoMakroAndCloseupListImageLoadedCommand = new DelegateCommand<object>(GoMakroAndCloseupListImageLoaded);
 
+            selectedDummyImageIndex = 0;
             dummyImageIndex = 1;
             ImageDate = DateTime.Today.ToString("dd/MM/yyyy");
 
@@ -532,6 +534,7 @@ namespace Molemax.App.ViewModels
             }
 
             dummyImageIndex = originalImageModel.kenpos;
+            selectedDummyImageIndex = dummyImageIndex;
             DummyLocation = originalImageModel.loctext;
 
             DummyImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/Ken/{dummyImageIndex}.bmp"));
@@ -1083,8 +1086,6 @@ namespace Molemax.App.ViewModels
 
         private void GoNextDummyImage()
         {
-            RectangleVisible = Visibility.Collapsed;
-
             if (dummyImageIndex != 9)
                 dummyImageIndex++;
             else
@@ -1094,12 +1095,26 @@ namespace Molemax.App.ViewModels
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MakroKen/{dummyImageIndex}.bmp"));
             if (imageKind == KIND_ENUM.KIND_MIKRO)
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MikroKen/{dummyImageIndex}.bmp"));
+
+            if (imageKind == KIND_ENUM.KIND_MAKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    RectangleVisible = Visibility.Collapsed;
+                else
+                    RectangleVisible = Visibility.Visible;
+            }
+
+            if (imageKind == KIND_ENUM.KIND_MIKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    PointVisible = Visibility.Collapsed;
+                else
+                    PointVisible = Visibility.Visible;
+            }
         }
 
         private void GoPreviousDummyImage()
         {
-            RectangleVisible = Visibility.Collapsed;
-
             if (dummyImageIndex != 1)
                 dummyImageIndex--;
             else
@@ -1110,6 +1125,22 @@ namespace Molemax.App.ViewModels
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MakroKen/{dummyImageIndex}.bmp"));
             if (imageKind == KIND_ENUM.KIND_MIKRO)
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MikroKen/{dummyImageIndex}.bmp"));
+
+            if (imageKind == KIND_ENUM.KIND_MAKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    RectangleVisible = Visibility.Collapsed;
+                else
+                    RectangleVisible = Visibility.Visible;
+            }
+
+            if (imageKind == KIND_ENUM.KIND_MIKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    PointVisible = Visibility.Collapsed;
+                else
+                    PointVisible = Visibility.Visible;
+            }
         }
 
         private void GoAdd()

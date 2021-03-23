@@ -429,7 +429,7 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoDetailsCommand { get; set; }
         public DelegateCommand GoImageFileImportCommand { get; set; }
         public DelegateCommand GoBackCommand { get; set; }
-        public DelegateCommand Go33Command { get; set; }
+        public DelegateCommand GoDCommand { get; set; }
         public DelegateCommand<object> GoImageHistoryMouseLeftButtonDownCommand { get; set; }
         public DelegateCommand<object> GoImageMouseLeftButtonDownCommand { get; set; }
         #endregion
@@ -455,7 +455,7 @@ namespace Molemax.App.ViewModels
             GoDetailsCommand = new DelegateCommand(GoDetails);
             GoImageFileImportCommand = new DelegateCommand(GoImageFileImport);
             GoBackCommand = new DelegateCommand(GoBack);
-            Go33Command = new DelegateCommand(Go33);
+            GoDCommand = new DelegateCommand(GoD);
             GoImageHistoryMouseLeftButtonDownCommand = new DelegateCommand<object>(GoImageHistoryMouseLeftButtonDown);
             GoImageMouseLeftButtonDownCommand = new DelegateCommand<object>(GoImageMouseLeftButtonDown);
 
@@ -871,7 +871,18 @@ namespace Molemax.App.ViewModels
                 }
                 else
                 {
-                    ImageHistoryList = new ObservableCollection<ImageHandler>(); ;
+                    //get information from image table and convert it to ObservableCollection list
+                    var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
+                        .Where(i => i.image.id == si.Makro.ImageId)
+                        .Select(i => new ImageHandler
+                        {
+                            ImageId = i.image.id,
+                            Loctext = i.image.loctext,
+                            CreateDate = i.ts.date_created.ToString("d"),
+                            Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
+                            ImageHistoryTextBackground = Brushes.Transparent
+                        }); ;
+                    ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList); ;
                 }
             }
 
@@ -915,7 +926,17 @@ namespace Molemax.App.ViewModels
                 }
                 else
                 {
-                    ImageHistoryList = new ObservableCollection<ImageHandler>(); ;
+                    var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
+                        .Where(i => i.image.id == si.CloseUp.ImageId)
+                        .Select(i => new ImageHandler
+                        {
+                            ImageId = i.image.id,
+                            Loctext = i.image.loctext,
+                            CreateDate = i.ts.date_created.ToString("d"),
+                            Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
+                            ImageHistoryTextBackground = Brushes.Transparent
+                        });
+                    ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
                 }
             }
 
@@ -959,7 +980,18 @@ namespace Molemax.App.ViewModels
                 }
                 else
                 {
-                    ImageHistoryList = new ObservableCollection<ImageHandler>(); ;
+                    var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
+                        .Where(i => i.image.id == si.Mikro.ImageId)
+                        .Select(i => new ImageHandler
+                        {
+                            ImageId = i.image.id,
+                            Loctext = i.image.loctext,
+                            CreateDate = i.ts.date_created.ToString("d"),
+                            Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
+                            ImageHistoryTextBackground = Brushes.Transparent
+                        });
+
+                    ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
                 }
             }
         }
@@ -1070,9 +1102,14 @@ namespace Molemax.App.ViewModels
             }
         }
 
-        private void Go33()
+        private void GoD()
         {
-            throw new NotImplementedException();
+            _keepLive = false;
+
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.FromForm, fromForm);
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection_Dummy, navigationParameters);
         }
 
         private void GoBack()
@@ -1106,7 +1143,8 @@ namespace Molemax.App.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add(Constants.ParaImage, _selectedImage);
             navigationParameters.Add(Constants.ImageKind, _selectedImageKind);
-            
+            navigationParameters.Add(Constants.FromForm, UserControlNames.Selection);
+
             switch (((System.Windows.Controls.ComboBoxItem)sender).Name)
             {
                 case Constants.ImportSourceLiveVideo:

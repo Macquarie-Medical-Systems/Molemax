@@ -104,7 +104,7 @@ namespace Molemax.App.ViewModels
         private bool bPointOnCloseUpImage=false;
 
         private ImageHandler paraUcStiWia;
-
+        private int selectedDummyImageIndex;
 
         public event EventHandler Capture;
         public event EventHandler Release;
@@ -422,7 +422,7 @@ namespace Molemax.App.ViewModels
 
             //ContainerImageWidth = 200;
             //ContainerImageHeight = 100;
-
+            selectedDummyImageIndex =0;
             dummyImageIndex = 1;
             ImageDate = DateTime.Today.ToString("dd/MM/yyyy");
 
@@ -543,7 +543,7 @@ namespace Molemax.App.ViewModels
                     }
                 }
 
-                if (HistoryPointList.Count > 0)
+                if (HistoryPointList!=null && HistoryPointList.Count > 0)
                     HistoryPointVisible = Visibility.Visible;
                 else
                     HistoryPointVisible = Visibility.Collapsed;
@@ -1126,8 +1126,6 @@ namespace Molemax.App.ViewModels
 
         private void GoNextDummyImage()
         {
-            RectangleVisible = Visibility.Collapsed;
-
             if (dummyImageIndex != 9)
                 dummyImageIndex++;
             else
@@ -1139,12 +1137,26 @@ namespace Molemax.App.ViewModels
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MikroKen/{dummyImageIndex}.bmp"));
 
             DrawHistoryPointOnDummyImage();
+
+            if (imageKind == KIND_ENUM.KIND_MAKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    RectangleVisible = Visibility.Collapsed;
+                else
+                    RectangleVisible = Visibility.Visible;
+            }
+
+            if (imageKind == KIND_ENUM.KIND_MIKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    PointVisible = Visibility.Collapsed;
+                else
+                    PointVisible = Visibility.Visible;
+            }
         }
 
         private void GoPreviousDummyImage()
         {
-            RectangleVisible = Visibility.Collapsed;
-
             if (dummyImageIndex!=1)
                 dummyImageIndex--;
             else
@@ -1157,6 +1169,22 @@ namespace Molemax.App.ViewModels
                 DummyColorImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/MikroKen/{dummyImageIndex}.bmp"));
 
             DrawHistoryPointOnDummyImage();
+
+            if (imageKind == KIND_ENUM.KIND_MAKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    RectangleVisible = Visibility.Collapsed;
+                else
+                    RectangleVisible = Visibility.Visible;
+            }
+
+            if (imageKind == KIND_ENUM.KIND_MIKRO)
+            {
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    PointVisible = Visibility.Collapsed;
+                else
+                    PointVisible = Visibility.Visible;
+            }
         }
 
         private void GoAdd()
@@ -1406,6 +1434,9 @@ namespace Molemax.App.ViewModels
             List<DEFMakroLokal> makroPosition;
             List<DEFMikroLokal> mikroPosition;
             List<DEFLocalTxt> txtposition;
+
+            //save clicked dummy index
+            selectedDummyImageIndex = dummyImageIndex;
 
             RectangleVisible = Visibility.Collapsed;
             PointVisible = Visibility.Collapsed;

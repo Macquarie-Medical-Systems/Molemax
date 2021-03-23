@@ -456,6 +456,7 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoDetailsCommand { get; set; }
         public DelegateCommand GoImageFileImportCommand { get; set; }
         public DelegateCommand GoBackCommand { get; set; }
+        public DelegateCommand Go33Command { get; set; }
         public DelegateCommand<object> GoImageHistoryMouseLeftButtonDownCommand { get; set; }
         public DelegateCommand<object> GoImageMouseLeftButtonDownCommand { get; set; }
         public DelegateCommand<object> GoSelectedDummyClickedCommand { get; set; }
@@ -481,6 +482,7 @@ namespace Molemax.App.ViewModels
             GoImageHistoryMouseLeftButtonDownCommand = new DelegateCommand<object>(GoImageHistoryMouseLeftButtonDown);
             GoImageMouseLeftButtonDownCommand = new DelegateCommand<object>(GoImageMouseLeftButtonDown);
             GoSelectedDummyClickedCommand = new DelegateCommand<object>(GoSelectedDummyClicked);
+            Go33Command = new DelegateCommand(Go33);
 
             SelectedDummyImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Dummy/Ken/{selectDummyImageIndex}.bmp"));
             selectionImageList = new List<SelectionImage>();
@@ -704,15 +706,15 @@ namespace Molemax.App.ViewModels
             ObservableCollection<PointItem> HistoryMikroPointList = new ObservableCollection<PointItem>();
             //draw history points on dummy image
 
-            int index = 0;
             if (PatientMikroImageList.Count>0)
             {
+                int index = 0;
                 foreach (var i in PatientMikroImageList)
                 {
                     if (i.Kenpos == dummyImageIndex)
                         HistoryMikroPointList.Add(new PointItem() {MikroId=i.Id, IndexInList= index, X = i.DummyPointX * DummyImageWidth / 1000, Y = i.DummyPointY * DummyImageHeight / 1000 });
+                    index++;
                 }
-                index++;
             }
 
             if (HistoryMikroPointList.Count > 0)
@@ -777,7 +779,18 @@ namespace Molemax.App.ViewModels
             }
             else
             {
-                ImageHistoryList = new ObservableCollection<ImageHandler>(); 
+                var tempImageList = _dbImages.Join(_dbTimestamps, i => i.tsId, ts => ts.id, (x, y) => new { image = x, ts = y })
+                    .Where(i => i.image.id == curentImageId)
+                    .Select(i => new ImageHandler
+                    {
+                        ImageId = i.image.id,
+                        Loctext = i.image.loctext,
+                        CreateDate = i.ts.date_created.ToString("d"),
+                        Image = new BitmapImage(new Uri(i.image.defpath + "\\" + i.image.imgname)),
+                        ImageHistoryTextBackground = Brushes.Transparent
+                    });
+
+                    ImageHistoryList = new ObservableCollection<ImageHandler>(tempImageList);
             }
         }
         private void GoImageHistoryMouseLeftButtonDown(object obj)
@@ -791,8 +804,6 @@ namespace Molemax.App.ViewModels
             ImageHistoryList = new ObservableCollection<ImageHandler>(temp);
 
         }
-
-
         private void GoImageMouseLeftButtonDown(object obj)
         {
             SelectionImage si = new SelectionImage();
@@ -803,7 +814,6 @@ namespace Molemax.App.ViewModels
             SelectedDummy_HistoryMikroPointList = DrawMikroHistoryPointOnDummy(_selectedDummyImageWidth, _selectedDummyImageHeight, selectDummyImageIndex, SelectedDummy_HistoryMikroPointVisible);
 
         }
-
         private void GoBack()
         {
             _keepLive = false;
@@ -813,22 +823,18 @@ namespace Molemax.App.ViewModels
             else
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, fromForm);
         }
-
         private void GoImageFileImport()
         {
             throw new NotImplementedException();
         }
-
         private void GoDetails()
         {
             throw new NotImplementedException();
         }
-
         private void GoTrending()
         {
             throw new NotImplementedException();
         }
-
         private void GoFollowUp(object sender)
         {
             _keepLive = false;
@@ -846,7 +852,6 @@ namespace Molemax.App.ViewModels
                     break;
             }
         }
-
         private bool GetPatientMikroImages()
         {
             var maxfupList = _dbFups.Join(_dbImages, fup => fup.imageId, image => image.id, (fup, image) => new { fup, image })
@@ -896,6 +901,15 @@ namespace Molemax.App.ViewModels
             PatientMikroImageList = new ObservableCollection<ImageHandler>(tempList);
 
             return PatientMikroImageList.Count() > 0;
+        }
+        private void Go33()
+        {
+            _keepLive = false;
+
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.FromForm, fromForm);
+
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection, navigationParameters);
         }
         #endregion
     }
