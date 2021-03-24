@@ -22,6 +22,7 @@ namespace Molemax.App.ViewModels
         private IRegionManager _regionManager;
         private IMolemaxRepository _repository;
         private Patient patientModel;
+        private string fromForm;
         private IEnumerable<Image> _dbImages
         {
             get { return _repository.Images.Get(); }
@@ -129,7 +130,7 @@ namespace Molemax.App.ViewModels
         {
             var navigationParameters = new NavigationParameters();
 
-            navigationParameters.Add(Constants.FromForm, UserControlNames.FupImageImport);
+            navigationParameters.Add(Constants.FromForm, fromForm);
             navigationParameters.Add(Constants.FupImage, SelectedImage);
             navigationParameters.Add(Constants.OriginalImage, ParaImage);
             navigationParameters.Add(Constants.ImageKind, KIND_ENUM.KIND_CLOSEUP);
@@ -141,7 +142,7 @@ namespace Molemax.App.ViewModels
         {
             var navigationParameters = new NavigationParameters();
 
-            navigationParameters.Add(Constants.FromForm, UserControlNames.FupImageImport);
+            navigationParameters.Add(Constants.FromForm, fromForm);
             navigationParameters.Add(Constants.FupImage, SelectedImage);
             navigationParameters.Add(Constants.OriginalImage, ParaImage);
             navigationParameters.Add(Constants.ImageKind, KIND_ENUM.KIND_MIKRO);
@@ -152,7 +153,7 @@ namespace Molemax.App.ViewModels
         private void GoBack()
         {
             var navigationParameters = new NavigationParameters();
-            navigationParameters.Add(Constants.FromForm, UserControlNames.FupImageImport);
+            navigationParameters.Add(Constants.FromForm, fromForm);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection, navigationParameters);
         }
 
@@ -160,7 +161,7 @@ namespace Molemax.App.ViewModels
         {
             var navigationParameters = new NavigationParameters();
 
-            navigationParameters.Add(Constants.FromForm, UserControlNames.FupImageImport);
+            navigationParameters.Add(Constants.FromForm, fromForm);
             navigationParameters.Add(Constants.FupImage, SelectedImage);
             navigationParameters.Add(Constants.OriginalImage, ParaImage);
             navigationParameters.Add(Constants.ImageKind, KIND_ENUM.KIND_MAKRO);
@@ -208,7 +209,10 @@ namespace Molemax.App.ViewModels
                         break;
                 }
             }
-          
+
+            if (navigationContext.Parameters[Constants.FromForm] != null)
+                fromForm = (string)navigationContext.Parameters[Constants.FromForm];
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

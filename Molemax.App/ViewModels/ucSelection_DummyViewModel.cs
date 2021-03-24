@@ -841,7 +841,8 @@ namespace Molemax.App.ViewModels
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add(Constants.ParaImage, _selectedImage);
             navigationParameters.Add(Constants.ImageKind, _selectedImageKind);
-            
+            navigationParameters.Add(Constants.FromForm, UserControlNames.Selection_Dummy);
+
             switch (((System.Windows.Controls.ComboBoxItem)sender).Name)
             {
                 case Constants.ImportSourceLiveVideo:

@@ -20,6 +20,7 @@ namespace Molemax.App.ViewModels
         private IRegionManager _regionManager;
         private IMolemaxRepository _repository;
         private IAppSettings _applicationSetting;
+        private string fromForm;
         private IEnumerable<DEFMakroLokal> _defMakroLokals
         {
             get { return _repository.DEFMakroLokals.Get(); }
@@ -760,8 +761,8 @@ namespace Molemax.App.ViewModels
                 _keepLive = false;
                 var navigationParameters = new NavigationParameters();
                 navigationParameters.Add(Constants.FromForm, UserControlNames.FupLocalization);
-                
-                _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection, navigationParameters);
+
+                _regionManager.RequestNavigate(RegionNames.ContentRegion, fromForm, navigationParameters);
             }
         }
 
@@ -1187,7 +1188,7 @@ namespace Molemax.App.ViewModels
             _keepLive = false;
             var navigationParameters = new NavigationParameters();
             navigationParameters.Add(Constants.FromForm, UserControlNames.FupLocalization);
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Selection, navigationParameters);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, fromForm, navigationParameters);
         }
 
         private void GoAll()
@@ -1324,6 +1325,9 @@ namespace Molemax.App.ViewModels
             {
                 _originalImage = null;
             }
+
+            if (navigationContext.Parameters[Constants.FromForm] != null)
+                fromForm = (string)navigationContext.Parameters[Constants.FromForm];
         }
 
         public void OnMouseDown(object sender, MouseCaptureArgs e)

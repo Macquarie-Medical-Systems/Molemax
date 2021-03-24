@@ -1485,6 +1485,13 @@ namespace Molemax.App.ViewModels
 
                     bPointOnDummyImage = true;
                 }
+
+                DrawHistoryPointOnDummyImage();
+
+                if (selectedDummyImageIndex != dummyImageIndex)
+                    PointVisible = Visibility.Collapsed;
+                else
+                    PointVisible = Visibility.Visible;
             }
         }
 
