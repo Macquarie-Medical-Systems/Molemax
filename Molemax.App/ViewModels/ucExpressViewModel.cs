@@ -16,7 +16,11 @@ namespace Molemax.App.ViewModels
         public IRegionManager _regionManager { get; }
         private string fromForm;
 
-        public bool KeepAlive => false;
+        private bool _keepLive = false;
+        public bool KeepAlive
+        {
+            get { return _keepLive; }
+        }
 
         public ucExpressViewModel(IRegionManager regionManager)
         {

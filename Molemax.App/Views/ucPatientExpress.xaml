@@ -111,6 +111,7 @@
                 </Grid>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
                     <Button Content="Save And Assign" FontSize="30" Command="{Binding GoAssignToNewPatientCommand}"/>
+                    <Button Content="Back" FontSize="30" Command="{Binding GoBackCommand}" VerticalAlignment="Bottom"/>
                 </StackPanel>
             </Grid>
         </Grid>

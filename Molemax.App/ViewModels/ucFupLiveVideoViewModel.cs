@@ -14,6 +14,7 @@ namespace Molemax.App.ViewModels
     public class ucFupLiveVideoViewModel: BindableBase, IRegionMemberLifetime, INavigationAware
     {
         private IAppSettings _applicationSetting;
+        private KIND_ENUM imageKind;
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand GoOKCommand { get; set; }
         public IRegionManager _regionManager { get; }
@@ -45,7 +46,7 @@ namespace Molemax.App.ViewModels
                 navigationParameters.Add(Constants.FromForm, UserControlNames.FupLiveVideo);
                 navigationParameters.Add(Constants.FupImage, ucImageViewModel.camImageModel.Path);
                 navigationParameters.Add(Constants.OriginalImage, ParaImage);
-                navigationParameters.Add(Constants.ImageKind, KIND_ENUM.KIND_MIKRO);
+                navigationParameters.Add(Constants.ImageKind, imageKind);
                 navigationParameters.Add(Constants.ImageSource, IMAGING_SOURCES_INDEX.SOURCE_LIVEVIDEO);
                 _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FupLocalization, navigationParameters);
             }
@@ -66,6 +67,10 @@ namespace Molemax.App.ViewModels
                 ParaImage = (ImageHandler)navigationContext.Parameters[Constants.ParaImage];
             else
                 ParaImage = null;
+
+            if (navigationContext.Parameters[Constants.ImageKind] != null)
+                imageKind = (KIND_ENUM)Enum.Parse(typeof(KIND_ENUM), navigationContext.Parameters[Constants.ImageKind].ToString());
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

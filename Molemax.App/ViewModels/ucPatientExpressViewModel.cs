@@ -142,8 +142,8 @@ namespace Molemax.App.ViewModels
                         string imageName = CreateNameForImage();
                         string imageFullPathAndName = CreateFullPathForImage(imageName);
 
-                        if (!Directory.Exists(_applicationSetting.ImagePath))
-                            Directory.CreateDirectory(_applicationSetting.ImagePath);
+                        if (!Directory.Exists(_applicationSetting.UnlocalizedImages))
+                            Directory.CreateDirectory(_applicationSetting.UnlocalizedImages);
 
                         if (File.Exists(imageFullPathAndName))
                             File.Delete(imageFullPathAndName);
@@ -264,8 +264,8 @@ namespace Molemax.App.ViewModels
                     string imageName = CreateNameForImage();
                     string imageFullPathAndName = CreateFullPathForImage(imageName);
 
-                    if (!Directory.Exists(_applicationSetting.ImagePath))
-                        Directory.CreateDirectory(_applicationSetting.ImagePath);
+                    if (!Directory.Exists(_applicationSetting.UnlocalizedImages))
+                        Directory.CreateDirectory(_applicationSetting.UnlocalizedImages);
 
                     if (File.Exists(imageFullPathAndName))
                         File.Delete(imageFullPathAndName);
@@ -311,7 +311,7 @@ namespace Molemax.App.ViewModels
         {
             keepLive = false;
             GlobalValue.Instance.CurrentPatient = null;
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.MainMenu);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.ExpressSession);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
