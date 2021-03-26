@@ -15,6 +15,7 @@ namespace Molemax.App.ViewModels
     {
         private IAppSettings _applicationSetting;
         private KIND_ENUM imageKind;
+        private string fromForm;
         public DelegateCommand GoBackCommand { get; set; }
         public DelegateCommand GoOKCommand { get; set; }
         public IRegionManager _regionManager { get; }
@@ -43,7 +44,7 @@ namespace Molemax.App.ViewModels
             
             if (ucImageViewModel.camImageModel != null)
             {
-                navigationParameters.Add(Constants.FromForm, UserControlNames.FupLiveVideo);
+                navigationParameters.Add(Constants.FromForm, fromForm);
                 navigationParameters.Add(Constants.FupImage, ucImageViewModel.camImageModel.Path);
                 navigationParameters.Add(Constants.OriginalImage, ParaImage);
                 navigationParameters.Add(Constants.ImageKind, imageKind);
@@ -71,6 +72,8 @@ namespace Molemax.App.ViewModels
             if (navigationContext.Parameters[Constants.ImageKind] != null)
                 imageKind = (KIND_ENUM)Enum.Parse(typeof(KIND_ENUM), navigationContext.Parameters[Constants.ImageKind].ToString());
 
+            if (navigationContext.Parameters[Constants.FromForm] != null)
+                fromForm = (string)navigationContext.Parameters[Constants.FromForm];
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
