@@ -344,8 +344,15 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Save" Width="150" Command="{Binding GoSaveCommand}" Margin="10"/>
             <Button Content="Attach Documents" Width="150" Margin="10"/>
-        </StackPanel>
-
+            <ComboBox x:Name="cbScoring" SelectedIndex="0" IsReadOnly="True" Margin="10" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Center" >
+                <ComboBoxItem>
+                    <Button Content="ABCD"  Width="150" Command="{Binding GoABCDCommand}"/>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <Button Content="7 Point" Width="150" Command="{Binding Go7PointCommand}"/>
+                </ComboBoxItem>
+            </ComboBox>
+            </StackPanel>
         <Button Content="Cancel" Grid.Row="1" Grid.Column="1" Width="150" Command="{Binding GoCancelCommand}" Margin="10"/>
     </Grid>
 </UserControl>

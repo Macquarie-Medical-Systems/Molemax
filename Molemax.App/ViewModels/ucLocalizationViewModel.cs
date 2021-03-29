@@ -395,6 +395,8 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoWindowLoadedCommand { get; set; }
         public DelegateCommand<object> GoMakroImageMouseLeftButtonDownCommand { get; set; }
         public DelegateCommand<object> GoCloseUpImageMouseLeftButtonDownCommand { get; set; }
+        public DelegateCommand GoABCDCommand { get; set; }
+        public DelegateCommand Go7PointCommand { get; set; }
 
         #endregion
 
@@ -419,6 +421,8 @@ namespace Molemax.App.ViewModels
             GoWindowLoadedCommand = new DelegateCommand(GoWindowLoaded);
             GoMakroImageMouseLeftButtonDownCommand = new DelegateCommand<object>(GoMakroImageMouseLeftButtonDown);
             GoCloseUpImageMouseLeftButtonDownCommand = new DelegateCommand<object>(GoCloseUpImageMouseLeftButtonDown);
+            GoABCDCommand = new DelegateCommand(GoABCD);
+            Go7PointCommand = new DelegateCommand(Go7Point);
 
             //ContainerImageWidth = 200;
             //ContainerImageHeight = 100;
@@ -450,6 +454,16 @@ namespace Molemax.App.ViewModels
 
             ShowMacroButton = false;
             ShowDummyButton = true;
+        }
+
+        private void GoABCD()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Go7Point()
+        {
+            throw new NotImplementedException();
         }
 
         private void GoWindowLoaded()
