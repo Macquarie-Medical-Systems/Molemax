@@ -37,5 +37,7 @@ namespace Molemax.App.Core
         public const string AllSkinImageList = "ucAllSkinImageList";
         public const string AllSkinDiseaseDetail = "ucAllSkinDiseaseDetail";
         public const string AllSkinMessage = "ucAllSkinMessage";
+        public const string Segmentation = "ucSegmentation";
+        public const string FullPic_Segmentation = "ucFullPic_Segmentation";
     }
 }

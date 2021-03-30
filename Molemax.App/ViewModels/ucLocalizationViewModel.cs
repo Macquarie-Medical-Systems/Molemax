@@ -456,16 +456,6 @@ namespace Molemax.App.ViewModels
             ShowDummyButton = true;
         }
 
-        private void GoABCD()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Go7Point()
-        {
-            throw new NotImplementedException();
-        }
-
         private void GoWindowLoaded()
         {
             _applicationSetting.LoadSettings();
@@ -1125,7 +1115,6 @@ namespace Molemax.App.ViewModels
 
         }
 
-
         private void GoMacro()
         {
             MacroAndCloseupListVisibility = Visibility.Visible;
@@ -1509,7 +1498,6 @@ namespace Molemax.App.ViewModels
             }
         }
 
-
         public void OnMouseMove(object sender, MouseCaptureArgs e)
         {
             //MessageBox.Show("mousemove");
@@ -1518,6 +1506,20 @@ namespace Molemax.App.ViewModels
         public void OnMouseUp(object sender, MouseCaptureArgs e)
         {
             //MessageBox.Show("mouseup");
+        }
+
+        private void GoABCD()
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
+            navigationParameters.Add(Constants.ParaImage, LocImage);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Segmentation, navigationParameters);
+
+        }
+
+        private void Go7Point()
+        {
+            throw new NotImplementedException();
         }
     }
 

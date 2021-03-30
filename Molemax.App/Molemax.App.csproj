@@ -4974,6 +4974,8 @@
     <Compile Include="ViewModels\ucAllSkinMessageViewModel.cs" />
     <Compile Include="ViewModels\ucAllSkinImageListViewModel.cs" />
     <Compile Include="ViewModels\ucAllSkinDiseaseDetailViewModel.cs" />
+    <Compile Include="ViewModels\ucFullPic_SegmentationViewModel.cs" />
+    <Compile Include="ViewModels\ucSegmentationViewModel.cs" />
     <Compile Include="ViewModels\ucImagePreviewViewModel.cs" />
     <Compile Include="ViewModels\ucPatientExpressViewModel.cs" />
     <Compile Include="ViewModels\ucPrintViewModel.cs" />
@@ -5014,6 +5016,12 @@
     </Compile>
     <Compile Include="Views\ucAllSkin.xaml.cs">
       <DependentUpon>ucAllSkin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ucFullPic_Segmentation.xaml.cs">
+      <DependentUpon>ucFullPic_Segmentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ucSegmentation.xaml.cs">
+      <DependentUpon>ucSegmentation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ucImagePreview.xaml.cs">
       <DependentUpon>ucImagePreview.xaml</DependentUpon>
@@ -5143,6 +5151,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ucAllSkin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ucFullPic_Segmentation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ucSegmentation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
