@@ -26,6 +26,7 @@ namespace Molemax.App.ViewModels
         private IMolemaxRepository _repository;
         private IAppSettings _applicationSetting;
         private string fromForm;
+        private ObservableCollection<LineItem> paraLineList;
 
         #region Property
         private BitmapSource _egmentationImage;
@@ -40,6 +41,34 @@ namespace Molemax.App.ViewModels
         {
             get { return _segmentationMethod; }
             set { SetProperty(ref _segmentationMethod, value); }
+        }
+
+        private ObservableCollection<LineItem> _lineList;
+        public ObservableCollection<LineItem> LineList
+        {
+            get { return _lineList; }
+            set { SetProperty(ref _lineList, value); }
+        }
+
+        private double _ImageWidth;
+        public double ImageWidth
+        {
+            get { return _ImageWidth; }
+            set
+            {
+                SetProperty(ref _ImageWidth, value);
+            }
+        }
+
+        private double _ImageHeight;
+        public double ImageHeight
+        {
+            get { return _ImageHeight; }
+            set
+            {
+                SetProperty(ref _ImageHeight, value);
+                DrawLinesOnImage();
+            }
         }
         #endregion
 
@@ -59,6 +88,7 @@ namespace Molemax.App.ViewModels
             GoManualCommand = new DelegateCommand(GoManual);
             GoABCDCommand = new DelegateCommand(GoABCD);
             GoCancelCommand = new DelegateCommand(GoCancel);
+            LineList = new ObservableCollection<LineItem>();
         }
 
         private void GoABCD()
@@ -100,6 +130,41 @@ namespace Molemax.App.ViewModels
             if (navigationContext.Parameters[Constants.FromForm] != null)
                 fromForm = (string)navigationContext.Parameters[Constants.FromForm];
 
+            if (navigationContext.Parameters[Constants.ParaObject] != null)
+            {
+                paraLineList = (ObservableCollection<LineItem>)navigationContext.Parameters[Constants.ParaObject];
+            }
+
+
+            //PointItem pi = new PointItem();
+            //pi.X = e.X - 2;
+            //pi.Y = e.Y - 2;
+
+            //PointList.Add(pi);
+
+            //if (PointList.Count > 1)
+            //{
+            //    LineItem li = new LineItem();
+            //    PointItem lastPoint = PointList[PointList.Count - 2];
+            //    li.X1 = lastPoint.X + 2;
+            //    li.Y1 = lastPoint.Y + 2;
+            //    li.X2 = e.X;
+            //    li.Y2 = e.Y;
+            //    LineList.Add(li);
+            //}
+        }
+
+        private void DrawLinesOnImage()
+        {
+            if (paraLineList != null && paraLineList.Count > 0)
+            {
+                LineList = new ObservableCollection<LineItem>();
+                foreach (var i in paraLineList)
+                {
+                    LineList.Add(new LineItem { X1 = i.X1 * ImageWidth, X2 = i.X2 * ImageWidth, Y1 = i.Y1 * ImageHeight, Y2 = i.Y2 * ImageHeight });
+                }
+            }
+        
         }
     }
 

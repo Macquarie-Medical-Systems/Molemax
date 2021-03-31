@@ -4928,6 +4928,7 @@
     </Compile>
     <Compile Include="Core\Converter\ReportOptionConverter.cs" />
     <Compile Include="Core\CustomDataGrid.cs" />
+    <Compile Include="Core\LineItem.cs" />
     <Compile Include="Core\RectangleItem.cs" />
     <Compile Include="Core\PointItem.cs" />
     <Compile Include="Core\SizeObserver.cs" />

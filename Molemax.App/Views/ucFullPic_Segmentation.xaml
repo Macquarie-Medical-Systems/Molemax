@@ -23,7 +23,11 @@
         <ItemsControl Grid.Row="0" ItemsSource="{Binding PointList}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <Canvas/>
+                    <Canvas>
+                        <i:Interaction.Behaviors>
+                            <behaviors:MouseCaptureBehavior Proxy="{Binding}"/>
+                        </i:Interaction.Behaviors>
+                    </Canvas>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
@@ -34,9 +38,23 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl Width="12" Height="12" >
-                        <Path Data="M0 0  12 12M0 12 12 0" Stroke="Blue" StrokeThickness="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </ContentControl>
+                    <Ellipse Width="4" Height="4" Stroke="Blue" StrokeThickness="2"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding LineList}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas>
+                        <i:Interaction.Behaviors>
+                            <behaviors:MouseCaptureBehavior Proxy="{Binding}"/>
+                        </i:Interaction.Behaviors>
+                    </Canvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                   <Line X1="{Binding X1}" Y1="{Binding Y1}" X2="{Binding X2}" Y2="{Binding Y2}" Stroke="Blue" StrokeThickness="2"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

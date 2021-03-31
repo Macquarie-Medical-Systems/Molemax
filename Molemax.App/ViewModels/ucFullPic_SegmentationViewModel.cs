@@ -26,7 +26,7 @@ namespace Molemax.App.ViewModels
         private IMolemaxRepository _repository;
         private IAppSettings _applicationSetting;
         private string fromForm;
-        private System.Windows.Controls.Image image;
+        //private System.Windows.Controls.Image image;
 
         public event EventHandler Capture;
         public event EventHandler Release;
@@ -45,11 +45,39 @@ namespace Molemax.App.ViewModels
             get { return _pointList; }
             set { SetProperty(ref _pointList, value); }
         }
+
+        private ObservableCollection<LineItem> _lineList;
+        public ObservableCollection<LineItem> LineList
+        {
+            get { return _lineList; }
+            set { SetProperty(ref _lineList, value); }
+        }
+
+        private double _ImageWidth;
+        public double ImageWidth
+        {
+            get { return _ImageWidth; }
+            set
+            {
+                SetProperty(ref _ImageWidth, value);
+            }
+        }
+
+        private double _ImageHeight;
+        public double ImageHeight
+        {
+            get { return _ImageHeight; }
+            set
+            {
+                SetProperty(ref _ImageHeight, value);
+            }
+        }
         #endregion
 
         #region Command
         public DelegateCommand GoOKCommand { get; set; }
         public DelegateCommand GoBackCommand { get; set; }
+        public DelegateCommand GoResetCommand { get; set; }
         #endregion
 
         public bool KeepAlive => false;
@@ -61,7 +89,15 @@ namespace Molemax.App.ViewModels
             _applicationSetting = applicationSetting;
             GoOKCommand = new DelegateCommand(GoOK);
             GoBackCommand = new DelegateCommand(GoBack);
+            GoResetCommand = new DelegateCommand(GoReset);
             PointList = new ObservableCollection<PointItem>();
+            LineList = new ObservableCollection<LineItem>();
+        }
+
+        private void GoReset()
+        {
+            PointList = new ObservableCollection<PointItem>();
+            LineList = new ObservableCollection<LineItem>();
         }
 
         private void GoBack()
@@ -73,8 +109,21 @@ namespace Molemax.App.ViewModels
 
         private void GoOK()
         {
-            var navigationParameters = new NavigationParameters();
+            ObservableCollection<LineItem> paraLineList = new ObservableCollection<LineItem>();
+            if (PointList.Count < 8)
+            {
+                MessageBox.Show("At least 8 Connection points are required!");
+                return;
+            }
 
+            foreach (var i in LineList)
+            {
+                paraLineList.Add(new LineItem { X1 = i.X1 / ImageWidth, X2 = i.X2 / ImageWidth, Y1 = i.Y1 / ImageHeight, Y2 = i.Y2 / ImageHeight });
+            }
+
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.ParaObject, paraLineList);
+            navigationParameters.Add(Constants.ParaImage, FullImage);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Segmentation, navigationParameters);
         }
 
@@ -100,13 +149,25 @@ namespace Molemax.App.ViewModels
 
         public void OnMouseDown(object sender, MouseCaptureArgs e)
         {
-            MessageBox.Show("Mouse down at" + e.X + ", " + e.Y);
+            //MessageBox.Show("Mouse down at" + e.X + ", " + e.Y);
 
             PointItem pi = new PointItem();
-            pi.X = e.X;
-            pi.Y = e.Y;
+            pi.X = e.X-2;
+            pi.Y = e.Y-2;
 
             PointList.Add(pi);
+
+            if (PointList.Count > 1)
+            {
+                LineItem li = new LineItem();
+                PointItem lastPoint = PointList[PointList.Count-2];
+                li.X1 = lastPoint.X + 2;
+                li.Y1 = lastPoint.Y + 2;
+                li.X2 = e.X;
+                li.Y2 = e.Y;
+                LineList.Add(li);
+            }
+
         }
 
         public void OnMouseMove(object sender, MouseCaptureArgs e)

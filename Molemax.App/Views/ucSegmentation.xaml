@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Molemax.App.Views"
              xmlns:z="clr-namespace:Molemax.App.Core"
-             xmlns:tv="clr-namespace:Molemax.App.Core.TreeViewFileExplorer"
+             xmlns:core="clr-namespace:Molemax.App.Core"
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="12*"/>
             </Grid.ColumnDefinitions>
             <Grid Margin="5,0,5,0">
-                <Image Source="{Binding SegmentationImage}" Stretch="Uniform"/>
+                <Image Source="{Binding SegmentationImage}" Stretch="Fill" core:SizeObserver.Observe="True" core:SizeObserver.ObservedWidth="{Binding ImageWidth, Mode=OneWayToSource}" core:SizeObserver.ObservedHeight="{Binding ImageHeight, Mode=OneWayToSource}"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
