@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="Molemax.App.Views.ucABCD"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Molemax.App.Views"
+             xmlns:z="clr-namespace:Molemax.App.Core"
+             xmlns:core="clr-namespace:Molemax.App.Core"
+             mc:Ignorable="d"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Image Source="{Binding ABCDImage}" ></Image>
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Diagnosis"/>
+                    <TextBox Text="{Binding DiagnosisName}"/>
+                </StackPanel>
+                <Image Source="{Binding DiagnosisImage}"></Image>
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Please evaluate asymmetry"/>
+                <RadioButton Content="Lack of asymmetry in both axes" Grid.Row="1"/>
+                <RadioButton Content="Asymmetry in on axe" Grid.Row="2"/>
+                <RadioButton Content="Asymmetry in both axes" Grid.Row="3"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Image Description"/>
+                <TextBox Text="{Binding ImageDescription}" Grid.Row="1"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal">
+                    <TextBlock Text="ABCD Score"/>
+                    <TextBox Text="{Binding ABCDScore}" MinWidth="200"/>
+                </StackPanel>
+                <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="&lt;&lt;"/>
+                    <Button Content="&gt;&gt;"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
+            <Button Content="OK" Width="200" Command="{Binding GoOKCommand}" Margin="5,0,5,20"/>
+            <Button Content="Back" Width="200" Command="{Binding GoBackCommand}" Margin="5,0,5,20"/>
+            <Button Content="Cancel" Width="200" Command="{Binding GoCancelCommand}"  Margin="5,0,5,20"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -4976,6 +4976,7 @@
     <Compile Include="ViewModels\ucAllSkinImageListViewModel.cs" />
     <Compile Include="ViewModels\ucAllSkinDiseaseDetailViewModel.cs" />
     <Compile Include="ViewModels\ucFullPic_SegmentationViewModel.cs" />
+    <Compile Include="ViewModels\ucABCDViewModel.cs" />
     <Compile Include="ViewModels\ucSegmentationViewModel.cs" />
     <Compile Include="ViewModels\ucImagePreviewViewModel.cs" />
     <Compile Include="ViewModels\ucPatientExpressViewModel.cs" />
@@ -5020,6 +5021,9 @@
     </Compile>
     <Compile Include="Views\ucFullPic_Segmentation.xaml.cs">
       <DependentUpon>ucFullPic_Segmentation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ucABCD.xaml.cs">
+      <DependentUpon>ucABCD.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ucSegmentation.xaml.cs">
       <DependentUpon>ucSegmentation.xaml</DependentUpon>
@@ -5156,6 +5160,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ucFullPic_Segmentation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ucABCD.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
