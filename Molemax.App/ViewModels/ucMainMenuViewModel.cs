@@ -38,14 +38,14 @@ namespace Molemax.App.ViewModels
             GoPatientSearchCommand = new DelegateCommand(GoPatientSearch);
             GoServicesCommand = new DelegateCommand(GoServices);
 
-            if (IsDiagSourceEmpty())
-                CopyDiagList();
-
             //testing code
             MessageBox.Show("Is user Admin?");
             GlobalValue.Instance.UserID = 1;
 
             GlobalValue.Instance.IsNewPatient = false;
+
+            if (IsDiagSourceEmpty())
+                CopyDiagList();
 
             _ea = ea;
             _ea.GetEvent<UpdateViewNameInTitleEvent>().Publish(Constants.Views.MainMenu);
@@ -71,7 +71,15 @@ namespace Molemax.App.ViewModels
 
         private bool IsDiagSourceEmpty()
         {
-            return _repository.Diagsources.Get().Count() == 0;
+            try
+            {
+                return _repository.Diagsources.Get().Count() == 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw ex;
+            }
         }
 
         private void GoAdministrationMainMenu()
