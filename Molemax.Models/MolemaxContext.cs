@@ -1,29 +1,77 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Protocols;
 using Molemax.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Molemax.Models
 {
     public class MolemaxContext : DbContext
     {
+        private string sConnectString;
         /// <summary>
         /// Creates a new Contoso DbContext.
         /// </summary>
-        public MolemaxContext() : base() { }
+        public MolemaxContext() : base()
+        {
+        }
 
-        public MolemaxContext(DbContextOptions<MolemaxContext> options) : base(options) { }
+        public MolemaxContext(DbContextOptions<MolemaxContext> options) : base(options) 
+        {
+            GetValueFromConfig(ref sConnectString);
+            ////string sectionName = "Molemax.Models" + ".Properties.Settings";
+            ////string sectionGroupName = "userSettings";
+            ////var config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+            //////var sectionGroup = config.GetSectionGroup(sectionGroupName);
+            //////var settingsSection = (ClientSettingsSection)sectionGroup.Sections[sectionName];
+            //////var list = settingsSection.Settings.OfType<ConfigurationElement>().ToList();
+
+            ////// read section of Connectionstrings
+            ////var sections = config.Sections.OfType<ConfigurationSection>();
+            ////var connSection = (from section in sections
+            ////                   where section.GetType() == typeof(ConnectionStringsSection)
+            ////                   select section).FirstOrDefault() as ConnectionStringsSection;
+            ////if (connSection != null)
+            ////{
+            ////    list.AddRange(connSection.ConnectionStrings.Cast<ConfigurationElement>());
+            ////}
+
+            ////var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+
+            ////sConnectString = Properties.Settings.Default.ConnectString;
+            //MessageBox.Show(sConnectString);
+            ////MessageBox.Show(path);
+        }
+
+        private void GetValueFromConfig(ref string sConnectString)
+        {
+            ExeConfigurationFileMap map = new ExeConfigurationFileMap();
+            map.ExeConfigFilename = Assembly.GetExecutingAssembly().Location + ".config";
+            if (!File.Exists(map.ExeConfigFilename))
+                throw new FileNotFoundException();
+            Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+            AppSettingsSection section = config.GetSection("appSettings") as AppSettingsSection;
+            if (section!=null)
+            {
+                sConnectString = section.Settings["ConnectString"].Value;
+            }
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //optionsBuilder.UseMySQL(@"Server=localhost;Database=MolemaxDB;user=Admin;password=p@ssw0rd");
             optionsBuilder
                 .UseLoggerFactory(ConsoleLoggerFactory)
-                .UseSqlServer(@"Server=localhost\SQLEXPRESS; Database=MolemaxDB; Integrated Security=True;");
+                .UseSqlServer(sConnectString);
+            //.UseSqlServer(@"Server=localhost\SQLEXPRESS; Database=MolemaxDB; Integrated Security=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
