@@ -273,7 +273,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Molemax.Models.dll.config">
+    <None Include="Molemax.Models.dll.config2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

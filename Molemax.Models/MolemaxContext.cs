@@ -24,6 +24,7 @@ namespace Molemax.Models
         {
         }
 
+
         public MolemaxContext(DbContextOptions<MolemaxContext> options) : base(options) 
         {
             GetValueFromConfig(ref sConnectString);
@@ -47,14 +48,14 @@ namespace Molemax.Models
             ////var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
 
             ////sConnectString = Properties.Settings.Default.ConnectString;
-            //MessageBox.Show(sConnectString);
+            MessageBox.Show(sConnectString);
             ////MessageBox.Show(path);
         }
 
         private void GetValueFromConfig(ref string sConnectString)
         {
             ExeConfigurationFileMap map = new ExeConfigurationFileMap();
-            map.ExeConfigFilename = Assembly.GetExecutingAssembly().Location + ".config";
+            map.ExeConfigFilename = Assembly.GetExecutingAssembly().Location + ".config2";
             if (!File.Exists(map.ExeConfigFilename))
                 throw new FileNotFoundException();
             Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
