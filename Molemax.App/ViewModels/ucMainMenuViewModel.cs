@@ -20,7 +20,14 @@ namespace Molemax.App.ViewModels
         private int userId;
         private IRegionManager _regionManager;
         private IMolemaxRepository _repository;
-
+        private IEnumerable<User> _dbUsers
+        {
+            get { return _repository.Users.Get(); }
+        }
+        private IEnumerable<Timestamp> _dbTimestamps
+        {
+            get { return _repository.Timestamps.Get(); }
+        }
         public DelegateCommand NewPatientCommand { get; set; }
         public DelegateCommand ExpressSessionCommand { get; set; }
         public DelegateCommand AdministrationCommand { get; set; }
@@ -37,7 +44,12 @@ namespace Molemax.App.ViewModels
             AdministrationCommand = new DelegateCommand(GoAdministrationMainMenu);
             GoPatientSearchCommand = new DelegateCommand(GoPatientSearch);
             GoServicesCommand = new DelegateCommand(GoServices);
-
+            if (_dbUsers.ToList().Count == 0)
+            {
+                DateTime currentTime = DateTime.Now;
+                var timestamp = _repository.Timestamps.Upsert(new Timestamp { date_created = currentTime, date_last_accessed = currentTime, pcname = Environment.MachineName });
+                var admin = _repository.Users.Upsert(new User() { username = "admin", myrights = 3, tsId = timestamp.id });
+            }
             //testing code
             MessageBox.Show("Is user Admin?");
             GlobalValue.Instance.UserID = 1;

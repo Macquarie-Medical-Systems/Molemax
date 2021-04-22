@@ -4978,6 +4978,7 @@
     <Compile Include="Core\TreeViewFileExplorer\Enums\DataType.cs" />
     <Compile Include="Core\TreeViewFileExplorer\HeaderToImageConverter.cs" />
     <Compile Include="Core\UserControlNames.cs" />
+    <Compile Include="Core\UserSpecifyRight.cs" />
     <Compile Include="Core\ZoomBorder.cs" />
     <Compile Include="ViewModels\ucAdminImageSourcesViewModel.cs" />
     <Compile Include="ViewModels\ucAdminImageSelectionPreviewViewModel.cs" />

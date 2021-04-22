@@ -267,6 +267,14 @@
     <Compile Include="Migrations\20210302053831_changeData.designer.cs">
       <DependentUpon>20210302053831_changeData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20210422054642_userseed.cs" />
+    <Compile Include="Migrations\20210422054642_userseed.designer.cs">
+      <DependentUpon>20210422054642_userseed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20210422055942_removeadduserseed.cs" />
+    <Compile Include="Migrations\20210422055942_removeadduserseed.designer.cs">
+      <DependentUpon>20210422055942_removeadduserseed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\MolemaxContextModelSnapshot.cs" />
     <Compile Include="MolemaxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

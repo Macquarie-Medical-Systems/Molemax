@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Molemax.App.Views"
              xmlns:con="clr-namespace:Molemax.App.Core.Converter"
              xmlns:e="clr-namespace:Molemax.App.Core"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -40,7 +41,12 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <ListBox ItemsSource="{Binding UserList}">
+                        <ListBox ItemsSource="{Binding UserList}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding GoUserTableClickCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding username}"/>
@@ -82,9 +88,38 @@
                         <RowDefinition Height="6*" />
                     </Grid.RowDefinitions>
                     <TextBlock Text="Specify rights for other user content"/>
-                    <ListView Grid.Row="1">
-                        
-                    </ListView>
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding UserSpecifyRightList}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontSize" Value="20"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="User Name" FontSize="20" Binding="{Binding UserName}"/>
+                            <DataGridTemplateColumn Header="ReadOnly">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsReadOnly}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Read/Write">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsReadWrite}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Delete">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsDelete}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </Grid>
             <Button Grid.Row="1" HorizontalAlignment="Right" Margin="100,10" Width="100" Content="Close" FontSize="30" Command="{Binding GoBackCommand}" Background="{x:Null}" BorderBrush="{x:Null}" />
