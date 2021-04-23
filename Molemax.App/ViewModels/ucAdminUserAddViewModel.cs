@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using Molemax.Models;
+using Molemax.Repository;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -11,6 +13,11 @@ namespace Molemax.App.ViewModels
 {
     public class ucAdminUserAddViewModel: BindableBase, IDialogAware
     {
+        private IMolemaxRepository _repository;
+        private IEnumerable<User> _dbUsers
+        {
+            get { return _repository.Users.Get(); }
+        }
         public DelegateCommand<string> GoOKCommand { get; set; }
 
         private bool _isEnable;
@@ -24,7 +31,14 @@ namespace Molemax.App.ViewModels
         public string UserName
         {
             get { return _userName; }
-            set { SetProperty(ref _userName, value); }
+            set
+            {
+                SetProperty(ref _userName, value);
+                if (_dbUsers.Where(i => i.username == _userName).ToList().Count > 0)
+                    IsEnable = false;
+                else
+                    IsEnable = true;
+            }
         }
 
         private string _password;
@@ -64,10 +78,12 @@ namespace Molemax.App.ViewModels
 
         public event Action<IDialogResult> RequestClose;
 
-        public ucAdminUserAddViewModel()
+        public ucAdminUserAddViewModel(IMolemaxRepository molemaxRepository)
         {
+            _repository = molemaxRepository;
             Password = string.Empty;
             ConfirmPassword = string.Empty;
+            IsEnable = false;
             GoOKCommand = new DelegateCommand<string>(GoOK).ObservesCanExecute(()=> IsEnable);
         }
         protected virtual void GoOK(string parameter)

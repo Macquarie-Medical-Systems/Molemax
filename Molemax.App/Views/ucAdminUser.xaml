@@ -55,8 +55,8 @@
                         </ListBox>
                         <StackPanel Grid.Column="1">
                             <Button Content="Add" Command="{Binding GoAddUserCommand}" ></Button>
-                            <Button Content="Edit"></Button>
-                            <Button Content="Delete"></Button>
+                            <Button Content="Edit" Command="{Binding GoEditUserCommand}" ></Button>
+                            <Button Content="Delete" Command="{Binding GoDeleteUserCommand}" ></Button>
                         </StackPanel>
                     </Grid>
                 </Grid>
