@@ -1514,6 +1514,11 @@ namespace Molemax.App.ViewModels
             navigationParameters.Add(Constants.FromForm, UserControlNames.Localization);
             navigationParameters.Add(Constants.ParaImage, LocImage);
             _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.Segmentation, navigationParameters);
+            //string sImportImage = @"C:\Users\Admin\Desktop\Test Images\ELM_18_70.jpg";
+            //string sOutputImage = @"C:\Users\Admin\Desktop\Test Images\result.jpg";
+            //BlobDetector bd = new BlobDetector();
+
+            //bd.Find(sImportImage, sOutputImage, 90);
 
         }
 

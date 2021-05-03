@@ -28,28 +28,6 @@ namespace Molemax.Models
         public MolemaxContext(DbContextOptions<MolemaxContext> options) : base(options) 
         {
             GetValueFromConfig(ref sConnectString);
-            ////string sectionName = "Molemax.Models" + ".Properties.Settings";
-            ////string sectionGroupName = "userSettings";
-            ////var config = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
-            //////var sectionGroup = config.GetSectionGroup(sectionGroupName);
-            //////var settingsSection = (ClientSettingsSection)sectionGroup.Sections[sectionName];
-            //////var list = settingsSection.Settings.OfType<ConfigurationElement>().ToList();
-
-            ////// read section of Connectionstrings
-            ////var sections = config.Sections.OfType<ConfigurationSection>();
-            ////var connSection = (from section in sections
-            ////                   where section.GetType() == typeof(ConnectionStringsSection)
-            ////                   select section).FirstOrDefault() as ConnectionStringsSection;
-            ////if (connSection != null)
-            ////{
-            ////    list.AddRange(connSection.ConnectionStrings.Cast<ConfigurationElement>());
-            ////}
-
-            ////var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
-
-            ////sConnectString = Properties.Settings.Default.ConnectString;
-            MessageBox.Show(sConnectString);
-            ////MessageBox.Show(path);
         }
 
         private void GetValueFromConfig(ref string sConnectString)

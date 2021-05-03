@@ -27,13 +27,13 @@ namespace Molemax.App.ViewModels
         private IAppSettings _applicationSetting;
         private string fromForm;
         private ObservableCollection<LineItem> paraLineList;
-
+        private BitmapSource _originalSegmentationImage;
         #region Property
-        private BitmapSource _egmentationImage;
+        private BitmapSource _segmentationImage;
         public BitmapSource SegmentationImage
         {
-            get { return _egmentationImage; }
-            set { SetProperty(ref _egmentationImage, value); }
+            get { return _segmentationImage; }
+            set { SetProperty(ref _segmentationImage, value); }
         }
 
         private string _segmentationMethod;
@@ -76,6 +76,7 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoManualCommand { get; set; }
         public DelegateCommand GoABCDCommand { get; set; }
         public DelegateCommand GoCancelCommand { get; set; }
+        public DelegateCommand GoAutomaticCommand { get; set; }
         #endregion
 
         public bool KeepAlive => false;
@@ -85,15 +86,29 @@ namespace Molemax.App.ViewModels
             _regionManager = regionManager;
             _repository = molemaxRepository;
             _applicationSetting = applicationSetting;
+            _applicationSetting.LoadSettings();
             GoManualCommand = new DelegateCommand(GoManual);
             GoABCDCommand = new DelegateCommand(GoABCD);
             GoCancelCommand = new DelegateCommand(GoCancel);
+            GoAutomaticCommand = new DelegateCommand(GoAutomatic);
             LineList = new ObservableCollection<LineItem>();
+        }
+
+        private void GoAutomatic()
+        {
+            string sImportImage = _applicationSetting.Temp + @"\ABCDAutomaticSource.jpg";
+            string sOutputImage = _applicationSetting.Temp + @"\ABCDAutomaticResult"+ Guid.NewGuid() +".jpg";
+            ImageHelpers.SaveBitmapSourceToFile(_originalSegmentationImage, sImportImage);
+            BlobDetector bd = new BlobDetector();
+
+            bd.Find(sImportImage, sOutputImage, 90);
+
+            SegmentationImage = new BitmapImage(new Uri(sOutputImage));
         }
 
         private void GoABCD()
         {
-            throw new NotImplementedException();
+
         }
 
         private void GoManual()
@@ -125,7 +140,10 @@ namespace Molemax.App.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters[Constants.ParaImage] != null)
+            {
                 SegmentationImage = (BitmapSource)navigationContext.Parameters[Constants.ParaImage];
+                _originalSegmentationImage = SegmentationImage;
+            }
 
             if (navigationContext.Parameters[Constants.FromForm] != null)
                 fromForm = (string)navigationContext.Parameters[Constants.FromForm];
@@ -134,24 +152,6 @@ namespace Molemax.App.ViewModels
             {
                 paraLineList = (ObservableCollection<LineItem>)navigationContext.Parameters[Constants.ParaObject];
             }
-
-
-            //PointItem pi = new PointItem();
-            //pi.X = e.X - 2;
-            //pi.Y = e.Y - 2;
-
-            //PointList.Add(pi);
-
-            //if (PointList.Count > 1)
-            //{
-            //    LineItem li = new LineItem();
-            //    PointItem lastPoint = PointList[PointList.Count - 2];
-            //    li.X1 = lastPoint.X + 2;
-            //    li.Y1 = lastPoint.Y + 2;
-            //    li.X2 = e.X;
-            //    li.Y2 = e.Y;
-            //    LineList.Add(li);
-            //}
         }
 
         private void DrawLinesOnImage()
