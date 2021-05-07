@@ -101,7 +101,7 @@ namespace Molemax.App.ViewModels
             ImageHelpers.SaveBitmapSourceToFile(_originalSegmentationImage, sImportImage);
             BlobDetector bd = new BlobDetector();
 
-            bd.Find(sImportImage, sOutputImage, 90);
+            bd.AutoSegmantation(sImportImage, sOutputImage, 90);
 
             SegmentationImage = new BitmapImage(new Uri(sOutputImage));
         }
