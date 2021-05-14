@@ -5309,6 +5309,7 @@
     <Resource Include="Images\black.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="derma_ref.txt" />
     <Content Include="Images\background.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
