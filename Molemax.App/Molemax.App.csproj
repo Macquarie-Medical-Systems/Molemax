@@ -41,6 +41,8 @@
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="ThirdPartyDLLs\HiQPdf\HiQPdf.dep" />
+    <None Include="ThirdPartyDLLs\HiQPdf\HiQPdf.rda" />
     <Resource Include="Images\AllSkin\0001.dat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -4772,11 +4774,13 @@
     <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="HiQPdf">
-      <HintPath>..\..\HiQPdf_12.0\HiQPdf.dll</HintPath>
+    <Reference Include="HiQPdf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=acd8b62594985b24, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdPartyDLLs\HiQPdf\HiQPdf.dll</HintPath>
     </Reference>
-    <Reference Include="Matrox.MatroxImagingLibrary">
-      <HintPath>..\..\..\Program Files\Matrox Imaging\MIL\MIL.NET\Matrox.MatroxImagingLibrary.dll</HintPath>
+    <Reference Include="Matrox.MatroxImagingLibrary, Version=10.40.881.1281, Culture=neutral, PublicKeyToken=5a83d419d44a9d98, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ThirdPartyDLLs\MIL\Matrox.MatroxImagingLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -5305,6 +5309,11 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ThirdPartyDLLs\HiQPdf\HiQPdf.dll" />
+    <Resource Include="ThirdPartyDLLs\HiQPdf\HiQPdf.xml" />
+    <Content Include="ThirdPartyDLLs\MIL\Matrox.MatroxImagingLibrary.dll" />
+    <Content Include="ThirdPartyDLLs\MIL\Matrox.MatroxImagingLibrary.wpf.dll" />
+    <Resource Include="ThirdPartyDLLs\MIL\Matrox.MatroxImagingLibrary.xml" />
     <Resource Include="Images\icons-pending.bmp" />
     <Resource Include="Images\black.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
