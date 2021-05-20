@@ -26,49 +26,77 @@ namespace Molemax.App.ViewModels
         private IMolemaxRepository _repository;
         private IAppSettings _applicationSetting;
         private string fromForm;
-        private ObservableCollection<LineItem> paraLineList;
 
         #region Property
-        private BitmapSource _egmentationImage;
-        public BitmapSource SegmentationImage
+        private BitmapSource _ABCDImage;
+        public BitmapSource ABCDImage
         {
-            get { return _egmentationImage; }
-            set { SetProperty(ref _egmentationImage, value); }
+            get { return _ABCDImage; }
+            set { SetProperty(ref _ABCDImage, value); }
         }
 
-        private string _segmentationMethod;
-        public string SegmentationMethod
+        private Visibility _panel1Visibility;
+        public Visibility Panel1Visibility
         {
-            get { return _segmentationMethod; }
-            set { SetProperty(ref _segmentationMethod, value); }
+            get { return _panel1Visibility; }
+            set { SetProperty(ref _panel1Visibility, value); }
         }
 
-        private ObservableCollection<LineItem> _lineList;
-        public ObservableCollection<LineItem> LineList
+        private Visibility _panel2Visibility;
+        public Visibility Panel2Visibility
         {
-            get { return _lineList; }
-            set { SetProperty(ref _lineList, value); }
+            get { return _panel2Visibility; }
+            set { SetProperty(ref _panel2Visibility, value); }
         }
 
-        private double _ImageWidth;
-        public double ImageWidth
+        private Visibility _panel3Visibility;
+        public Visibility Panel3Visibility
         {
-            get { return _ImageWidth; }
-            set
-            {
-                SetProperty(ref _ImageWidth, value);
-            }
+            get { return _panel3Visibility; }
+            set { SetProperty(ref _panel3Visibility, value); }
         }
 
-        private double _ImageHeight;
-        public double ImageHeight
+        private Visibility _panel4Visibility;
+        public Visibility Panel4Visibility
         {
-            get { return _ImageHeight; }
-            set
-            {
-                SetProperty(ref _ImageHeight, value);
-                DrawLinesOnImage();
-            }
+            get { return _panel4Visibility; }
+            set { SetProperty(ref _panel4Visibility, value); }
+        }
+
+        private Visibility _panelResultVisibility;
+        public Visibility PanelResultVisibility
+        {
+            get { return _panelResultVisibility; }
+            set { SetProperty(ref _panelResultVisibility, value); }
+        }
+
+
+        private Visibility _panelDiagnosisVisibility;
+        public Visibility PanelDiagnosisVisibility
+        {
+            get { return _panelDiagnosisVisibility; }
+            set { SetProperty(ref _panelDiagnosisVisibility, value); }
+        }
+
+        private Visibility _panelResultImageVisibility;
+        public Visibility PanelResultImageVisibility
+        {
+            get { return _panelResultImageVisibility; }
+            set { SetProperty(ref _panelResultImageVisibility, value); }
+        }
+
+        private Visibility _resultImageVisibility;
+        public Visibility ResultImageVisibility
+        {
+            get { return _resultImageVisibility; }
+            set { SetProperty(ref _resultImageVisibility, value); }
+        }
+
+        private Visibility _resultInformationVisibility;
+        public Visibility ResultInformationVisibility
+        {
+            get { return _resultInformationVisibility; }
+            set { SetProperty(ref _resultInformationVisibility, value); }
         }
         #endregion
 
@@ -76,6 +104,10 @@ namespace Molemax.App.ViewModels
         public DelegateCommand GoManualCommand { get; set; }
         public DelegateCommand GoABCDCommand { get; set; }
         public DelegateCommand GoCancelCommand { get; set; }
+        public DelegateCommand<object> SelectAsymmetryGroupCommand { get; set; }
+        public DelegateCommand<object> SelectPatternGroupCommand { get; set; }
+        public DelegateCommand<object> SelectColorGroupCommand { get; set; }
+        public DelegateCommand<object> SelectStructuralGroupCommand { get; set; }
         #endregion
 
         public bool KeepAlive => false;
@@ -88,7 +120,44 @@ namespace Molemax.App.ViewModels
             GoManualCommand = new DelegateCommand(GoManual);
             GoABCDCommand = new DelegateCommand(GoABCD);
             GoCancelCommand = new DelegateCommand(GoCancel);
-            LineList = new ObservableCollection<LineItem>();
+            SelectAsymmetryGroupCommand = new DelegateCommand<object>(SelectAsymmetryGroup);
+            SelectPatternGroupCommand = new DelegateCommand<object>(SelectPatternGroup);
+            SelectColorGroupCommand = new DelegateCommand<object>(SelectColorGroup);
+            SelectStructuralGroupCommand = new DelegateCommand<object>(SelectStructuralGroup);
+
+            Panel1Visibility = Visibility.Collapsed;
+            Panel2Visibility = Visibility.Collapsed;
+            Panel3Visibility = Visibility.Collapsed;
+            Panel4Visibility = Visibility.Visible;
+
+            PanelResultVisibility = Visibility.Collapsed;
+
+            PanelDiagnosisVisibility = Visibility.Visible;
+
+            PanelResultImageVisibility = Visibility.Collapsed;
+            ResultImageVisibility = Visibility.Collapsed;
+            ResultInformationVisibility = Visibility.Visible;
+
+        }
+
+        private void SelectStructuralGroup(object obj)
+        {
+            string sSelectedIndex = (string)obj;
+        }
+
+        private void SelectColorGroup(object obj)
+        {
+            string sSelectedIndex = (string)obj;
+        }
+
+        private void SelectPatternGroup(object obj)
+        {
+            string sSelectedIndex = (string)obj;
+        }
+
+        private void SelectAsymmetryGroup(object obj)
+        {
+            string sSelectedIndex = (string)obj;
         }
 
         private void GoABCD()
@@ -98,10 +167,10 @@ namespace Molemax.App.ViewModels
 
         private void GoManual()
         {
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add(Constants.FromForm, UserControlNames.Segmentation);
-            navigationParameters.Add(Constants.ParaImage, SegmentationImage);
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic_Segmentation, navigationParameters);
+            //var navigationParameters = new NavigationParameters();
+            //navigationParameters.Add(Constants.FromForm, UserControlNames.Segmentation);
+            //navigationParameters.Add(Constants.ParaImage, SegmentationImage);
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic_Segmentation, navigationParameters);
 
         }
 
@@ -125,29 +194,14 @@ namespace Molemax.App.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext.Parameters[Constants.ParaImage] != null)
-                SegmentationImage = (BitmapSource)navigationContext.Parameters[Constants.ParaImage];
+                ABCDImage = (BitmapSource)navigationContext.Parameters[Constants.ParaImage];
 
             if (navigationContext.Parameters[Constants.FromForm] != null)
                 fromForm = (string)navigationContext.Parameters[Constants.FromForm];
 
-            if (navigationContext.Parameters[Constants.ParaObject] != null)
-            {
-                paraLineList = (ObservableCollection<LineItem>)navigationContext.Parameters[Constants.ParaObject];
-            }
+
         }
 
-        private void DrawLinesOnImage()
-        {
-            if (paraLineList != null && paraLineList.Count > 0)
-            {
-                LineList = new ObservableCollection<LineItem>();
-                foreach (var i in paraLineList)
-                {
-                    LineList.Add(new LineItem { X1 = i.X1 * ImageWidth, X2 = i.X2 * ImageWidth, Y1 = i.Y1 * ImageHeight, Y2 = i.Y2 * ImageHeight });
-                }
-            }
-        
-        }
     }
 
 }

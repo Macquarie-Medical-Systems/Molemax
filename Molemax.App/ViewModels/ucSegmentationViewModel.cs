@@ -108,15 +108,18 @@ namespace Molemax.App.ViewModels
 
         private void GoABCD()
         {
-
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add(Constants.FromForm, UserControlNames.Segmentation);
+            navigationParameters.Add(Constants.ParaImage, SegmentationImage);
+            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.ABCD, navigationParameters);
         }
 
         private void GoManual()
         {
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add(Constants.FromForm, UserControlNames.Segmentation);
-            navigationParameters.Add(Constants.ParaImage, SegmentationImage);
-            _regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic_Segmentation, navigationParameters);
+            //var navigationParameters = new NavigationParameters();
+            //navigationParameters.Add(Constants.FromForm, UserControlNames.Segmentation);
+            //navigationParameters.Add(Constants.ParaImage, SegmentationImage);
+            //_regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic_Segmentation, navigationParameters);
 
         }
 
