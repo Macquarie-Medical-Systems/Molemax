@@ -32,5 +32,6 @@ namespace Molemax.Repository
         IRepository<Fup> Fups { get; }
         IRepository<ExpressImage> ExpressImages { get; }
         IRepository<User> Users { get; }
+        IRepository<ExpertizerABCD> ExpertizerABCDs { get; }
     }
 }

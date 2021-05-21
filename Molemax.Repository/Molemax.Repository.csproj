@@ -115,6 +115,7 @@
     <Compile Include="IMolemaxRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sql\SqlCloseupRepository - Copy.cs" />
     <Compile Include="Sql\SqlDEFAllSkinRepository.cs" />
     <Compile Include="Sql\SqlExpressImageRepository.cs" />
     <Compile Include="Sql\SqlDEFDiagnosisRepository.cs" />

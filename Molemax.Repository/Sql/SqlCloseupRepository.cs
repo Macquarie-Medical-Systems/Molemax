@@ -8,70 +8,70 @@ using System.Threading.Tasks;
 
 namespace Molemax.Repository.Sql
 {
-    public class SqlCloseupRepository : IRepository<Closeup>
+    public class SqlExpertizerABCDRepository : IRepository<ExpertizerABCD>
     {
         private readonly MolemaxContext _db;
-        public DbSet<Closeup> Table { get { return _db.DbSetCloseup; } }
+        public DbSet<ExpertizerABCD> Table { get { return _db.DbSetExpertizerABCD; } }
 
-        public SqlCloseupRepository(MolemaxContext db)
+        public SqlExpertizerABCDRepository(MolemaxContext db)
         {
             _db = db;
         }
 
         public void Delete(int id)
         {
-            var closeup = _db.DbSetCloseup.FirstOrDefault(e => e.id == id);
-            if (null != closeup)
+            var expertizerABCD = _db.DbSetExpertizerABCD.FirstOrDefault(e => e.ID == id);
+            if (null != expertizerABCD)
             {
-                _db.DbSetCloseup.Remove(closeup);
+                _db.DbSetExpertizerABCD.Remove(expertizerABCD);
                 _db.SaveChanges();
             }
         }
 
-        public IEnumerable<Closeup> Get()
+        public IEnumerable<ExpertizerABCD> Get()
         {
-            return _db.DbSetCloseup.ToList();
+            return _db.DbSetExpertizerABCD.ToList();
         }
 
-        public Closeup Get(int id)
+        public ExpertizerABCD Get(int id)
         {
-            return _db.DbSetCloseup.FirstOrDefault(e => e.id == id);
+            return _db.DbSetExpertizerABCD.FirstOrDefault(e => e.ID == id);
         }
 
 
-        public Closeup Upsert(Closeup closeup)
+        public ExpertizerABCD Upsert(ExpertizerABCD expertizerABCD)
         {
-            var current = _db.DbSetCloseup.FirstOrDefault(e => e.id == closeup.id);
+            var current = _db.DbSetExpertizerABCD.FirstOrDefault(e => e.ID == expertizerABCD.ID);
             if (null == current)
             {
-                _db.DbSetCloseup.Add(closeup);
+                _db.DbSetExpertizerABCD.Add(expertizerABCD);
             }
             else
             {
-                _db.Entry(current).CurrentValues.SetValues(closeup);
+                _db.Entry(current).CurrentValues.SetValues(expertizerABCD);
             }
             _db.SaveChanges();
-            return closeup;
+            return expertizerABCD;
         }
 
-        public IEnumerable<Closeup> Upsert(IEnumerable<Closeup> closeups)
+        public IEnumerable<ExpertizerABCD> Upsert(IEnumerable<ExpertizerABCD> expertizerABCDs)
         {
-            List<Closeup> returnList = new List<Closeup>();
+            List<ExpertizerABCD> returnList = new List<ExpertizerABCD>();
 
-            if (closeups!=null && closeups.Count() > 0)
+            if (expertizerABCDs != null && expertizerABCDs.Count() > 0)
             {
-                foreach (var closeup in closeups)
+                foreach (var expertizerABCD in expertizerABCDs)
                 {
-                    var current = _db.DbSetCloseup.FirstOrDefault(e => e.id == closeup.id);
+                    var current = _db.DbSetExpertizerABCD.FirstOrDefault(e => e.ID == expertizerABCD.ID);
                     if (null == current)
                     {
-                        _db.DbSetCloseup.Add(closeup);
+                        _db.DbSetExpertizerABCD.Add(expertizerABCD);
                     }
                     else
                     {
-                        _db.Entry(current).CurrentValues.SetValues(closeup);
+                        _db.Entry(current).CurrentValues.SetValues(expertizerABCD);
                     }
-                    returnList.Add(closeup);
+                    returnList.Add(expertizerABCD);
                 }
                 _db.SaveChanges();
             }

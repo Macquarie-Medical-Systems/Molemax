@@ -46,5 +46,6 @@ namespace Molemax.Repository.Sql
         public IRepository<ExpressImage> ExpressImages => new SqlExpressImageRepository(new MolemaxContext(_dbOptions));
         public IRepository<DEFAllSkin> DEFAllSkins => new SqlDEFAllSkinRepository(new MolemaxContext(_dbOptions));
         public IRepository<User> Users => new SqlUserRepository(new MolemaxContext(_dbOptions));
+        public IRepository<ExpertizerABCD> ExpertizerABCDs => new SqlExpertizerABCDRepository(new MolemaxContext(_dbOptions));
     }
 }
