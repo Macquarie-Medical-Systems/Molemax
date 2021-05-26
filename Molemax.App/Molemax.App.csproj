@@ -4949,6 +4949,7 @@
     <Compile Include="Core\BlobDetector.cs" />
     <Compile Include="Core\Converter\ReportOptionConverter.cs" />
     <Compile Include="Core\CustomDataGrid.cs" />
+    <Compile Include="Core\LanguageLibrary.cs" />
     <Compile Include="Core\LineItem.cs" />
     <Compile Include="Core\RectangleItem.cs" />
     <Compile Include="Core\PointItem.cs" />
@@ -5309,6 +5310,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="LanguageDLLs\language module %28english%29.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ThirdPartyDLLs\HiQPdf\HiQPdf.dll" />
     <Resource Include="ThirdPartyDLLs\HiQPdf\HiQPdf.xml" />
     <Content Include="ThirdPartyDLLs\MIL\Matrox.MatroxImagingLibrary.dll" />

@@ -40,6 +40,8 @@ namespace Molemax.App.ViewModels
         private List<ExpertizerABCD> tABCD_B;
         private List<ExpertizerABCD> tABCD_C;
         private List<ExpertizerABCD> tABCD_D;
+        private ExpertizerABCD[] m_tABCD;
+        private LanguageLibrary langLib;
 
 
         #region Property
@@ -56,6 +58,29 @@ namespace Molemax.App.ViewModels
             get { return _diagnosisImage; }
             set { SetProperty(ref _diagnosisImage, value); }
         }
+
+        private string _diagnosisName;
+        public string DiagnosisName
+        {
+            get { return _diagnosisName; }
+            set { SetProperty(ref _diagnosisName, value); }
+        }
+        
+
+        private string _imageDescription;
+        public string ImageDescription
+        {
+            get { return _imageDescription; }
+            set { SetProperty(ref _imageDescription, value); }
+        }
+
+        private string _ABCDScore;
+        public string ABCDScore
+        {
+            get { return _ABCDScore; }
+            set { SetProperty(ref _ABCDScore, value); }
+        }
+        
 
         private Visibility _panel1Visibility;
         public Visibility Panel1Visibility
@@ -92,7 +117,6 @@ namespace Molemax.App.ViewModels
             set { SetProperty(ref _panelResultVisibility, value); }
         }
 
-
         private Visibility _panelDiagnosisVisibility;
         public Visibility PanelDiagnosisVisibility
         {
@@ -123,8 +147,6 @@ namespace Molemax.App.ViewModels
         #endregion
 
         #region Command
-        public DelegateCommand GoManualCommand { get; set; }
-        public DelegateCommand GoABCDCommand { get; set; }
         public DelegateCommand GoCancelCommand { get; set; }
         public DelegateCommand<object> SelectAsymmetryGroupCommand { get; set; }
         public DelegateCommand<object> SelectPatternGroupCommand { get; set; }
@@ -136,12 +158,17 @@ namespace Molemax.App.ViewModels
 
         public ucABCDViewModel(IRegionManager regionManager, IMolemaxRepository molemaxRepository, IAppSettings applicationSetting)
         {
+            int iA = 0;
+            int iB = 0;
+            int iC = 0;
+            int iD = 0;
+            int iDiag = 0;
+            langLib = new LanguageLibrary(@".\LanguageDLLS\language module (english).dll");
+
             _regionManager = regionManager;
             _repository = molemaxRepository;
             _applicationSetting = applicationSetting;
             _applicationSetting.LoadSettings();
-            GoManualCommand = new DelegateCommand(GoManual);
-            GoABCDCommand = new DelegateCommand(GoABCD);
             GoCancelCommand = new DelegateCommand(GoCancel);
             SelectAsymmetryGroupCommand = new DelegateCommand<object>(SelectAsymmetryGroup);
             SelectPatternGroupCommand = new DelegateCommand<object>(SelectPatternGroup);
@@ -157,6 +184,214 @@ namespace Molemax.App.ViewModels
 
             LoadABCDImage(sABCDImageID);
 
+            WeightListItemABCD(0, ref iA, ref iB, ref iC, ref iD, ref iDiag);
+
+            string[] result = CreateImageDescription(iA, iB, iC, iD);
+            ABCDScore = result[0];
+            ImageDescription = result[1];
+
+            DiagnosisName = CreateImageDescriptionShort(iDiag);
+
+        }
+
+        private string CreateImageDescriptionShort(int iDiag)
+        {
+            string strDiag = null;
+            switch (iDiag)
+            {
+                case 41500:
+                    strDiag = GetString(2081);
+                    break;
+                case 41501:
+                    strDiag = GetString(2082);
+                    break;
+                case 41502:
+                    strDiag = GetString(2083);
+                    break;
+                case 41503:
+                    strDiag = GetString(2084);
+                    break;
+            }
+            return strDiag;
+        }
+
+        private string GetString(uint uiStringID)
+        {
+            return langLib.GetString(uiStringID);
+        }
+        private string[] CreateImageDescription(int intA, int intB, int intC, int intD)
+        {
+            string score;
+            string[] strC = new string[6];
+            string[] strD = new string[5];
+            string strBase = GetString(2051);
+            string strA0 = GetString(2052);
+            string strA1 = GetString(2053);
+            string strA2 = GetString(2054);
+            string strB0 = GetString(2055);
+            string strB1 = GetString(2056);
+            string strB2 = GetString(2057);
+            string strB3 = GetString(2058);
+            string strB4 = GetString(2059);
+            string strB5 = GetString(2060);
+            string strB6 = GetString(2061);
+            string strB7 = GetString(2062);
+            string strB8 = GetString(2063);
+            string strCBase = GetString(2064);
+            strC[0] = GetString(2065);
+            strC[1] = GetString(2066);
+            strC[2] = GetString(2067);
+            strC[3] = GetString(2068);
+            strC[4] = GetString(2069);
+            strC[5] = GetString(2070);
+            string strDBase = GetString(2071);
+            strD[0] = GetString(2072);
+            strD[1] = GetString(2073);
+            strD[2] = GetString(2074);
+            strD[3] = GetString(2075);
+            strD[4] = GetString(2076);
+
+            //    'construct description
+            string strDescription = strBase;
+
+            //    'A
+            switch (intA)
+            {
+                case 0:
+                    strDescription = strDescription + " " + strA0;
+                    break;
+                case 1:
+                    strDescription = strDescription + " " + strA1;
+                    break;
+                case 2:
+                    strDescription = strDescription + " " + strA2;
+                    break;
+            }
+
+            //    'B
+            switch (intB)
+            {
+                case 0:
+                        strDescription = strDescription + " " + strB0;
+                    break;
+                case 1:
+                        strDescription = strDescription + " " + strB1;
+                    break;
+                case 2:
+                        strDescription = strDescription + " " + strB2;
+                    break;
+                case 3:
+                        strDescription = strDescription + " " + strB3;
+                    break;
+                case 4:
+                        strDescription = strDescription + " " + strB4;
+                    break;
+                case 5:
+                        strDescription = strDescription + " " + strB5;
+                    break;
+                case 6:
+                        strDescription = strDescription + " " + strB6;
+                    break;
+                case 7:
+                        strDescription = strDescription + " " + strB7;
+                    break;
+                case 8:
+                        strDescription = strDescription + " " + strB8;
+                    break;
+            }
+
+            //    'C
+
+            strDescription = strDescription + " " + strCBase;
+            int j = 0;
+            j = CountSet(intC);
+
+
+            int k = j;
+            int l = j;
+            bool bExit = false;
+            for (int i = 0; i < intC.ToString().Length; i++)
+            {
+                if (intC.ToString().Substring(i, 1) == "1")
+                {
+                    switch (k)
+                    {
+                        case 1:
+                            if (j == 1)
+                                strDescription = strDescription + " " + strC[i - 1] + " " + GetString(2077);
+                            else
+                                strDescription = strDescription + " " + GetString(2078) + " " + strC[i - 1] + " " + GetString(2079);
+                            bExit = true;
+                            break;
+                        default:
+                            if (k == j)
+                                strDescription = strDescription + " " + strC[i - 1];
+                            else
+                                strDescription = strDescription + ", " + strC[i - 1];
+                            k -= 1;
+                            break;
+                    }
+                }
+
+                if (bExit)
+                    break;
+            }
+
+            //    'D
+            strDescription = strDescription + " " + strDBase;
+            j = CountSet(intD);
+            k = j;
+            bExit = false;
+            for (int i=0; i< intD.ToString().Length; i++)
+            {
+                if (intD.ToString().Substring(i, 1) == "1")
+                {
+                    switch (k)
+                    {
+                        case 1:
+                            if (j == 1)
+                                strDescription = strDescription + " " + strD[i - 1] + ".";
+                            else
+                                strDescription = strDescription + " " + GetString(2080) + " " + strD[i - 1] + ".";
+                            bExit = true;
+                            break;
+                        default:
+                            if (k == j)
+                                strDescription = strDescription + " " + strC[i - 1];
+                            else
+                                strDescription = strDescription + ", " + strC[i - 1];
+                            k -= 1;
+                            break;
+                    }
+                }
+
+                if (bExit)
+                    break;
+            }
+
+            score = (intA * 1.3 + intB * 0.1 + l * 0.5 + j * 0.5).ToString("0.00");
+
+            return new string[] { score, strDescription };
+        }
+
+        private string WeightListItemABCD(int iNumber, ref int iA, ref int iB, ref int iC, ref int iD, ref int iDiag)
+        {
+            if (iA != -1)
+                iA = m_tABCD[iNumber].A_Score.Value;
+
+            if (iB != -1)
+                iB = m_tABCD[iNumber].B_Score.Value;
+
+            if (iC != -1)
+                iC = m_tABCD[iNumber].C_Score.Value;
+
+            if (iD != -1)
+                iD = m_tABCD[iNumber].D_Score.Value;
+
+            if (iDiag != -1)
+                iDiag = m_tABCD[iNumber].Diagnosis.Value;
+
+            return m_tABCD[iNumber].ImageID;
         }
 
         private void LoadABCDImage(string sABCDImageID)
@@ -189,7 +424,7 @@ namespace Molemax.App.ViewModels
         {
             double dblH;
             double[] dblWeightList = new double[searchArray.Count];
-            ExpertizerABCD[] m_tABCD = new ExpertizerABCD[searchArray.Count];
+            m_tABCD = new ExpertizerABCD[searchArray.Count];
             searchArray.CopyTo(m_tABCD);
 
             for (int i = 0; i < searchArray.Count; i++)
@@ -320,7 +555,7 @@ namespace Molemax.App.ViewModels
         /// <returns></returns>
         private int CountSet(int iValue)
         {
-            return iValue.ToString().Remove('9').Length;
+            return iValue.ToString().Replace("9","").Length;
         }
 
         private void LoadABCDTables()
@@ -365,20 +600,6 @@ namespace Molemax.App.ViewModels
         private void SelectAsymmetryGroup(object obj)
         {
             string sSelectedIndex = (string)obj;
-        }
-
-        private void GoABCD()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void GoManual()
-        {
-            //var navigationParameters = new NavigationParameters();
-            //navigationParameters.Add(Constants.FromForm, UserControlNames.Segmentation);
-            //navigationParameters.Add(Constants.ParaImage, SegmentationImage);
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, UserControlNames.FullPic_Segmentation, navigationParameters);
-
         }
 
         private void GoCancel()

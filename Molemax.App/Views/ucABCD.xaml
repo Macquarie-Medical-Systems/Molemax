@@ -178,7 +178,7 @@
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Image Description"/>
-                    <TextBox Text="{Binding ImageDescription}" Grid.Row="1"/>
+                    <TextBox Text="{Binding ImageDescription}" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" TextWrapping="Wrap" IsReadOnly="True"/>
                     <StackPanel Grid.Row="2" Orientation="Horizontal">
                         <TextBlock Text="ABCD Score"/>
                         <TextBox Text="{Binding ABCDScore}" MinWidth="200"/>
