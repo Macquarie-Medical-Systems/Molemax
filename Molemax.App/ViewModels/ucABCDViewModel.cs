@@ -31,7 +31,6 @@ namespace Molemax.App.ViewModels
         }
 
         private string fromForm;
-        private string sABCDImageID;
         private const int PART_A = 1;
         private const int PART_B = 2;
         private const int PART_C = 3;
@@ -42,7 +41,8 @@ namespace Molemax.App.ViewModels
         private List<ExpertizerABCD> tABCD_D;
         private ExpertizerABCD[] m_tABCD;
         private LanguageLibrary langLib;
-
+        private ABCD_VALUES abcd_values;
+        private int iCheckCounter;
 
         #region Property
         private BitmapSource _ABCDImage;
@@ -66,7 +66,6 @@ namespace Molemax.App.ViewModels
             set { SetProperty(ref _diagnosisName, value); }
         }
         
-
         private string _imageDescription;
         public string ImageDescription
         {
@@ -80,7 +79,20 @@ namespace Molemax.App.ViewModels
             get { return _ABCDScore; }
             set { SetProperty(ref _ABCDScore, value); }
         }
-        
+
+        private string _resultInformation;
+        public string ResultInformation
+        {
+            get { return _resultInformation; }
+            set { SetProperty(ref _resultInformation, value); }
+        }
+
+        private BitmapSource _ABCDResultImage;
+        public BitmapSource ABCDResultImage
+        {
+            get { return _ABCDResultImage; }
+            set { SetProperty(ref _ABCDResultImage, value); }
+        }
 
         private Visibility _panel1Visibility;
         public Visibility Panel1Visibility
@@ -148,6 +160,7 @@ namespace Molemax.App.ViewModels
 
         #region Command
         public DelegateCommand GoCancelCommand { get; set; }
+        public DelegateCommand GoOKCommand { get; set; }
         public DelegateCommand<object> SelectAsymmetryGroupCommand { get; set; }
         public DelegateCommand<object> SelectPatternGroupCommand { get; set; }
         public DelegateCommand<object> SelectColorGroupCommand { get; set; }
@@ -158,11 +171,16 @@ namespace Molemax.App.ViewModels
 
         public ucABCDViewModel(IRegionManager regionManager, IMolemaxRepository molemaxRepository, IAppSettings applicationSetting)
         {
+            string sABCDImageID;
             int iA = 0;
             int iB = 0;
             int iC = 0;
             int iD = 0;
             int iDiag = 0;
+            iCheckCounter = 1;
+
+            abcd_values = new ABCD_VALUES();
+
             langLib = new LanguageLibrary(@".\LanguageDLLS\language module (english).dll");
 
             _regionManager = regionManager;
@@ -170,6 +188,7 @@ namespace Molemax.App.ViewModels
             _applicationSetting = applicationSetting;
             _applicationSetting.LoadSettings();
             GoCancelCommand = new DelegateCommand(GoCancel);
+            GoOKCommand = new DelegateCommand(GoOK);
             SelectAsymmetryGroupCommand = new DelegateCommand<object>(SelectAsymmetryGroup);
             SelectPatternGroupCommand = new DelegateCommand<object>(SelectPatternGroup);
             SelectColorGroupCommand = new DelegateCommand<object>(SelectColorGroup);
@@ -192,6 +211,89 @@ namespace Molemax.App.ViewModels
 
             DiagnosisName = CreateImageDescriptionShort(iDiag);
 
+            if (File.Exists(@".\Resources\derma_ref.txt"))
+                ResultInformation = ReadTextFile(@".\Resources\derma_ref.txt");
+            else
+                ResultInformation = GetString(2085);
+
+            ABCDResultImage = new BitmapImage(new Uri($"pack://application:,,,/Resources/ABCD_Graph.jpg"));
+        }
+
+        private void GoOK()
+        {
+            if (iCheckCounter == 5)
+            {
+
+            }
+            else
+            {
+                switch (iCheckCounter)
+                {
+                    //check if checkbox is selected
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                   
+                }
+
+                iCheckCounter++;
+
+                //change button text
+                if (iCheckCounter == 5)
+                {
+                    
+                }
+                else
+                {
+
+                }
+                ShowCheckPanel(iCheckCounter);
+
+                switch (iCheckCounter)
+                {
+                    //check if checkbox is selected
+                    case 1:
+                        Panel1Visibility = Visibility.Visible;
+                        Panel2Visibility = Visibility.Collapsed;
+                        Panel3Visibility = Visibility.Collapsed;
+                        Panel4Visibility = Visibility.Collapsed;
+                        break;
+                    case 2:
+                        Panel1Visibility = Visibility.Collapsed;
+                        Panel2Visibility = Visibility.Visible;
+                        Panel3Visibility = Visibility.Collapsed;
+                        Panel4Visibility = Visibility.Collapsed;
+                        break;
+                    case 3:
+                        Panel1Visibility = Visibility.Collapsed;
+                        Panel2Visibility = Visibility.Collapsed;
+                        Panel3Visibility = Visibility.Visible;
+                        Panel4Visibility = Visibility.Collapsed;
+                        break;
+                    case 4:
+                        Panel1Visibility = Visibility.Collapsed;
+                        Panel2Visibility = Visibility.Collapsed;
+                        Panel3Visibility = Visibility.Collapsed;
+                        Panel4Visibility = Visibility.Visible;
+                        break;
+
+                }
+
+            }
+        }
+
+        private string ReadTextFile(string filePath)
+        {
+            string content;
+            StreamReader sr = new StreamReader(filePath, Encoding.UTF8);
+            content = sr.ReadToEnd();
+            sr.Close();
+            return content;
         }
 
         private string CreateImageDescriptionShort(int iDiag)
@@ -318,16 +420,16 @@ namespace Molemax.App.ViewModels
                     {
                         case 1:
                             if (j == 1)
-                                strDescription = strDescription + " " + strC[i - 1] + " " + GetString(2077);
+                                strDescription = strDescription + " " + strC[i] + " " + GetString(2077);
                             else
-                                strDescription = strDescription + " " + GetString(2078) + " " + strC[i - 1] + " " + GetString(2079);
+                                strDescription = strDescription + " " + GetString(2078) + " " + strC[i] + " " + GetString(2079);
                             bExit = true;
                             break;
                         default:
                             if (k == j)
-                                strDescription = strDescription + " " + strC[i - 1];
+                                strDescription = strDescription + " " + strC[i];
                             else
-                                strDescription = strDescription + ", " + strC[i - 1];
+                                strDescription = strDescription + ", " + strC[i];
                             k -= 1;
                             break;
                     }
@@ -350,16 +452,16 @@ namespace Molemax.App.ViewModels
                     {
                         case 1:
                             if (j == 1)
-                                strDescription = strDescription + " " + strD[i - 1] + ".";
+                                strDescription = strDescription + " " + strD[i] + ".";
                             else
-                                strDescription = strDescription + " " + GetString(2080) + " " + strD[i - 1] + ".";
+                                strDescription = strDescription + " " + GetString(2080) + " " + strD[i] + ".";
                             bExit = true;
                             break;
                         default:
                             if (k == j)
-                                strDescription = strDescription + " " + strC[i - 1];
+                                strDescription = strDescription + " " + strD[i];
                             else
-                                strDescription = strDescription + ", " + strC[i - 1];
+                                strDescription = strDescription + ", " + strD[i];
                             k -= 1;
                             break;
                     }
@@ -568,10 +670,10 @@ namespace Molemax.App.ViewModels
 
         private void IniPanelVisibility()
         {
-            Panel1Visibility = Visibility.Collapsed;
+            Panel1Visibility = Visibility.Visible;
             Panel2Visibility = Visibility.Collapsed;
             Panel3Visibility = Visibility.Collapsed;
-            Panel4Visibility = Visibility.Visible;
+            Panel4Visibility = Visibility.Collapsed;
 
             PanelResultVisibility = Visibility.Collapsed;
 
@@ -585,21 +687,104 @@ namespace Molemax.App.ViewModels
         private void SelectStructuralGroup(object obj)
         {
             string sSelectedIndex = (string)obj;
+            string[] svalue = new string[] { "9", "9", "9", "9", "9"};
+            abcd_values.intD = CreateCDVal(int.Parse(obj.ToString()), svalue);
+            ShowCheckPanel(iCheckCounter);
         }
 
         private void SelectColorGroup(object obj)
         {
             string sSelectedIndex = (string)obj;
+            string[] svalue = new string[] {"9", "9" , "9" , "9" , "9" , "9" };
+            abcd_values.intC = CreateCDVal(int.Parse(obj.ToString()), svalue);
+            ShowCheckPanel(iCheckCounter);
         }
 
         private void SelectPatternGroup(object obj)
         {
             string sSelectedIndex = (string)obj;
+            abcd_values.intB = int.Parse(obj.ToString());
+            ShowCheckPanel(iCheckCounter);
         }
 
         private void SelectAsymmetryGroup(object obj)
         {
             string sSelectedIndex = (string)obj;
+            abcd_values.intA = int.Parse(obj.ToString());
+            ShowCheckPanel(iCheckCounter);
+        }
+
+        private int CreateCDVal(int obj, string[] sValue)
+        {
+
+            sValue[obj] = sValue[obj] == "9" ? "1": "9";
+
+            return int.Parse(string.Join("", sValue));
+        }
+
+        private void ShowCheckPanel(int Nr)
+        {
+            string sABCDImageID;
+            int iA = 0;
+            int iB = 0;
+            int iC = 0;
+            int iD = 0;
+            int iDiag = 0;
+            string[] result;
+
+            switch (Nr)
+            {
+                case 1:
+                    sABCDImageID = FindABCD(PART_A, abcd_values.intA, abcd_values.intB, abcd_values.intC, abcd_values.intD);
+                    LoadABCDImage(sABCDImageID);
+
+                    WeightListItemABCD(0, ref iA, ref iB, ref iC, ref iD, ref iDiag);
+
+                    result = CreateImageDescription(iA, iB, iC, iD);
+                    ABCDScore = result[0];
+                    ImageDescription = result[1];
+
+                    DiagnosisName = CreateImageDescriptionShort(iDiag);
+                    break;
+                case 2:
+                    sABCDImageID = FindABCD(PART_B, abcd_values.intA, abcd_values.intB, abcd_values.intC, abcd_values.intD);
+                    LoadABCDImage(sABCDImageID);
+
+                    WeightListItemABCD(0, ref iA, ref iB, ref iC, ref iD, ref iDiag);
+
+                    result = CreateImageDescription(iA, iB, iC, iD);
+                    ABCDScore = result[0];
+                    ImageDescription = result[1];
+
+                    DiagnosisName = CreateImageDescriptionShort(iDiag);
+                    break;
+                case 3:
+                    sABCDImageID = FindABCD(PART_C, abcd_values.intA, abcd_values.intB, abcd_values.intC, abcd_values.intD);
+                    LoadABCDImage(sABCDImageID);
+
+                    WeightListItemABCD(0, ref iA, ref iB, ref iC, ref iD, ref iDiag);
+
+                    result = CreateImageDescription(iA, iB, iC, iD);
+                    ABCDScore = result[0];
+                    ImageDescription = result[1];
+
+                    DiagnosisName = CreateImageDescriptionShort(iDiag);
+                    break;
+                case 4:
+                    sABCDImageID = FindABCD(PART_D, abcd_values.intA, abcd_values.intB, abcd_values.intC, abcd_values.intD);
+                    LoadABCDImage(sABCDImageID);
+
+                    WeightListItemABCD(0, ref iA, ref iB, ref iC, ref iD, ref iDiag);
+
+                    result = CreateImageDescription(iA, iB, iC, iD);
+                    ABCDScore = result[0];
+                    ImageDescription = result[1];
+
+                    DiagnosisName = CreateImageDescriptionShort(iDiag);
+                    break;
+                case 5:
+                    break;
+            }
         }
 
         private void GoCancel()
@@ -630,6 +815,14 @@ namespace Molemax.App.ViewModels
 
         }
 
+    }
+
+    public class ABCD_VALUES
+    {
+        public int intA;
+        public int intB;
+        public int intC;
+        public int intD;
     }
 
 }

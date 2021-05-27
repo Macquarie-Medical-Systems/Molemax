@@ -197,14 +197,14 @@
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="ABCD - method result interpretation"/>
-                <Image Grid.Row="1" Visibility="{Binding ResultImageVisibility}"/>
+                <Image Grid.Row="1" Source="{Binding ABCDResultImage}" Visibility="{Binding ResultImageVisibility}"/>
                 <Grid Grid.Row="1" Visibility="{Binding ResultInformationVisibility}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
                         <RowDefinition Height="20*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="For further information please refer"/>
-                    <TextBox Grid.Row="1" Text="testestsetestsetsetsetsetsetset"/>
+                    <TextBox Grid.Row="1" Text="{Binding ResultInformation}"/>
                 </Grid>
                 <TextBlock Grid.Row="2" Text="Important notice: Result interpretation is for teaching purposes only!"/>
                 <Button Grid.Row="3" Content="click"/>
