@@ -31,10 +31,10 @@ namespace Molemax.App.ViewModels
         }
 
         private string fromForm;
-        private const int PART_A = 1;
-        private const int PART_B = 2;
-        private const int PART_C = 3;
-        private const int PART_D = 4;
+        private const int PART_A = 0;
+        private const int PART_B = 1;
+        private const int PART_C = 2;
+        private const int PART_D = 3;
         private List<ExpertizerABCD> tABCD_A;
         private List<ExpertizerABCD> tABCD_B;
         private List<ExpertizerABCD> tABCD_C;
@@ -506,16 +506,16 @@ namespace Molemax.App.ViewModels
             string sImageID = string.Empty;
             switch (ABCDPart)
             {
-                case 1:
+                case PART_A:
                     sImageID = SearchABCD(ABCDPart, tABCD_A, A_Val, B_Val, C_Val, D_Val);
                     break;
-                case 2:
+                case PART_B:
                     sImageID = SearchABCD(ABCDPart, tABCD_B, A_Val, B_Val, C_Val, D_Val);
                     break;
-                case 3:
+                case PART_C:
                     sImageID = SearchABCD(ABCDPart, tABCD_C, A_Val, B_Val, C_Val, D_Val);
                     break;
-                case 4:
+                case PART_D:
                     sImageID = SearchABCD(ABCDPart, tABCD_D, A_Val, B_Val, C_Val, D_Val);
                     break;
             }
@@ -686,16 +686,35 @@ namespace Molemax.App.ViewModels
 
         private void SelectStructuralGroup(object obj)
         {
+            char[] svalue;
             string sSelectedIndex = (string)obj;
-            string[] svalue = new string[] { "9", "9", "9", "9", "9"};
+
+            if (abcd_values.intD == -1)
+            {
+                svalue = new char[] { '9', '9', '9', '9', '9' };
+            }
+            else
+            {
+                svalue = abcd_values.intD.ToString().ToArray<char>();
+            }
+
             abcd_values.intD = CreateCDVal(int.Parse(obj.ToString()), svalue);
             ShowCheckPanel(iCheckCounter);
         }
 
         private void SelectColorGroup(object obj)
         {
+            char[] svalue;
             string sSelectedIndex = (string)obj;
-            string[] svalue = new string[] {"9", "9" , "9" , "9" , "9" , "9" };
+
+            if (abcd_values.intC == -1)
+            {
+                svalue = new char[] { '9', '9', '9', '9', '9', '9'};
+            }
+            else
+            {
+                svalue = abcd_values.intC.ToString().ToArray<char>();
+            }
             abcd_values.intC = CreateCDVal(int.Parse(obj.ToString()), svalue);
             ShowCheckPanel(iCheckCounter);
         }
@@ -714,10 +733,10 @@ namespace Molemax.App.ViewModels
             ShowCheckPanel(iCheckCounter);
         }
 
-        private int CreateCDVal(int obj, string[] sValue)
+        private int CreateCDVal(int obj, char[] sValue)
         {
 
-            sValue[obj] = sValue[obj] == "9" ? "1": "9";
+            sValue[obj] = sValue[obj] == '9' ? '1': '9';
 
             return int.Parse(string.Join("", sValue));
         }
@@ -819,10 +838,10 @@ namespace Molemax.App.ViewModels
 
     public class ABCD_VALUES
     {
-        public int intA;
-        public int intB;
-        public int intC;
-        public int intD;
+        public int intA = -1;
+        public int intB = -1;
+        public int intC = -1;
+        public int intD = -1;
     }
 
 }
