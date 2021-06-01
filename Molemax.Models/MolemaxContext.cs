@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols;
+using Microsoft.Win32;
 using Molemax.Models;
 using System;
 using System.Collections.Generic;
@@ -32,16 +33,36 @@ namespace Molemax.Models
 
         private void GetValueFromConfig(ref string sConnectString)
         {
-            ExeConfigurationFileMap map = new ExeConfigurationFileMap();
-            map.ExeConfigFilename = Assembly.GetExecutingAssembly().Location + ".config2";
-            if (!File.Exists(map.ExeConfigFilename))
-                throw new FileNotFoundException();
-            Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
-            AppSettingsSection section = config.GetSection("appSettings") as AppSettingsSection;
-            if (section!=null)
+            //ExeConfigurationFileMap map = new ExeConfigurationFileMap();
+            //map.ExeConfigFilename = Assembly.GetExecutingAssembly().Location + ".config2";
+            //if (!File.Exists(map.ExeConfigFilename))
+            //    throw new FileNotFoundException();
+            //Configuration config = ConfigurationManager.OpenMappedExeConfiguration(map, ConfigurationUserLevel.None);
+            //AppSettingsSection section = config.GetSection("appSettings") as AppSettingsSection;
+            //if (section!=null)
+            //{
+            //    sConnectString = section.Settings["ConnectString"].Value;
+            //}
+
+            string IPAddress = "";
+            string Port = "";
+            string Password = "";
+            string User = "";
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Classes\Applications\Molemax.App.exe\Settings");
+            if (key != null)
             {
-                sConnectString = section.Settings["ConnectString"].Value;
+                IPAddress = key.GetValue("IPAddress").ToString();
+                User = key.GetValue("Login").ToString();
+                Password = key.GetValue("Password").ToString();
+                Port = key.GetValue("Port").ToString();
+                key.Close();
             }
+
+            if (!string.IsNullOrEmpty(Port))
+                sConnectString = $"Server={IPAddress},{Port}; Database=MolemaxDB; Integrated Security=false;User ID={User};Password={Password};";
+            else
+                sConnectString = $"Server={IPAddress}; Database=MolemaxDB; Integrated Security=false;User ID={User};Password={Password};";
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

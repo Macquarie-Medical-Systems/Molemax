@@ -281,6 +281,8 @@ namespace Molemax.App.ViewModels
                         Panel3Visibility = Visibility.Collapsed;
                         Panel4Visibility = Visibility.Visible;
                         break;
+                    case 5:
+                        break;
 
                 }
 
@@ -498,7 +500,14 @@ namespace Molemax.App.ViewModels
 
         private void LoadABCDImage(string sABCDImageID)
         {
-            DiagnosisImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Expertizer/{sABCDImageID}"));
+            try
+            {
+                DiagnosisImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Expertizer/{sABCDImageID}"));
+            }
+            catch 
+            {
+                DiagnosisImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Expertizer/ABCD/ImageMissing.bmp"));
+            }
         }
 
         private string FindABCD(int ABCDPart, int A_Val = -1, int B_Val = -1, int C_Val = -1, int D_Val = -1)

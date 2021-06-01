@@ -5310,6 +5310,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Images\Expertizer\ABCD\ImageMissing.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="LanguageDLLs\language module %28english%29.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
