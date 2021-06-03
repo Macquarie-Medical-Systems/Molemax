@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="$(ProjectDir)Inno\iscc.exe $(ProjectDir)molemax.iss" />
+    <Exec Command="&quot;$(ProjectDir)Inno\iscc.exe&quot; &quot;$(ProjectDir)molemaxDep.iss&quot;" />
   </Target>
 
 
