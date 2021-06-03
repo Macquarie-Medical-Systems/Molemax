@@ -6,7 +6,7 @@
 #define MyAppPublisher "MacquarieMedical."
 #define MyAppURL "https://www.example.com/"
 #define MyAppExeName "MolemaxSetup.exe"
-#define MyAppAssocName MyAppName + "Australia"
+#define MyAppAssocName MyAppName + "SilverAustraliaDevOps"
 #define MyAppAssocExt ".myp"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 
@@ -26,7 +26,7 @@ ChangesAssociations=yes
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=MolemaxAustraliaSetup
+OutputBaseFilename=MolemaxAustraliaDevOpsSetup-{#MyAppVersion}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

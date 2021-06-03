@@ -1,3 +1,4 @@
+
 // official article: https://codeproject.com/Articles/20868/Inno-Setup-Dependency-Installer
 
 // comment out dependency defines to disable installing them
@@ -50,10 +51,10 @@
 #define MyAppPublisher "MacquarieMedical"
 #define MyAppURL "https://machealth.com.au/"
 #define MyAppExeName "Molemax.App.exe"
-#define MyAppAssocName MyAppName + "Australia"
+#define MyAppAssocName MyAppName + "AustraliaWithDependencies"
 #define MyAppAssocExt ".myp"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
-#define MyAppSetupName 'MolemaxSilverSetup'
+#define MyAppSetupName 'MolemaxSilverAustraliaDependenciesSetup'
 #define MyAppCopyright 'Copyright MaquarieMedical'
 //#define MyAppURL 'https://github.com/DomGries/InnoDependencyInstaller'
 
@@ -427,53 +428,6 @@ begin
 end;
 #endif
 
-
-// custom setup content
-[Languages]
-Name: en; MessagesFile: "compiler:Default.isl"
-//Name: nl; MessagesFile: "compiler:Languages\Dutch.isl"
-//Name: de; MessagesFile: "compiler:Languages\German.isl"
-
-[Files]
-#ifdef UseNetCoreCheck
-  download netcorecheck.exe: https://go.microsoft.com/fwlink/?linkid=2135256
-  download netcorecheck_x64.exe: https://go.microsoft.com/fwlink/?linkid=2135504
-Source: "netcorecheck.exe"; Flags: dontcopy noencryption
-Source: "netcorecheck_x64.exe"; Flags: dontcopy noencryption
-#endif
-
-#ifdef UseDirectX
-Source: "dxwebsetup.exe"; Flags: dontcopy noencryption
-#endif
-
-//Source: "MyProg-x64.exe"; DestDir: "{app}"; DestName: "MyProg.exe"; Check: IsX64; Flags: ignoreversion
-//Source: "MyProg.exe"; DestDir: "{app}"; Check: not IsX64; Flags: ignoreversion
-Source: "..\Molemax.App\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-
-[Registry]
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
-Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".myp"; ValueData: ""
-Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "IPAddress"; ValueData: "{code:GetServerDetails|IPAddress}"
-Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "Port"; ValueData: "{code:GetServerDetails|Port}"
-Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "Login"; ValueData: "{code:GetServerDetails|Login}"
-Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "Password"; ValueData: "{code:GetServerDetails|Password}"
-
-[Icons]
-Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppExeName}.exe"
-Name: "{group}\{cm:UninstallProgram,{#MyAppSetupName}}"; Filename: "{uninstallexe}"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-
-[Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-
-[Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-
-[Code]
 function GetServerDetails(Param: String): String;
 begin
   { Return a user value }
@@ -822,3 +776,49 @@ begin
 
   Result := True;
 end;
+
+
+// custom setup content
+[Languages]
+Name: en; MessagesFile: "compiler:Default.isl"
+//Name: nl; MessagesFile: "compiler:Languages\Dutch.isl"
+//Name: de; MessagesFile: "compiler:Languages\German.isl"
+
+[Files]
+#ifdef UseNetCoreCheck
+  download netcorecheck.exe: https://go.microsoft.com/fwlink/?linkid=2135256
+  download netcorecheck_x64.exe: https://go.microsoft.com/fwlink/?linkid=2135504
+Source: "netcorecheck.exe"; Flags: dontcopy noencryption
+Source: "netcorecheck_x64.exe"; Flags: dontcopy noencryption
+#endif
+
+#ifdef UseDirectX
+Source: "dxwebsetup.exe"; Flags: dontcopy noencryption
+#endif
+
+//Source: "MyProg-x64.exe"; DestDir: "{app}"; DestName: "MyProg.exe"; Check: IsX64; Flags: ignoreversion
+//Source: "MyProg.exe"; DestDir: "{app}"; Check: not IsX64; Flags: ignoreversion
+Source: "..\Molemax.App\bin\Debug\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+
+[Registry]
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".myp"; ValueData: ""
+Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "IPAddress"; ValueData: "{code:GetServerDetails|IPAddress}"
+Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "Port"; ValueData: "{code:GetServerDetails|Port}"
+Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "Login"; ValueData: "{code:GetServerDetails|Login}"
+Root: HKA; Subkey:  "Software\Classes\Applications\{#MyAppExeName}\Settings"; ValueType: string; ValueName: "Password"; ValueData: "{code:GetServerDetails|Password}"
+
+[Icons]
+Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppExeName}.exe"
+Name: "{group}\{cm:UninstallProgram,{#MyAppSetupName}}"; Filename: "{uninstallexe}"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
