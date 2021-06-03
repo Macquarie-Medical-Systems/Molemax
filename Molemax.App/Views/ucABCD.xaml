@@ -116,13 +116,13 @@
                 <Grid Grid.Row="1" Visibility="{Binding PanelResultVisibility}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
+                        <RowDefinition Height="4*"/>
                         <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Image Description"/>
-                    <TextBox Text="" Grid.Row="1" Width="200"/>
+                    <TextBox Text="{Binding ResultDescription}" Grid.Row="1" TextWrapping="Wrap"/>
                     <Grid Grid.Row="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*"/>
@@ -132,9 +132,13 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Content="ABCD Score"/>
-                            <RadioButton Grid.Column="1" Content="ABCD-E Score"/>
+                            <TextBlock Text="ABCD Score"/>
+                            <TextBox Text="{Binding ResultABCDScore}" Grid.Column="1"/>
+                            <TextBlock Grid.Column="2" Text="ABCD-E Score"/>
+                            <TextBox Text="{Binding ResultABCDEScore}" Grid.Column="3"/>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
@@ -147,7 +151,7 @@
                             <RadioButton Grid.Column="2" Content="No"/>
                         </Grid>
                     </Grid>
-                    <TextBlock Grid.Row="4" Text="*Kittler H.Seltenheim M.Dawid M,Pehamberger H,Wolff K,Binder M.Morphologic changes of pigmented skin lesions: a useful extension of the   ABCDE rule for dermatoscopy, J Am Acad Dermatol. 1999 Apr;40[4]:558-62."/>
+                    <TextBlock Grid.Row="4" TextWrapping="Wrap" Text="*Kittler H.Seltenheim M.Dawid M,Pehamberger H,Wolff K,Binder M.Morphologic changes of pigmented skin lesions: a useful extension of the   ABCDE rule for dermatoscopy, J Am Acad Dermatol. 1999 Apr;40[4]:558-62."/>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1" Visibility="{Binding PanelDiagnosisVisibility}">
@@ -196,8 +200,145 @@
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="ABCD - method result interpretation"/>
-                <Image Grid.Row="1" Source="{Binding ABCDResultImage}" Visibility="{Binding ResultImageVisibility}"/>
+                <TextBlock Text="ABCD - method result interpretation" HorizontalAlignment="Center"/>
+                <Grid Grid.Row="1">
+                    <Image Source="{Binding ABCDResultImage}" Visibility="{Binding ResultImageVisibility}" Stretch="Fill"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="5*"/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="4*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5*"/>
+                                <RowDefinition Height="110*"/>
+                                <RowDefinition Height="8.5*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+                                <Canvas Grid.Row="{Binding ResultBlockRowNumber}" Grid.RowSpan="{Binding ResultBlockRowSpanNumber}" Background="red"/>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="5.5*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="6*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{Binding MalignantPSLText}" VerticalAlignment="Center" Foreground="Red" Background="Black"/>
+                            <TextBlock Grid.Row="1" Text="{Binding SuspectedPSLText}" VerticalAlignment="Center" Foreground="Red" Background="Black"/>
+                            <TextBlock Grid.Row="2" Text="{Binding BenignPSLText}" VerticalAlignment="Center" Foreground="Red" Background="Black"/>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+
                 <Grid Grid.Row="1" Visibility="{Binding ResultInformationVisibility}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>

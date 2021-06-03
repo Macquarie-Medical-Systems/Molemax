@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 //using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using static Molemax.App.ViewModels.ABCD;
 
 namespace Molemax.App.ViewModels
 {
@@ -43,6 +44,7 @@ namespace Molemax.App.ViewModels
         private LanguageLibrary langLib;
         private ABCD_VALUES abcd_values;
         private int iCheckCounter;
+        private ABCD _ABCD;
 
         #region Property
         private BitmapSource _ABCDImage;
@@ -65,12 +67,19 @@ namespace Molemax.App.ViewModels
             get { return _diagnosisName; }
             set { SetProperty(ref _diagnosisName, value); }
         }
-        
+
         private string _imageDescription;
         public string ImageDescription
         {
             get { return _imageDescription; }
             set { SetProperty(ref _imageDescription, value); }
+        }
+
+        private string _resultDescription;
+        public string ResultDescription
+        {
+            get { return _resultDescription; }
+            set { SetProperty(ref _resultDescription, value); }
         }
 
         private string _ABCDScore;
@@ -80,11 +89,46 @@ namespace Molemax.App.ViewModels
             set { SetProperty(ref _ABCDScore, value); }
         }
 
+        private string _resultABCDScore;
+        public string ResultABCDScore
+        {
+            get { return _resultABCDScore; }
+            set { SetProperty(ref _resultABCDScore, value); }
+        }
+
+        private string _resultABCDEScore;
+        public string ResultABCDEScore
+        {
+            get { return _resultABCDEScore; }
+            set { SetProperty(ref _resultABCDEScore, value); }
+        }
+
         private string _resultInformation;
         public string ResultInformation
         {
             get { return _resultInformation; }
             set { SetProperty(ref _resultInformation, value); }
+        }
+
+        private string _malignantPSLText;
+        public string MalignantPSLText
+        {
+            get { return _malignantPSLText; }
+            set { SetProperty(ref _malignantPSLText, value); }
+        }
+
+        private string _suspectedPSLText;
+        public string SuspectedPSLText
+        {
+            get { return _suspectedPSLText; }
+            set { SetProperty(ref _suspectedPSLText, value); }
+        }
+
+        private string _benignPSLText;
+        public string BenignPSLText
+        {
+            get { return _benignPSLText; }
+            set { SetProperty(ref _benignPSLText, value); }
         }
 
         private BitmapSource _ABCDResultImage;
@@ -156,6 +200,20 @@ namespace Molemax.App.ViewModels
             get { return _resultInformationVisibility; }
             set { SetProperty(ref _resultInformationVisibility, value); }
         }
+
+        private int _resultBlockRowNumber;
+        public int ResultBlockRowNumber
+        {
+            get { return _resultBlockRowNumber; }
+            set { SetProperty(ref _resultBlockRowNumber, value); }
+        }
+
+        private int _resultBlockRowSpanNumber;
+        public int ResultBlockRowSpanNumber
+        {
+            get { return _resultBlockRowSpanNumber; }
+            set { SetProperty(ref _resultBlockRowSpanNumber, value); }
+        }
         #endregion
 
         #region Command
@@ -171,6 +229,8 @@ namespace Molemax.App.ViewModels
 
         public ucABCDViewModel(IRegionManager regionManager, IMolemaxRepository molemaxRepository, IAppSettings applicationSetting)
         {
+            langLib = new LanguageLibrary(@".\LanguageDLLS\language module (english).dll");
+
             string sABCDImageID;
             int iA = 0;
             int iB = 0;
@@ -180,8 +240,7 @@ namespace Molemax.App.ViewModels
             iCheckCounter = 1;
 
             abcd_values = new ABCD_VALUES();
-
-            langLib = new LanguageLibrary(@".\LanguageDLLS\language module (english).dll");
+            _ABCD = new ABCD();
 
             _regionManager = regionManager;
             _repository = molemaxRepository;
@@ -193,6 +252,15 @@ namespace Molemax.App.ViewModels
             SelectPatternGroupCommand = new DelegateCommand<object>(SelectPatternGroup);
             SelectColorGroupCommand = new DelegateCommand<object>(SelectColorGroup);
             SelectStructuralGroupCommand = new DelegateCommand<object>(SelectStructuralGroup);
+
+            //default is "n/a"
+            ResultABCDEScore = GetString(2045);
+            //default is "Malignant PSL n>5.45"
+            MalignantPSLText = GetString(2042);
+            //default is "Suspected PSL n4.8 - 5.45"
+            SuspectedPSLText = GetString(2043);
+            //default is "Benign PSL n1.0 - 4.75"
+            BenignPSLText = GetString(2044);
 
             //initialize components visibility
             IniPanelVisibility();
@@ -217,6 +285,9 @@ namespace Molemax.App.ViewModels
                 ResultInformation = GetString(2085);
 
             ABCDResultImage = new BitmapImage(new Uri($"pack://application:,,,/Resources/ABCD_Graph.jpg"));
+
+            ResultBlockRowNumber = 60;
+            ResultBlockRowSpanNumber = 40;
         }
 
         private void GoOK()
@@ -238,7 +309,7 @@ namespace Molemax.App.ViewModels
                         break;
                     case 4:
                         break;
-                   
+
                 }
 
                 iCheckCounter++;
@@ -246,7 +317,7 @@ namespace Molemax.App.ViewModels
                 //change button text
                 if (iCheckCounter == 5)
                 {
-                    
+
                 }
                 else
                 {
@@ -262,26 +333,48 @@ namespace Molemax.App.ViewModels
                         Panel2Visibility = Visibility.Collapsed;
                         Panel3Visibility = Visibility.Collapsed;
                         Panel4Visibility = Visibility.Collapsed;
+                        PanelResultVisibility = Visibility.Collapsed;
+                        PanelDiagnosisVisibility = Visibility.Visible;
+                        PanelResultImageVisibility = Visibility.Collapsed;
                         break;
                     case 2:
                         Panel1Visibility = Visibility.Collapsed;
                         Panel2Visibility = Visibility.Visible;
                         Panel3Visibility = Visibility.Collapsed;
                         Panel4Visibility = Visibility.Collapsed;
+                        PanelResultVisibility = Visibility.Collapsed;
+                        PanelDiagnosisVisibility = Visibility.Visible;
+                        PanelResultImageVisibility = Visibility.Collapsed;
                         break;
                     case 3:
                         Panel1Visibility = Visibility.Collapsed;
                         Panel2Visibility = Visibility.Collapsed;
                         Panel3Visibility = Visibility.Visible;
                         Panel4Visibility = Visibility.Collapsed;
+                        PanelResultVisibility = Visibility.Collapsed;
+                        PanelDiagnosisVisibility = Visibility.Visible;
+                        PanelResultImageVisibility = Visibility.Collapsed;
                         break;
                     case 4:
                         Panel1Visibility = Visibility.Collapsed;
                         Panel2Visibility = Visibility.Collapsed;
                         Panel3Visibility = Visibility.Collapsed;
                         Panel4Visibility = Visibility.Visible;
+                        PanelResultVisibility = Visibility.Collapsed;
+                        PanelDiagnosisVisibility = Visibility.Visible;
+                        PanelResultImageVisibility = Visibility.Collapsed;
                         break;
                     case 5:
+                        Panel1Visibility = Visibility.Collapsed;
+                        Panel2Visibility = Visibility.Collapsed;
+                        Panel3Visibility = Visibility.Collapsed;
+                        Panel4Visibility = Visibility.Collapsed;
+                        PanelResultVisibility = Visibility.Visible;
+                        PanelDiagnosisVisibility = Visibility.Collapsed;
+                        PanelResultImageVisibility = Visibility.Visible;
+
+                        ResultImageVisibility = Visibility.Visible;
+                        ResultInformationVisibility = Visibility.Collapsed;
                         break;
 
                 }
@@ -376,31 +469,31 @@ namespace Molemax.App.ViewModels
             switch (intB)
             {
                 case 0:
-                        strDescription = strDescription + " " + strB0;
+                    strDescription = strDescription + " " + strB0;
                     break;
                 case 1:
-                        strDescription = strDescription + " " + strB1;
+                    strDescription = strDescription + " " + strB1;
                     break;
                 case 2:
-                        strDescription = strDescription + " " + strB2;
+                    strDescription = strDescription + " " + strB2;
                     break;
                 case 3:
-                        strDescription = strDescription + " " + strB3;
+                    strDescription = strDescription + " " + strB3;
                     break;
                 case 4:
-                        strDescription = strDescription + " " + strB4;
+                    strDescription = strDescription + " " + strB4;
                     break;
                 case 5:
-                        strDescription = strDescription + " " + strB5;
+                    strDescription = strDescription + " " + strB5;
                     break;
                 case 6:
-                        strDescription = strDescription + " " + strB6;
+                    strDescription = strDescription + " " + strB6;
                     break;
                 case 7:
-                        strDescription = strDescription + " " + strB7;
+                    strDescription = strDescription + " " + strB7;
                     break;
                 case 8:
-                        strDescription = strDescription + " " + strB8;
+                    strDescription = strDescription + " " + strB8;
                     break;
             }
 
@@ -446,7 +539,7 @@ namespace Molemax.App.ViewModels
             j = CountSet(intD);
             k = j;
             bExit = false;
-            for (int i=0; i< intD.ToString().Length; i++)
+            for (int i = 0; i < intD.ToString().Length; i++)
             {
                 if (intD.ToString().Substring(i, 1) == "1")
                 {
@@ -504,7 +597,7 @@ namespace Molemax.App.ViewModels
             {
                 DiagnosisImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Expertizer/{sABCDImageID}"));
             }
-            catch 
+            catch
             {
                 DiagnosisImage = new BitmapImage(new Uri($"pack://application:,,,/Images/Expertizer/ABCD/ImageMissing.bmp"));
             }
@@ -593,17 +686,17 @@ namespace Molemax.App.ViewModels
                 //calculating C weight
                 if (ValC != -1)
                 {
-                    if (CountSet(ValC) >0)
+                    if (CountSet(ValC) > 0)
                     {
-                        for (int j=0; j< ValC.ToString().Length; j++)
+                        for (int j = 0; j < ValC.ToString().Length; j++)
                         {
-                            if (ValC.ToString().Substring(j,1) == "1")
+                            if (ValC.ToString().Substring(j, 1) == "1")
                             {
-                                if (sCVal.Substring(j,1) == "1")
+                                if (sCVal.Substring(j, 1) == "1")
                                 {
                                     if (ABCDPart == PART_C)
                                     {
-                                        dblWeightList[i] = dblWeightList[i] + 100/ CountSet(ValC);
+                                        dblWeightList[i] = dblWeightList[i] + 100 / CountSet(ValC);
                                     }
                                     else
                                     {
@@ -644,7 +737,7 @@ namespace Molemax.App.ViewModels
 
             for (int i = 0; i < dblWeightList.Length; i++)
             {
-                for (int j=i+1; j<dblWeightList.Length; j++)
+                for (int j = i + 1; j < dblWeightList.Length; j++)
                 {
                     if (dblWeightList[j] > dblWeightList[i])
                     {
@@ -666,7 +759,7 @@ namespace Molemax.App.ViewModels
         /// <returns></returns>
         private int CountSet(int iValue)
         {
-            return iValue.ToString().Replace("9","").Length;
+            return iValue.ToString().Replace("9", "").Length;
         }
 
         private void LoadABCDTables()
@@ -690,7 +783,7 @@ namespace Molemax.App.ViewModels
 
             PanelResultImageVisibility = Visibility.Collapsed;
             ResultImageVisibility = Visibility.Collapsed;
-            ResultInformationVisibility = Visibility.Visible;
+            ResultInformationVisibility = Visibility.Collapsed;
         }
 
         private void SelectStructuralGroup(object obj)
@@ -718,7 +811,7 @@ namespace Molemax.App.ViewModels
 
             if (abcd_values.intC == -1)
             {
-                svalue = new char[] { '9', '9', '9', '9', '9', '9'};
+                svalue = new char[] { '9', '9', '9', '9', '9', '9' };
             }
             else
             {
@@ -745,7 +838,7 @@ namespace Molemax.App.ViewModels
         private int CreateCDVal(int obj, char[] sValue)
         {
 
-            sValue[obj] = sValue[obj] == '9' ? '1': '9';
+            sValue[obj] = sValue[obj] == '9' ? '1' : '9';
 
             return int.Parse(string.Join("", sValue));
         }
@@ -811,8 +904,87 @@ namespace Molemax.App.ViewModels
                     DiagnosisName = CreateImageDescriptionShort(iDiag);
                     break;
                 case 5:
+                    ShowResult();
                     break;
             }
+        }
+
+        private void ShowResult()
+        {
+            FillABCDObject();
+            ResultABCDScore = _ABCD.Score.ToString("0.00");
+            ResultDescription = CreateImageDescription(abcd_values.intA, abcd_values.intB, abcd_values.intC, abcd_values.intD)[1];
+        }
+
+        private void FillABCDObject()
+        {
+            int j = 0;
+            int k = 0;
+            int intColorEnumVal = 0;
+            int intStructEnumVal = 0;
+
+            for (int i = 0; i < abcd_values.intC.ToString().Length; i++)
+            {
+                if (abcd_values.intC.ToString().Substring(i, 1) == "1")
+                {
+                    j++;
+                    switch (i)
+                    {
+                        case 0:
+                            intColorEnumVal += 1;
+                            break;
+                        case 1:
+                            intColorEnumVal += 2;
+                            break;
+                        case 2:
+                            intColorEnumVal += 4;
+                            break;
+                        case 3:
+                            intColorEnumVal += 8;
+                            break;
+                        case 4:
+                            intColorEnumVal += 16;
+                            break;
+                        case 5:
+                            intColorEnumVal += 32;
+                            break;
+                    }
+                }
+            }
+            k = j;
+            j = 0;
+            for (int i = 0; i < abcd_values.intD.ToString().Length; i++)
+            {
+                if (abcd_values.intD.ToString().Substring(i, 1) == "1")
+                {
+                    j++;
+                    switch (i)
+                    {
+                        case 0:
+                            intStructEnumVal += 1;
+                            break;
+                        case 1:
+                            intStructEnumVal += 2;
+                            break;
+                        case 2:
+                            intStructEnumVal += 4;
+                            break;
+                        case 3:
+                            intStructEnumVal += 8;
+                            break;
+                        case 4:
+                            intStructEnumVal += 16;
+                            break;
+                    }
+                }
+            }
+
+            _ABCD.Assymetry = (ABCD_ASSYMETRY)abcd_values.intA;
+            _ABCD.Segments = abcd_values.intB;
+            _ABCD.Specific_Color = (ABCD_COLOR)intColorEnumVal;
+            _ABCD.Structural_Component = (ABCD_STRUCTURAL_COMPONENTS)intStructEnumVal;
+            _ABCD.Nevus = ABCD_CHANGE_NEVUS.NEVUS_NOT_SPECIFIED;
+            _ABCD.Score = abcd_values.intA * 1.3 + abcd_values.intB * 0.1 + k * 0.5 + j * 0.5;
         }
 
         private void GoCancel()
@@ -829,7 +1001,7 @@ namespace Molemax.App.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            
+
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -853,4 +1025,52 @@ namespace Molemax.App.ViewModels
         public int intD = -1;
     }
 
+
+    public class ABCD
+    {
+        public enum ABCD_ASSYMETRY
+        {
+            NOT_DEFINED_ASSYMETRY = -1,
+            NONE_ASSYMETRY = 0,
+            ONE_AXIS_ASSYMETRY = 1,
+            BOTH_AXIS_ASSYMETRY = 2
+        }
+
+        public enum ABCD_COLOR
+        {
+            ABCD_COLOR_NOT_DEFINED = -1,
+            ABCD_COLOR_WHITE = 1,
+            ABCD_COLOR_LIGHTBROWN = 2,
+            ABCD_COLOR_DARKBROWN = 4,
+            ABCD_COLOR_BLUEGREY = 8,
+            ABCD_COLOR_BLACK = 16,
+            ABCD_COLOR_RED = 32
+        }
+
+        public enum ABCD_STRUCTURAL_COMPONENTS
+        {
+            COMPONENT_NOT_DEFINED = -1,
+            COMPONENT_HOMOGENOUS_AREA = 1,
+            COMPONENT_PIGMENT_NETWORK = 2,
+            COMPONENT_STREAKS = 4,
+            COMPONENT_DOTS = 8,
+            COMPONENT_GLOBULES = 16
+        }
+
+        public enum ABCD_CHANGE_NEVUS
+        {
+            NEVUS_NOT_SPECIFIED = 0,
+            NEVUS_YES = 1,
+            NEVUS_NONE = 2
+        }
+
+        public long MikroID { get; set; }
+        public ABCD_ASSYMETRY Assymetry { get; set; }
+        public int Segments { get; set; }
+        public ABCD_COLOR Specific_Color { get; set; }
+        public ABCD_STRUCTURAL_COMPONENTS Structural_Component { get; set; }
+        public ABCD_CHANGE_NEVUS Nevus { get; set; }
+        public double Score { get; set; }
+        public double ScoreE { get; set; }
+    }
 }
